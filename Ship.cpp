@@ -1,139 +1,78 @@
 //
 //  File:         Store.cpp
 //
-//  Author:       Peter Maher
+//  Author:       Brendan Nash & Neil Peterson
 //
 //  Description:  Non-inline member function definitions.
 //
-#include "Store.h"
+#include "Ship.h"
 #include <fstream>
+using namespace std;
 
 /**
  *  Constructor
  */
-Store::Store(const std::string& n)
+Ship::Ship()
 {
-    using namespace std;
-
-    setName(n);
-
-    cout << "Store constructor executed" << endl;
+    setName("My Ship");
+    docked = false;
+    cout << "Ship constructor executed" << endl;
 }
 
 /**
  *  Destructor
  */
-Store::~Store()
+Ship::~Ship()
 {
-    using namespace std;
-
-    cout << "Store destructor executed" << endl;
+    cout << "Ship destructor executed" << endl;
 }
 
 /**
  *  Modifier function to set the name of the store
  */
-void Store::setName(const std::string& n)
+void Ship::setName(const std::string& n)
 {
     name = n;
 }
 
-/**
- *  Display store information
- */
-void Store::displayStore() const
-{
-    using namespace std;
-
-    cout << "Store's name: " << name << endl;
+bool Ship::isDocked(){
+  return docked;
 }
 
-/**
- *  Add a new Customer
- */
-void Store::addNewCust()
-{
-   using namespace std;
-
-   cout << "Adding a new customer" << endl;
+void Ship::dock(){
+  docked = true;
+  cout << "Docking" << endl;
 }
 
-/**
- *  Display all existing customers
- */
-void Store::displayCusts() const
-{
-   using namespace std;
-
-   cout << "Displaying all existing customers" << endl;
+void Ship::buySupplies(){
+  cout << "Buying Supplies" << endl;
 }
 
-/**
- *  Add an item (existing title)
- */
-void Store::addItem()
-{
-    using namespace std;
-
-    cout << "Adding an item" << endl;
+void Ship::sellSupplies(){
+  cout << "Selling Supplies" << endl;
 }
 
-/**
- *  Add a new title
- */
-void Store::addItemSpec()
-{
-    using namespace std;
-
-    cout << "Add a new title" << endl;
+void Ship::loadPassengers(){
+  cout << "Loading Passengers" << endl;
 }
 
-/**
- *  Display all items
- */
-void Store::displayAllItems() const
-{
-   using namespace std;
-
-   cout << "Display all items" << endl;
+void Ship::unloadPassengers(){
+  cout << "Unloading Passengers" << endl;
 }
 
-/**
- *  Display a item specification
- */
-void Store::displayItemSpec() const
-{
-   using namespace std;
-
-   cout << "Display an item specification" << endl;
+void Ship::hireCrewMember(){
+  cout << "Hiring Crew" << endl;
 }
 
-/**
- *  Display items with a specific title
- */
-void Store::displayItems() const
-{
-    using namespace std;
-
-    cout << "Display items with a specified title" << endl;
+void Ship::travelToStation(){
+  docked = false;
+  cout << "Traveling to Station" << endl;
 }
 
-/**
- *  Display all videos
- */
-void Store::displayVideos() const
-{
-    using namespace std;
-
-    cout << "Display all videos" << endl;
+void Ship::viewMessage(){
+  cout << "Viewing Messages" << endl;
 }
 
-/**
- *  Display all DVDs
- */
-void Store::displayDVDs() const
-{
-   using namespace std;
-
-   cout << "Display all DVDs" << endl;
+void Ship::viewInventory(){
+  cout << "Viewing Inventory" << endl;
 }

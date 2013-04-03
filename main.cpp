@@ -7,154 +7,141 @@
 //
 #include "Ship.h"
 #include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
 
 /**
  *  Display the main menu and read selection from user
  */
-char mainMenu();
 
-/**
- *  Select desired menu option
- */
-void selectOption(Ship& s, char option);
+int choose(int,Ship&); //make ship static?
+void quit(); //only exit from main? bad form?
+
+int menu(vector<string>&); 
+int getIntWithinRange(int,int,string);
+void pressAnyKey(string prompt = "\nPlease press the any key...");
+
+//Copied from C++11 array.h Returns ptr to begin and end of an c-style array
+template <typename T, size_t N>
+T* begin(T(&arr)[N]) { return &arr[0]; }
+
+template <typename T, size_t N>
+T* end(T(&arr)[N]) { return &arr[0]+N; }
+//end copy. TODO: understand this.
 
 int main()
 {
-    using namespace std;
+    //TODO: How does the ship get created? Do we need an option for Create new ship or Load existing ship?
+    Ship ship; //"Welcome, captain, to your starship. My name is " Ship.name". Let's space today!");
 
-    Ship s("Welcome, captain, to your starship. My name is " Ship.name". Let's space today!");
-    char option;
+    string choices[] = { //TODO: map menu options to function pointers??
+    "Please choose one", 
+    "Buy supplies", //1
+    "Sell supplies", //2
+    "Load passengers", //3
+    "Unload passengers", //4
+    "View passengers",  //5 new
+    "Hire crew member", //6
+    "Fire crew member", //7 new
+    "View crew",      //8 new
+    "Travel to station", //9
+    "View message", //10
+    "View inventory", // 11
+    "Quit" //12
+    };
+    
+    vector<string> options (begin(choices), end(choices));
+    int choice = 0;
 
-    do {
-		if(Ship.docked == true) {
-			option = stationMenu();
-			stationOption(s, option);
-		}
-		else {
-			option = spaceMenu();
-			spaceOption(s, option);
-		}
-    } while (option != 'y' && option != 'Y');
+    while(choices[choice] != "Quit")
+    choice = choose(menu(options),ship);
 
     return 0;
 }
 
-/**
- *  Display the main menu and read selection from user
- */
-char stationMenu()
+int choose(int choice,Ship& ship)
 {
-    using namespace std;
-
-    char option;
-
-    system("cls");
-
-    cout << "A) Buy supplies\n\n"
-         << "B) Sell supplies\n\n"
-         << "C) Load passengers\n\n"
-         << "D) Unload passengers\n\n"
-         << "E) Hire crew member\n\n"
-         << "F) Travel to station\n\n"
-		 << "G) View message\n\n"
-		 << "H) View inventory\n\n"
-         << "Q) Quit\n\n" << endl;
-
-    cout << "Enter option: ";
-    cin >> option;
-    cin.ignore();
-    cout << "\n\n" << endl;
-    return option;
-}
-
-/**
- *  Select desired menu option
- */
-void stationOption(Ship& s, char option)
-{
-    using namespace std;
-
-    switch (toupper(option)) {
-        case 'A': s.buySupplies();
-                  break;
-        case 'B': s.sellSupplies();
-                  break;
-        case 'C': s.loadPassengers();
-                  break;
-        case 'D': s.unloadPassengers();
-                  break;
-        case 'E': s.hireCrewMember();
-                  break;
-        case 'F': s.travelToStation();
+    switch (choice) {
+        case 1: ship.buySupplies();
+          break;
+        case 2: ship.sellSupplies();
+          break;
+        case 3: ship.loadPassengers();
+          break;
+        case 4: ship.unloadPassengers();
+          break;
+        case 5: //ship.viewPassengers(); //Not defined yet
+          break;
+        case 6: ship.hireCrewMember();
+          break;
+        case 7: //ship.fireCrewMember(); //Not defined yet
 				  break;
-		case 'G': s.viewMessage();
-                  break;
-		case 'H': s.viewInventory();
-                  break;
-        case 'Q': do {
-						cout << "Are you sure you want to quit?(Y/N)";
-						cin >> option;
-						cin.ignore();
-						if(option=='y' || option=='Y') {
-							"Quitting Application" << endl;
-						}
-						else
-							break;
-				  } while (option != 'y' && option != 'Y' && option != 'n' && option != 'N');
-                  break;
-        default:  cout << "Unknown option" << endl;
+		    case 8: //ship.viewCrew(); //Not defined yet
+           break;
+		    case 9: ship.travelToStation();
+            break;
+        case 10: ship.viewMessage();
+            break;
+        case 11 : ship.viewInventory();
+            break;
+        case 12: quit();
     }
-    cout << "\n\n---Any character to continue";
-    cin.get();
+
+    pressAnyKey();
+    return choice;
 }
 
-char spaceMenu()
-{
-    using namespace std;
+void quit(){
+  cout << "Goodbye" << endl;
+  exit(0);
+}
 
-    char option;
+//might be rolled into seperate class eventually?
+//IO.cpp?
+int menu(vector<string>& options){ 
+  
+  system("clear"); //TODO: detect verious OSs and pass appropriate commands
+  system("cls");
 
-    system("cls");
+ int choice = 0;
+ 
+  for(int choice = 0; choice < options.size(); choice++){
+    if(choice) cout << choice << ": "; //0th element is menu header, no #:
+    cout << options[choice] << endl;
+  }
 
-    cout << "A) Dock\n\n"
-         << "B) View Message\n\n"
-         << "C) View inventory\n\n"
-         << "Q) Quit\n\n" << endl;
+//sexy C++11
+//   for(string option:options){
+//     if(choice++) cout << choice - 1 << ": ";
+//     cout << option << endl;
+//   }
 
-    cout << "Enter option: ";
-    cin >> option;
+  cout << "> ";
+
+  return getIntWithinRange(1,options.size(),"That is not a valid option. Please try again\n");
+
+//Framework for createing menus and passing them to the choose function
+// string options[] = {"Please choose one", "Option A","Option B", "Option C"};
+// vector<string> menu (begin(options), end(options));
+// choose(menu);
+}
+
+int getIntWithinRange(int min, int max, string error){
+  int input;
+  bool badInput = true;
+  while(badInput) {
+    cin >> input; 
     cin.ignore();
-    cout << "\n\n" << endl;
-    return option;
+    if(input < min || input > max) cout << error;
+    else badInput = false;
+  }
+  return input;
 }
 
-/**
- *  Select desired menu option
- */
-void spaceOption(Ship& s, char option)
-{
-    using namespace std;
-
-    switch (toupper(option)) {
-        case 'A': s.dock();
-                  break;
-        case 'B': s.viewMessage();
-                  break;
-        case 'C': s.viewInventory();
-                  break;
-        case 'Q': do {
-						cout << "Are you sure you want to quit?(Y/N)";
-						cin >> option;
-						cin.ignore();
-						if(option=='y' || option=='Y') {
-							"Quitting Application" << endl;
-						}
-						else
-							break;
-				  } while (option != 'y' && option != 'Y' && option != 'n' && option != 'N');
-                  break;
-        default:  cout << "Unknown option" << endl;
-    }
-    cout << "\n\n---Any character to continue";
-    cin.get();
+void pressAnyKey(string prompt){
+  cout << prompt;
+  cin.ignore();
 }
+
+

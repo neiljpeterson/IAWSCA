@@ -13,10 +13,7 @@
 
 class Ship {
 public:
-    /**
-     *  Constructor
-     */
-    Ship(const std::string& n);
+    Ship(); //Default Constructor
 
     /**
      *  Destructor
@@ -28,78 +25,32 @@ public:
      */
     void setName(const std::string& n);
 
+    bool isDocked();
+    void dock();
+    void buySupplies();
+    void sellSupplies();
+    void loadPassengers();
+    void unloadPassengers();
+    void hireCrewMember();
+	void fireCrewMember();	//new
+    void travelToStation();
+    void viewMessage();
+    void viewInventory();
+	void viewPassengers();	//new
+	void viewCrew();		//new
     /**
-     *  Access function to get the name of the store
+     *  Access function to get the name of the ship
      */
     std::string getName() const;
-
-    /**
-     *  Display store information
-     */
-    void displayStore() const;
-
-    /**
-     *  Add a new Customer
-     */
-    void addNewCust();
-
-    /**
-     *  Display all existing customers
-     */
-    void displayCusts() const;
-
-    /**
-     *  Add an item (existing title)
-     */
-    void addItem();
-
-    /**
-     *  Add a new title
-     */
-    void addItemSpec();
-
-    /**
-     *  Display all items
-     */
-    void displayAllItems() const;
-
-    /**
-     *  Display a item specification
-     */
-    void displayItemSpec() const;
-
-    /**
-     *  Display items with a specific title
-     */
-    void displayItems() const;
-
-    /**
-     *  Display all videos
-     */
-    void displayVideos() const;
-
-    /**
-     *  Display all DVDs
-     */
-    void displayDVDs() const;
-
 
 private:
 
     /**
-     *  Name of Store
+     *  Name of Ship
      */
     std::string name;
+    bool docked;
 
 };
-
-/**
- *  Access function to get the name of the store
- */
-inline
-std::string Store::getName() const
-{
-    return name;
-}
 
 #endif
