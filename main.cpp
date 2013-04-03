@@ -5,6 +5,9 @@
 //
 //  Description:  Driver application.
 //
+//  Last Edit: Neil 3Apr 12:00pm
+//
+
 #include "Ship.h"
 #include <iostream>
 #include <string>
@@ -15,7 +18,7 @@ using namespace std;
  *  Display the main menu and read selection from user
  */
 
-int choose(int,Ship&); //make ship static?
+int choose(int); //make ship static?
 void quit(); //only exit from main? bad form?
 
 int menu(vector<string>&); 
@@ -30,10 +33,13 @@ template <typename T, size_t N>
 T* end(T(&arr)[N]) { return &arr[0]+N; }
 //end copy. TODO: understand this.
 
+static Ship ship;
+
 int main()
 {
     //TODO: How does the ship get created? Do we need an option for Create new ship or Load existing ship?
-    Ship ship; //"Welcome, captain, to your starship. My name is " Ship.name". Let's space today!");
+    //Ship ship; //"Welcome, captain, to your starship. My name is " Ship.name". Let's space today!");
+    
 
     string choices[] = { //TODO: map menu options to function pointers??
     "Please choose one", 
@@ -55,12 +61,12 @@ int main()
     int choice = 0;
 
     while(choices[choice] != "Quit")
-    choice = choose(menu(options),ship);
+    choice = choose(menu(options));
 
     return 0;
 }
 
-int choose(int choice,Ship& ship)
+int choose(int choice) //TODO: Is there a more robust way to do this, possibly with func ptrs?
 {
     switch (choice) {
         case 1: ship.buySupplies();
@@ -92,9 +98,9 @@ int choose(int choice,Ship& ship)
     return choice;
 }
 
-void quit(){
+void quit(){ 
   cout << "Goodbye" << endl;
-  exit(0);
+  exit(0); //exit should be in main?
 }
 
 //might be rolled into seperate class eventually?
