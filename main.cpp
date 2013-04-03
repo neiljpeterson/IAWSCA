@@ -9,6 +9,7 @@
 //
 
 #include "Ship.h"
+#include "Station.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,6 +21,8 @@ using namespace std;
 
 int choose(int); //make ship static?
 void quit(); //only exit from main? bad form?
+
+void buySupplies();
 
 int menu(vector<string>&); 
 int getIntWithinRange(int,int,string);
@@ -33,13 +36,15 @@ template <typename T, size_t N>
 T* end(T(&arr)[N]) { return &arr[0]+N; }
 //end copy. TODO: understand this.
 
-static Ship ship;
+static Ship ship; //TODO: make pointers?
+static Station station;
 
 int main()
 {
     //TODO: How does the ship get created? Do we need an option for Create new ship or Load existing ship?
-    //Ship ship; //"Welcome, captain, to your starship. My name is " Ship.name". Let's space today!");
     
+    //ship = new Ship; //if these become pointers, this will be needed
+    //staton = new Station;
 
     string choices[] = { //TODO: map menu options to function pointers??
     "Please choose one", 
@@ -69,7 +74,7 @@ int main()
 int choose(int choice) //TODO: Is there a more robust way to do this, possibly with func ptrs?
 {
     switch (choice) {
-        case 1: ship.buySupplies();
+        case 1: buySupplies();
           break;
         case 2: ship.sellSupplies();
           break;
@@ -101,6 +106,16 @@ int choose(int choice) //TODO: Is there a more robust way to do this, possibly w
 void quit(){ 
   cout << "Goodbye" << endl;
   exit(0); //exit should be in main?
+}
+
+void buySupplies(){
+
+  Station:supplies offers = station.getOffers();
+  vector<string> offerOptions(offers.itemNames); 
+  offerOptions.insert(offerOptions.begin(),"The following items are for sale. Please choose one.");
+
+  choose(menu(offerOptions));//TODO: make a table function?
+  ship.buySupplies();
 }
 
 //might be rolled into seperate class eventually?

@@ -15,14 +15,8 @@ class Ship {
 public:
     Ship(); //Default Constructor
 
-    /**
-     *  Destructor
-     */
     ~Ship();
 
-    /**
-     *  Modifier function to set the name of the store
-     */
     void setName(const std::string& n);
 
     bool isDocked();
