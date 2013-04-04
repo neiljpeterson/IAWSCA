@@ -9,6 +9,7 @@
 //  Description:  A class definition for Ship.
 //
 
+#include "DockingRequest.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -28,9 +29,17 @@ public:
 	~Station();
 
 	supplies getOffers();
+	void sendDockingFee(DockingRequest);
+	void showOffers();
+	void displayPassengers();
+	void deletePassenger();
+	void displayPositions();
+	void deleteCrewMember();
 
 private:
-
+	string name();
+	int dockingFee();
+	int stationID();
 };
 
 #endif

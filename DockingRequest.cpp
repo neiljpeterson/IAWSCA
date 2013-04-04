@@ -19,6 +19,6 @@ DockingRequest::~DockingRequest()
 {
 }
 
-void DockingRequest::requestDock()
+DockingRequest DockingRequest::requestDock()
 {
 }

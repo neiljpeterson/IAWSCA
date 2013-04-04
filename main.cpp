@@ -74,23 +74,23 @@ int main()
 int choose(int choice) //TODO: Is there a more robust way to do this, possibly with func ptrs?
 {
     switch (choice) {
-        case 1: buySupplies();
-          break;
+		case 1: buySupplies();
+			break;
         case 2: ship.sellSupplies();
-          break;
+			break;
         case 3: ship.loadPassengers();
-          break;
+			break;
         case 4: ship.unloadPassengers();
-          break;
-        case 5: //ship.viewPassengers(); //Not defined yet
-          break;
+			break;
+        case 5: ship.viewPassengers();
+			break;
         case 6: ship.hireCrewMember();
-          break;
-        case 7: //ship.fireCrewMember(); //Not defined yet
-				  break;
-		    case 8: //ship.viewCrew(); //Not defined yet
-           break;
-		    case 9: ship.travelToStation();
+			break;
+        case 7: ship.fireCrewMember();
+			break;
+		case 8: ship.viewCrew();
+			break;
+		case 9: ship.travelToStation();
             break;
         case 10: ship.viewMessage();
             break;

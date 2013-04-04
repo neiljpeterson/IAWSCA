@@ -20,7 +20,7 @@ class DockingRequest {
 public:
 	DockingRequest();
 	~DockingRequest();
-	void requestDock();
+	DockingRequest requestDock();
 	
 private:
 	int dockingFee;

@@ -64,6 +64,10 @@ void Ship::hireCrewMember(){
   cout << "Hiring Crew" << endl;
 }
 
+void Ship::fireCrewMember(){
+  cout << "Firing Crew" << endl;
+}
+
 void Ship::travelToStation(){
   docked = false;
   cout << "Traveling to Station" << endl;
@@ -75,4 +79,12 @@ void Ship::viewMessage(){
 
 void Ship::viewInventory(){
   cout << "Viewing Inventory" << endl;
+}
+
+void Ship::viewPassengers(){
+  cout << "Viewing Passengers" << endl;
+}
+
+void Ship::viewCrew(){
+  cout << "Viewing Crew" << endl;
 }
