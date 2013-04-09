@@ -13,7 +13,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class Messenger {
 
@@ -28,8 +27,8 @@ public:
 	void deleteMessage();
 	
 private:
-	string read;
-	string unread;
+	std::string read;
+	std::string unread;
 };
 
 #endif

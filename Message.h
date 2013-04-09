@@ -15,7 +15,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class Message {
 
@@ -25,8 +24,8 @@ public:
 	~Message();
 	
 private:
-	string name;
-	string body;
+	std::string name;
+	std::string body;
 };
 
 #endif

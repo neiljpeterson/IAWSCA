@@ -14,7 +14,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class Crew {
 
@@ -25,7 +24,7 @@ public:
 	
 private:
 	int federatedID;
-	string name;
+	std::string name;
 };
 
 #endif

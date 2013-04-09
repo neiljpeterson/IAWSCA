@@ -12,7 +12,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class Alert {
 
@@ -25,7 +24,7 @@ public:
 	
 private:
 	bool trigger;
-	string message[];
+	std::string message[];
 };
 
 #endif

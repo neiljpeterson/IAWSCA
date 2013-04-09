@@ -12,7 +12,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class Supplies {
 
@@ -22,7 +21,7 @@ public:
 	~Supplies();
 	
 private:
-	string name;
+	std::string name;
 	int units;
 	float price;
 };

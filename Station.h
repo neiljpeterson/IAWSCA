@@ -13,10 +13,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 static struct supplies{ //TODO: roll this into the class
-		vector<string> itemNames;
+		vector<std::string> itemNames;
 		vector<int> prices;
 	} supplyItems;
 

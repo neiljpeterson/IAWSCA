@@ -12,7 +12,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class Passenger {
 
@@ -22,8 +21,8 @@ public:
 	~Passenger();
 	
 private:
-	string name;
-	string destination;
+	std::string name;
+	std::string destination;
 	int toleranceLevel;
 	float fare;
 	int ID;

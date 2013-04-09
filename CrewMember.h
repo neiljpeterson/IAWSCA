@@ -12,7 +12,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
 
 class CrewMember {
 
@@ -24,9 +23,9 @@ public:
 	void addCrewMember();
 	
 private:
-	string jobTitle;
+	std::string jobTitle;
 	int pay;
-	string supply;
+	std::string supply;
 	int supplyUsage;
 };
 
