@@ -9,7 +9,6 @@
 //
 
 #include "Ship.h"
-#include "Station.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,23 +20,19 @@ using namespace std;
 
 int choose(int); //make ship static?
 void quit(); //only exit from main? bad form?
-
-void buySupplies();
-
 int menu(vector<string>&); 
 int getIntWithinRange(int,int,string);
 void pressAnyKey(string prompt = "\nPlease press the any key...");
 
 //Copied from C++11 array.h Returns ptr to begin and end of an c-style array
 template <typename T, size_t N>
-T* begin(T(&arr)[N]) { return &arr[0]; }
+T* tBegin(T(&arr)[N]) { return &arr[0]; }
 
 template <typename T, size_t N>
-T* end(T(&arr)[N]) { return &arr[0]+N; }
+T* tEnd(T(&arr)[N]) { return &arr[0]+N; }
 //end copy. TODO: understand this.
 
 static Ship ship; //TODO: make pointers?
-static Station station;
 
 int main()
 {
@@ -62,7 +57,7 @@ int main()
     "Quit" //12
     };
     
-    vector<string> options (begin(choices), end(choices));
+    vector<string> options (tBegin(choices), tEnd(choices));
     int choice = 0;
 
     while(choices[choice] != "Quit")
@@ -74,7 +69,7 @@ int main()
 int choose(int choice) //TODO: Is there a more robust way to do this, possibly with func ptrs?
 {
     switch (choice) {
-		case 1: buySupplies();
+		case 1: ship.buySupplies();
 			break;
         case 2: ship.sellSupplies();
 			break;
@@ -108,15 +103,7 @@ void quit(){
   exit(0); //exit should be in main?
 }
 
-void buySupplies(){
 
-  Station:supplies offers = station.getOffers();
-  vector<string> offerOptions(offers.itemNames); 
-  offerOptions.insert(offerOptions.begin(),"The following items are for sale. Please choose one.");
-
-  choose(menu(offerOptions));//TODO: make a table function?
-  ship.buySupplies();
-}
 
 //might be rolled into seperate class eventually?
 //IO.cpp?

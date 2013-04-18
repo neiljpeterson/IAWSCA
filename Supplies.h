@@ -19,6 +19,7 @@ class Supplies {
 public:
 	Supplies();
 	~Supplies();
+	std::string getName() const;
 	
 private:
 	std::string name;

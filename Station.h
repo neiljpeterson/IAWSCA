@@ -10,24 +10,19 @@
 //
 
 #include "DockingRequest.h"
+#include "Inventory.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
-static struct supplies{ //TODO: roll this into the class
-		vector<std::string> itemNames;
-		vector<int> prices;
-	} supplyItems;
-
 class Station {
-
 
 public:
 
 	Station();
 	~Station();
 
-	supplies getOffers();
+	Inventory getOffers();
 	void sendDockingFee(DockingRequest);
 	void showOffers();
 	void displayPassengers();
@@ -36,9 +31,10 @@ public:
 	void deleteCrewMember();
 
 private:
-	string name();
-	int dockingFee();
-	int stationID();
+	std::string name;
+	int dockingFee;
+	int stationID;
+	std::vector<Inventory*> supplies;
 };
 
 #endif

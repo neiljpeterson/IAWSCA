@@ -10,6 +10,7 @@
 //
 
 #include "CargoItem.h"
+#include "Supplies.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,9 +25,16 @@ public:
 	void removeCargoItem(int);
 	void displayCargoItems(int);
 	void displayStations();
-	
+	void setName(std::string & n);
+	string getName();
+	void setPrice(int p);
+	int getPrice();
+
 private:
-	int price;
+	int prices;
+	std::string itemNames;
+	Supplies* inventory;
+
 };
 
 #endif

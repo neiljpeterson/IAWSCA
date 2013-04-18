@@ -13,6 +13,9 @@ using namespace std;
 
 Inventory::Inventory()
 {
+	int prices = 0;
+	string itemNames = "";
+	Supplies* inventory = 0;
 }
 
 Inventory::~Inventory()
@@ -33,4 +36,24 @@ void Inventory::displayCargoItems(int supplyType)
 
 void Inventory::displayStations()
 {
+}
+
+void Inventory::setName(std::string & n)
+{
+	itemNames = n;
+}
+
+string Inventory::getName()
+{
+	return itemNames;
+}
+
+void Inventory::setPrice(int p)
+{
+	prices = p;
+}
+
+int Inventory::getPrice()
+{
+	return prices;
 }

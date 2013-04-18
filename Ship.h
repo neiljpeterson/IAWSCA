@@ -21,6 +21,7 @@
 #include "Messenger.h"
 #include "Passenger.h"
 #include "Supplies.h"
+#include "Station.h"
 #include "Transmission.h"
 #include <iostream>
 #include <string>
@@ -51,13 +52,19 @@ public:
      */
     std::string getName() const;
 
+	void setLocation(const Station & s);
+	Station getLocation();
+
 private:
 
     /**
      *  Name of Ship
      */
     std::string name;
+	int maxWeight;
+	int currentWeight;
     bool docked;
+	Station* location;
 
 };
 

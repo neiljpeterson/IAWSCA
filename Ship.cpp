@@ -35,6 +35,16 @@ void Ship::setName(const std::string& n)
     name = n;
 }
 
+void Ship::setLocation(const Station & s)
+{
+	*location = s;
+}
+	
+Station Ship::getLocation()
+{
+	return *location;
+}
+
 bool Ship::isDocked(){
   return docked;
 }
@@ -45,7 +55,18 @@ void Ship::dock(){
 }
 
 void Ship::buySupplies(){
-  cout << "Buying Supplies" << endl;
+
+  Station:Supplies offers = Station.getOffers();
+  vector<string> offerOptions(offers.itemNames); 
+  offerOptions.insert(offerOptions.begin(),"The following items are for sale. Please choose one.");
+
+  choose(menu(offerOptions));//TODO: make a table function?
+  ship.buySupplies();
+}
+
+string Ship::getName() const
+{
+	return name;
 }
 
 void Ship::sellSupplies(){
