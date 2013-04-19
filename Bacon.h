@@ -19,6 +19,8 @@ class Bacon {
 public:
 	Bacon();
 	~Bacon();
+	void gainBacon();
+	void spendBacon();
 	
 private:
 };

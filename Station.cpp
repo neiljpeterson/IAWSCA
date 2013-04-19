@@ -13,14 +13,18 @@ using namespace std;
 
 Station::Station()
 {
+	name = "";
+	dockingFee = 0;
+	stationID = 0;
+	offer = "";
 }
 
 Station::~Station()
 {
 }
 
-Inventory Station::getOffers(){
-	supplies=setName(itemNames).push_back("Warp Manifolds");
+string Station::getOffers(){
+	/*supplies=setName(itemNames).push_back("Warp Manifolds");
 	supplies.push_back("Warp Manifolds", 100);
 
 	supplies.itemNames.push_back("Plasma Relays");
@@ -28,6 +32,11 @@ Inventory Station::getOffers(){
 	
 	supplies.itemNames.push_back("EPS Conduites");
 	supplies.prices.push_back(42);
+	*/
 
-	return *supplies;
+	return offer;
+}
+
+string Station::showOffers(){
+	return "Offers";
 }

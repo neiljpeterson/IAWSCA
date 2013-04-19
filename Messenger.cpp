@@ -19,8 +19,9 @@ Messenger::~Messenger()
 {
 }
 
-Message* Messenger::find(Message message)
+Message* Messenger::find(Message* message)
 {
+	return message;
 }
 
 void Messenger::displayMessage()

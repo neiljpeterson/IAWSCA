@@ -24,7 +24,7 @@ public:
 	
 private:
 	bool trigger;
-	std::string message[];
+	std::string message;
 };
 
 #endif

@@ -23,7 +23,7 @@ public:
 	
 private:
 	int benefit;
-	int benefits[];
+	int benefits[10];
 };
 
 #endif

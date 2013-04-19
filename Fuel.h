@@ -19,6 +19,8 @@ class Fuel {
 public:
 	Fuel();
 	~Fuel();
+	void Fuel::purchaseFuel();
+	void Fuel::sellFuel();
 	
 private:
 	int price;

@@ -22,7 +22,7 @@ int choose(int); //make ship static?
 void quit(); //only exit from main? bad form?
 int menu(vector<string>&); 
 int getIntWithinRange(int,int,string);
-void pressAnyKey(string prompt = "\nPlease press the any key...");
+void pressAnyKey(string prompt = "\nPlease press any key...");
 
 //Copied from C++11 array.h Returns ptr to begin and end of an c-style array
 template <typename T, size_t N>

@@ -17,6 +17,8 @@ Ship::Ship()
     setName("My Ship");
     docked = false;
     cout << "Ship constructor executed" << endl;
+	location = 0;
+	offers = "";
 }
 
 /**
@@ -45,23 +47,27 @@ Station Ship::getLocation()
 	return *location;
 }
 
-bool Ship::isDocked(){
-  return docked;
+bool Ship::isDocked()
+{
+	return docked;
 }
 
-void Ship::dock(){
+void Ship::dock()
+{
   docked = true;
   cout << "Docking" << endl;
 }
 
-void Ship::buySupplies(){
-
-  Station:Supplies offers = Station.getOffers();
+void Ship::buySupplies()
+{
+  offers = getOffers(location);
+  cout << "Buying Supplies" << endl;
+  /*
   vector<string> offerOptions(offers.itemNames); 
   offerOptions.insert(offerOptions.begin(),"The following items are for sale. Please choose one.");
 
   choose(menu(offerOptions));//TODO: make a table function?
-  ship.buySupplies();
+  */
 }
 
 string Ship::getName() const
@@ -108,4 +114,8 @@ void Ship::viewPassengers(){
 
 void Ship::viewCrew(){
   cout << "Viewing Crew" << endl;
+}
+
+string Ship::getOffers(Station* location){
+	return "Offers";//*location.showOffers();
 }

@@ -21,7 +21,7 @@ public:
 	Messenger();
 	~Messenger();
 	void listMessages();
-	Message* find(Message);
+	Message* find(Message*);
 	void displayMessage();
 	void addMessage();
 	void deleteMessage();

@@ -19,6 +19,7 @@ DockingRequest::~DockingRequest()
 {
 }
 
-DockingRequest DockingRequest::requestDock()
+DockingRequest DockingRequest::requestDock(DockingRequest request)
 {
+	return request;
 }

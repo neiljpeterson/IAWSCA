@@ -47,6 +47,7 @@ public:
     void viewInventory();
 	void viewPassengers();
 	void viewCrew();
+	string getOffers(Station*);
     /**
      *  Access function to get the name of the ship
      */
@@ -65,6 +66,7 @@ private:
 	int currentWeight;
     bool docked;
 	Station* location;
+	std::string offers;
 
 };
 

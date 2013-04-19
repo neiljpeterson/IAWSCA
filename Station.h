@@ -10,7 +10,7 @@
 //
 
 #include "DockingRequest.h"
-#include "Inventory.h"
+#include "Supplies.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,9 +22,9 @@ public:
 	Station();
 	~Station();
 
-	Inventory getOffers();
+	std::string getOffers();
 	void sendDockingFee(DockingRequest);
-	void showOffers();
+	std::string showOffers();
 	void displayPassengers();
 	void deletePassenger();
 	void displayPositions();
@@ -34,7 +34,8 @@ private:
 	std::string name;
 	int dockingFee;
 	int stationID;
-	std::vector<Inventory*> supplies;
+	Supplies* supplies;
+	std::string offer;
 };
 
 #endif
