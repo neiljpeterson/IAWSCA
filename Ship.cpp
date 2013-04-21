@@ -6,6 +6,7 @@
 //  Description:  Non-inline member function definitions.
 //
 #include "Ship.h"
+#include "Station.h"
 #include <fstream>
 using namespace std;
 
@@ -19,6 +20,9 @@ Ship::Ship()
     cout << "Ship constructor executed" << endl;
 	location = 0;
 	offers = "";
+	station = new Station();
+	bacon = new Bacon();
+	bacon->getAmount();
 }
 
 /**
@@ -47,6 +51,16 @@ Station Ship::getLocation()
 	return *location;
 }
 
+string Ship::getName() const
+{
+	return name;
+}
+
+int Ship::getBacon()
+{
+	return bacon->getAmount();
+}
+
 bool Ship::isDocked()
 {
 	return docked;
@@ -60,23 +74,13 @@ void Ship::dock()
 
 void Ship::buySupplies()
 {
-  offers = getOffers(location);
-  cout << "Buying Supplies" << endl;
-  /*
-  vector<string> offerOptions(offers.itemNames); 
-  offerOptions.insert(offerOptions.begin(),"The following items are for sale. Please choose one.");
-
-  choose(menu(offerOptions));//TODO: make a table function?
-  */
-}
-
-string Ship::getName() const
-{
-	return name;
+	cout << "Buying Supplies" << endl;
+	offers = location->buyMenu();
 }
 
 void Ship::sellSupplies(){
-  cout << "Selling Supplies" << endl;
+	cout << "Selling Supplies" << endl;
+	offers = location->sellMenu();
 }
 
 void Ship::loadPassengers(){
@@ -114,8 +118,4 @@ void Ship::viewPassengers(){
 
 void Ship::viewCrew(){
   cout << "Viewing Crew" << endl;
-}
-
-string Ship::getOffers(Station* location){
-	return "Offers";//*location.showOffers();
 }

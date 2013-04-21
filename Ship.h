@@ -47,6 +47,7 @@ public:
     void viewInventory();
 	void viewPassengers();
 	void viewCrew();
+	int getBacon();
 	string getOffers(Station*);
     /**
      *  Access function to get the name of the ship
@@ -67,6 +68,8 @@ private:
     bool docked;
 	Station* location;
 	std::string offers;
+	Station* station;
+	Bacon* bacon;
 
 };
 

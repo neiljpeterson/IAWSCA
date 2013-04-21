@@ -9,18 +9,18 @@
 //  Description:  A class definition for Bacon.
 //
 
+#include "CargoItem.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
-class Bacon {
-
-
+class Bacon : public CargoItem {
 public:
-	Bacon();
+	Bacon(int w = 0, int u = 0);
 	~Bacon();
 	void gainBacon();
 	void spendBacon();
+	int getAmount(); 
 	
 private:
 };

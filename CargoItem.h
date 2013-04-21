@@ -8,10 +8,7 @@
 //
 //  Description:  A class definition for CargoItem.
 //
-#include "Supplies.h"
-#include "Passenger.h"
-#include "Fuel.h"
-#include "Bacon.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,11 +18,13 @@ class CargoItem {
 
 
 public:
-	CargoItem();
+	CargoItem(int w = 0, int u = 0);
 	~CargoItem();
+	void setWeight(int);
+	void setUnits(int);
+	int getUnits();
 	
 private:
-	int supplyType;
 	int weight;
 	int units;
 };

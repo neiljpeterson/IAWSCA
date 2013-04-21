@@ -10,31 +10,38 @@
 //
 
 #include "DockingRequest.h"
-#include "Supplies.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
-class Station {
+class Bacon;
 
+class Station {
 public:
 
 	Station();
 	~Station();
 
-	std::string getOffers();
 	void sendDockingFee(DockingRequest);
-	std::string showOffers();
+	std::string buyMenu();
+	std::string sellMenu();
+	int numberToBuy(const std::string &, int);
+	int chooseToBuy(int, int);
+	int numberToSell(const std::string &, int);
+	int chooseToSell(int, int);
+	int menu(std::vector<std::string>&);
+	int getIntWithinRange(int, int, std::string);
 	void displayPassengers();
 	void deletePassenger();
 	void displayPositions();
 	void deleteCrewMember();
+	int getPrice();
 
 private:
 	std::string name;
 	int dockingFee;
 	int stationID;
-	Supplies* supplies;
+	int price;
 	std::string offer;
 };
 

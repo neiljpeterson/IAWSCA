@@ -11,12 +11,17 @@
 
 using namespace std;
 
-Bacon::Bacon()
+Bacon::Bacon(int w, int u) : CargoItem(w, u)
 {
 }
 
 Bacon::~Bacon()
 {
+}
+
+int Bacon::getAmount()
+{
+	return getUnits();
 }
 
 void Bacon::gainBacon()

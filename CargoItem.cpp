@@ -11,10 +11,27 @@
 
 using namespace std;
 
-CargoItem::CargoItem()
+CargoItem::CargoItem(int w, int u)
 {
+	setWeight(w);
+	setUnits(u);
 }
 
 CargoItem::~CargoItem()
 {
+}
+
+void CargoItem::setWeight(int w)
+{
+    weight = w;
+}
+
+void CargoItem::setUnits(int u)
+{
+    units = u;
+}
+
+int CargoItem::getUnits()
+{
+	return units;
 }

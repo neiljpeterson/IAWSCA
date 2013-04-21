@@ -33,6 +33,7 @@ T* tEnd(T(&arr)[N]) { return &arr[0]+N; }
 //end copy. TODO: understand this.
 
 static Ship ship; //TODO: make pointers?
+static Station station;
 
 int main()
 {
@@ -114,7 +115,7 @@ int menu(vector<string>& options){
 
  int choice = 0;
  
-  for(int choice = 0; choice < options.size(); choice++){
+  for(size_t choice = 0; choice < options.size(); choice++){
     if(choice) cout << choice << ": "; //0th element is menu header, no #:
     cout << options[choice] << endl;
   }
@@ -151,5 +152,3 @@ void pressAnyKey(string prompt){
   cout << prompt;
   cin.ignore();
 }
-
-
