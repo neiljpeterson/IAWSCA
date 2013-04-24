@@ -176,7 +176,7 @@ int table(vector< vector<string> > data) {
 	}
 }
 
-int menu(vector<string>& options,int spaces) { //build quit option in directly
+int menu(vector<string>& options,int spaces) { //build back option in directly
 
 	system("clear"); //TODO: detect various OSs and pass appropriate commands
 	//system("cls");
