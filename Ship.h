@@ -14,10 +14,11 @@
 #include <set>
 #include "Station.h"
 #include "InventoryItem.h"
+#include "SpaceThing.h"
 
 using namespace std;
 
-class Ship {
+class Ship: public SpaceThing {
 public:
 	Ship(); //Default Constructor
 

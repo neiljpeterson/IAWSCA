@@ -1,5 +1,5 @@
-#include "ship.h";
-
+#include "InventoryItem.h";
+	
 string InventoryItem::getAdHeader() {
 	return adHeader;
 }

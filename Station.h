@@ -13,27 +13,21 @@
 #include <string>
 #include <vector>
 #include "InventoryItem.h"
+#include "SpaceThing.h"
 
 using namespace std;
 
-class Station {
+class Station: public SpaceThing {
 
 
 public:
 
 	Station();
-	Station(vector<InventoryItem>);
+	Station(vector<InventoryItem> inventory){};
 	~Station();
-	
-	bool sellItem(int,int);
-	bool sellItem(int);
-	vector<string> getAds();
-	int getItemPrice(int);
-	
-        vector<int> foo;
         
 private:
-	vector<InventoryItem> manifest;
+	
 
 };
 

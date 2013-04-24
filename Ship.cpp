@@ -18,7 +18,7 @@ Ship::Ship() {
 	//initialization should be delegated to the main()
 	setName("USS Behind Schedule");
 	
-	manifest = new set<InventoryItem>;
+	//manifest = new set<InventoryItem>;
 	docked = true;
 	
 	cout << "Ship constructor executed" << endl;
@@ -76,13 +76,8 @@ vector<string> Ship::getStationAds() {
 	
 	return station.getAds();
 }
-
-void Ship::buy(int itemNum) {//or referenceCode? 
-	station.sellItem(itemNum);
-}
-
-void Ship::buy(int itemNum) {//or referenceCode? 
-	InventoryItem newItem = station.sellItem(itemNum,station.getItemPrice());
+void Ship::buy(int id) {//or referenceCode? 
+	InventoryItem newItem = station.sellItem(id,station.getItemPrice(id));
 	manifest.insert(newItem);
 }
 void Ship::sell() {
