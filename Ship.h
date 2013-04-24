@@ -55,8 +55,8 @@ public:
 	void travelToStation();
 
 	//merged from B
-	bool isDocked();
-	void dock(SpaceThing&);
+//	bool isDocked(); //delegated to SpaceThing
+//	void dock(SpaceThing&);  //delegated to SpaceThing
 	void buySupplies();
 	void sellSupplies();
 	void viewMessage();
@@ -66,7 +66,7 @@ public:
 	int getBacon();
 	string getOffers(Station*);
 	string getName() const;
-	string setName(const string&);
+	void setName(const string&);
 
 	void setLocation(const Station & s);
 	Station getLocation();

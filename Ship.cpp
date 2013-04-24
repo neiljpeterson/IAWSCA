@@ -118,14 +118,15 @@ int Ship::getBacon() {
 	return bacon->getAmount();
 }
 
-bool Ship::isDocked() {
-	return docked;
-}
-
-void Ship::dock() {
-	docked = true;
-	cout << "Docking" << endl;
-}
+//sent to SpaceThing
+//bool Ship::isDocked() {
+//	return docked;
+//}
+//
+//void Ship::dock() {
+//	docked = true;
+//	cout << "Docking" << endl;
+//}
 
 //void Ship::buySupplies() {
 //	cout << "Buying Supplies" << endl;
