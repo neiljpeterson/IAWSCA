@@ -10,6 +10,8 @@
 //
 
 #include "DockingRequest.h"
+#include "SpaceThing.h"
+#include "InventoryItem.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -17,7 +19,7 @@
 //
 //class Bacon;
 //
-//class Station {
+class Station: public SpaceThing {
 //=======
 //#include "InventoryItem.h"
 //#include "SpaceThing.h"
@@ -28,11 +30,11 @@
 //
 //
 //>>>>>>> origin/SpaceThing
-//public:
+public:
 //
-//	Station();
-//	Station(vector<InventoryItem> inventory){};
-//	~Station();
+	Station();
+	Station(vector<InventoryItem> inventory){};
+	~Station();
 //<<<<<<< HEAD
 //
 //	void sendDockingFee(DockingRequest);
@@ -50,7 +52,7 @@
 //	void deleteCrewMember();
 //	int getPrice();
 //
-//private:
+private:
 //	std::string name;
 //	int dockingFee;
 //	int stationID;
@@ -62,6 +64,6 @@
 //	
 //
 //>>>>>>> origin/SpaceThing
-//};
+};
 
 #endif

@@ -54,15 +54,9 @@ public:
 	void fireCrewMember(); //new
 	void travelToStation();
 
-	// views need to deleted
-	void viewMessage();
-	void viewInventory();
-	void viewPassengers(); //new
-	void viewCrew();
-
 	//merged from B
 	bool isDocked();
-	void dock();
+	void dock(SpaceThing&);
 	void buySupplies();
 	void sellSupplies();
 	void viewMessage();
@@ -72,7 +66,7 @@ public:
 	int getBacon();
 	string getOffers(Station*);
 	string getName() const;
-	string setName(string);
+	string setName(const string&);
 
 	void setLocation(const Station & s);
 	Station getLocation();
