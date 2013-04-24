@@ -39,6 +39,8 @@ public:
 //	bool isDocked();
 //	void dock();
 	
+	vector<string> getInventory();
+	
 	void loadPassengers();
 	void unloadPassengers();
 	void hireCrewMember();

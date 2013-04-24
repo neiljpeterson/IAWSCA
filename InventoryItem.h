@@ -32,7 +32,7 @@ public:
 	
 	InventoryItem(string name, int price, string ad, int id = 42) {
 		this->setId(id);
-		this->name = name;
+		this->setName(name);
 		this->price = price;
 		this->adHeader = ad;
 	};
@@ -48,6 +48,7 @@ public:
 	bool operator<=(const InventoryItem& right) const { return *this < right;}
 	bool operator>=(const InventoryItem& right) const { return *this > right;}
 	
+	operator std::string() const { return toString(); }
 	
 	
 	int const getId() {return id;};
@@ -72,6 +73,9 @@ public:
 	void setAdBody(string value) {adBody = value;};
 
 
+	string toString() const {
+		return name;// + "\t" +  price + "\t" + forSale + "\t";
+	}
 private:
 	int id;
 	string name;

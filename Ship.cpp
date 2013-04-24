@@ -17,42 +17,43 @@ using namespace std;
 Ship::Ship() {
 	//initialization should be delegated to the main()
 	setName("USS Behind Schedule");
-	
+
 	//manifest = new set<InventoryItem>;
-	
+
 	cout << "Ship constructor executed" << endl;
-	
-	
+
+
 	//building a station
 	vector<InventoryItem> inventory;
-	
+
 	inventory.push_back(*(new InventoryItem(
-		"Warp Manifolds",4200,
+		"Warp Manifolds", 4200,
 		"These warp manifolds are slightly used but will work great after a good theta radiation decon!",
 		1
 		)));
 	inventory.push_back(*(new InventoryItem(
-		"Freeze dried McRibs",210,
+		"Freeze dried McRibs", 210,
 		"A delicacy of our ancestors. Was part of a regular ritual. Only a few thousand in this sector!!",
 		2
 		)));
 	inventory.push_back(*(new InventoryItem(
-		"CryPax",-1000,
+		"CryPax", -1000,
 		"This Cryogenic Passenger with federation passage to A579bg",
 		3
 		)));
-	
+
 	dockedThing = new SpaceThing(inventory);
-	
+
 	//docking
 	dockedThing->dock(*this);
 	this->dock(*dockedThing);
 	dockedThing->setName("STATION");
-	
+
 	//manifest
-	
-	
+
+
 }
+
 /**
  *  Destructor
  */
@@ -60,6 +61,13 @@ Ship::~Ship() {
 	cout << "Ship destructor executed" << endl;
 }
 
+vector<string> Ship::getInventory() {//could just be a conversion
+	vector<string> inventory; //conversion works, but cant convert with containers. not sure why.
+	for (InventoryItem item : manifest) {
+		inventory.push_back(item);
+	}
+	return inventory;
+}
 /**
  *  Modifier function to set the name of the store
  */

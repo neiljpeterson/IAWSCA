@@ -11,11 +11,11 @@ void SpaceThing::buy(int id) {//or referenceCode?
 }
 
 InventoryItem SpaceThing::sell(int itemNumber, int price) {
-	cout << "station is selling item #" << itemNumber << endl;
+	cout << "I am selling item #" << itemNumber << endl;
 	//add price to balance 
 	//remove item from manifest
 	InventoryItem newItem = removeItem(itemNumber);
-	return NULL;
+	return newItem;
 		
 }
 

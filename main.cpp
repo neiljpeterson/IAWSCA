@@ -25,6 +25,7 @@ void quit(); //only exit from main? bad form?
 
 void buySupplies();
 void sellSupplies();
+void viewInventory();
 int table(vector< vector<string> >);
 //int menu(vector<string>&);
 int menu(vector<string>&,int spaces=1);
@@ -54,8 +55,8 @@ int main() {
 	//staton = new Station;
 
 	string choices[] = {//TODO: map menu options to function pointers??
-		"Please choose one",
-		"Buy supplies", //1
+		"Please choose one (* indicates functions under implementation)",
+		"Buy supplies*", //1
 		"Sell supplies", //2
 		"Load passengers", //3
 		"Unload passengers", //4
@@ -65,7 +66,7 @@ int main() {
 		"View crew", //8 new
 		"Travel to station", //9
 		"View message", //10
-		"View inventory", // 11
+		"View inventory*", // 11
 		"Quit" //12
 	};
 		
@@ -102,7 +103,7 @@ int choose(int choice) //TODO: Is there a more robust way to do this, possibly w
 			break;
 		case 10: ship.viewMessage();
 			break;
-		case 11: ship.viewInventory();
+		case 11: viewInventory();
 			break;
 		case 12: quit();
 	}
@@ -143,10 +144,20 @@ void sellSupplies(){
 	//wait
 	cout << "Selling supplies" << endl;
 }
-//might be rolled into seperate class eventually?
+//might be rolled into seprate class eventually?
 //IO.cpp?
 
 //template <typename T>
+
+void viewInventory(){
+	//get inventory strings
+	vector<string> inventory;
+	inventory.push_back("INVENTORY");
+	for(string item:ship.getInventory()){
+		inventory.push_back(item);
+	}
+	menu(inventory,2);
+}
 int table(vector< vector<string> > data) {
 	int row = 0;
 	int col = 0;
@@ -166,7 +177,7 @@ int menu(vector<string>& options,int spaces) {
 	//system("cls");
 
 
-
+	
 	for (int choice = 0; choice < options.size(); choice++) {
 		if (choice) cout << choice << ": "; //0th element is menu header, no #:
 		cout << options[choice] << endl;
