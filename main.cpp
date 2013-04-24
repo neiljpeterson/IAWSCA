@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 using namespace std;
 
 /**
@@ -119,10 +120,14 @@ void quit() {
 
 void buySupplies() {
 	vector<string> ads;
+	vector<int> ids;
 	ads.push_back("This station has the following items for sale");
 	
-	for(string ad:ship.getExternalAds()){ // will return a Map<int,string> eventually
-		ads.push_back(ad);
+	for(pair<int,string> ad:ship.getExternalAds()){ // will return a Map<int,string> eventually
+		//ads.push_back(string(ad.first) + ": " + ad.second); //what the hell??
+		ads.push_back(ad.second);
+		ids.push_back(ad.first);
+		
 	}
 	
 	ads.push_back("<<< Go Back");
@@ -130,7 +135,7 @@ void buySupplies() {
 	int choice = menu(ads,2);
 
 	if(choice+1!=ads.size()){
-		ship.buy(choice);
+		ship.buy(ids[choice]);
 		cout << "You just bought item #" << choice << endl;
 		//Will list item title
 		
@@ -171,7 +176,7 @@ int table(vector< vector<string> > data) {
 	}
 }
 
-int menu(vector<string>& options,int spaces) {
+int menu(vector<string>& options,int spaces) { //build quit option in directly
 
 	system("clear"); //TODO: detect various OSs and pass appropriate commands
 	//system("cls");

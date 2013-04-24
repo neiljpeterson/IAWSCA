@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include <map>
 #include "InventoryItem.h"
 using namespace std;
 
@@ -32,11 +33,13 @@ public:
 	void buy(int);
 	InventoryItem sell(int, int);
 	
-	vector<string> getAds();
+	map<int,string> getExternalAds();
+	map<int,string> getAds();
+	
 	int getItemPrice(int);
 	InventoryItem removeItem(int id);
 	
-	vector<string> getExternalAds();
+	
 	
 
 	

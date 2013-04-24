@@ -31,16 +31,16 @@ int SpaceThing::getItemPrice(int itemNumber) {
 	return 42;
 }
 
-vector<string> SpaceThing::getAds() {
-	vector<string> ads;
+map<int,string> SpaceThing::getAds() {
+	map<int,string> ads;
 	for (InventoryItem item : manifest) {
-		ads.push_back(item.getAdHeader());
+		ads.insert( std::pair<int,string>(item.getId(), item.getAdHeader()));
 	}
 
 	return ads;
 }
 
-vector<string> SpaceThing::getExternalAds(){
+map<int,string> SpaceThing::getExternalAds(){
 	return dockedThing->getAds();
 }
 
