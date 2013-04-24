@@ -16,9 +16,20 @@ public:
 
 	InventoryItem() {
 	};
+	
 	InventoryItem(int id){
 		this->setId(id);
 	}
+	
+	//Copy Constructor
+	//tried to use getters, got const errors
+	InventoryItem(const InventoryItem &copyMe) {
+		this->setId(copyMe.id);
+		this->setName(copyMe.name);
+		this->setPrice(copyMe.price);
+		this->setAdHeader(copyMe.adHeader);
+	}
+	
 	InventoryItem(string name, int price, string ad, int id = 42) {
 		this->setId(id);
 		this->name = name;
@@ -28,34 +39,47 @@ public:
 
 	~InventoryItem() {
 	};
+	
+	//Could be inline, non-member and/or friend functions??
+	bool operator==(const InventoryItem& right) const { return this->id == right.id;}
+	bool operator!=(const InventoryItem& right) const { return *this != right;}
+	bool operator<(const InventoryItem& right) const { return this->id < right.id;}
+	bool operator>(const InventoryItem& right) const { return *this > right;}
+	bool operator<=(const InventoryItem& right) const { return *this < right;}
+	bool operator>=(const InventoryItem& right) const { return *this > right;}
+	
+	
+	
+	int const getId() {return id;};
+	void setId(int value) {id = value;};
+	
+	string const getName() {return name;};
+	void setName(string value) {name = value;};
+	
+	string const getType() {return type;};
+	void setType(string value) {type = value;};
+	
+	int const getPrice() {return price;};
+	void setPrice(int value) {price = value;};
+	
+	bool const getForSale() {return forSale;};
+	void setForSale(bool value) {forSale = value;};
+	
+	string const getAdHeader() {return adHeader;};
+	void setAdHeader(string value) {adHeader = value;};
+	
+	string  const getAdBody() {return adBody;};
+	void setAdBody(string value) {adBody = value;};
 
+
+private:
+	int id;
 	string name;
 	string type;
 	int price;
 	bool forSale;
 	string adHeader;
 	string adBody;
-
-	bool operator==(const InventoryItem& right) const { return this->id == right.getId();}
-	bool operator!=(const InventoryItem& right) const { return *this != right;}
-	bool operator<(const InventoryItem& right) const { return this->id < right.getId();}
-	bool operator>(const InventoryItem& right) const { return *this > right;}
-	bool operator<=(const InventoryItem& right) const { return *this < right;}
-	bool operator>=(const InventoryItem& right) const { return *this > right;}
-	
-	
-	string getAdHeader();
-	string getAdBody();
-
-	int const getId() const {
-		return id;
-	};
-
-	void setId(int value) {
-		id = value;
-	};
-private:
-	int id;
 
 };
 

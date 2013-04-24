@@ -29,15 +29,29 @@ public:
 		}
 	}
 
-	InventoryItem sellItem(int, int);
-	InventoryItem sellItem(int);
+	void buy(int);
+	InventoryItem sell(int, int);
+	
 	vector<string> getAds();
 	int getItemPrice(int);
 	InventoryItem removeItem(int id);
+	
+	vector<string> getExternalAds();
+	
 
-
-private:
+	
+	void dock(SpaceThing&);
+	bool isDocked();
+	
+	void setName(const string name){this->name = name;};
+	string getName(){return name;};
+	
+protected:
+	
 	set<InventoryItem> manifest;
+	SpaceThing* dockedThing;
+	bool docked;
+	string name;
 };
 
 #endif	/* SPACETHING_H */

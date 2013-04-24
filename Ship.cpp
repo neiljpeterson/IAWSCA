@@ -19,7 +19,6 @@ Ship::Ship() {
 	setName("USS Behind Schedule");
 	
 	//manifest = new set<InventoryItem>;
-	docked = true;
 	
 	cout << "Ship constructor executed" << endl;
 	
@@ -28,15 +27,30 @@ Ship::Ship() {
 	vector<InventoryItem> inventory;
 	
 	inventory.push_back(*(new InventoryItem(
-		"Warp Manifolds",4200,"These warp manifolds are slightly used but will work great after a good theta radiation decon!"
+		"Warp Manifolds",4200,
+		"These warp manifolds are slightly used but will work great after a good theta radiation decon!",
+		1
 		)));
 	inventory.push_back(*(new InventoryItem(
-	"Freeze dried McRibs",210,"A delicacy of our ancestors. Was part of a regular ritual. Only a few thousand in this sector!!"
+		"Freeze dried McRibs",210,
+		"A delicacy of our ancestors. Was part of a regular ritual. Only a few thousand in this sector!!",
+		2
 		)));
 	inventory.push_back(*(new InventoryItem(
-	"CryPax",-1000,"This Cryogenic Passenger with federation passage to A579bg"
+		"CryPax",-1000,
+		"This Cryogenic Passenger with federation passage to A579bg",
+		3
 		)));
-	station = *(new Station(inventory));
+	
+	dockedThing = new SpaceThing(inventory);
+	
+	//docking
+	dockedThing->dock(*this);
+	this->dock(*dockedThing);
+	dockedThing->setName("STATION");
+	
+	//manifest
+	
 	
 }
 /**
@@ -49,40 +63,28 @@ Ship::~Ship() {
 /**
  *  Modifier function to set the name of the store
  */
-void Ship::setName(const std::string& n) {
-	name = n;
-}
 
-bool Ship::isDocked() {
-	return docked;
-}
+//transfered to Spacething. delete before merge
+//void Ship::buySupplies() {
+//	cout << "Buying Supplies" << endl;
+//}
 
-void Ship::dock() {
-	docked = true;
-	cout << "Docking" << endl;
-}
+//void Ship::setName(const std::string& n) {
+//	name = n;
+//}
 
-void Ship::buySupplies() {
-	cout << "Buying Supplies" << endl;
-}
+//vector<string> Ship::getExternalAds() {
+//	return station.getAds();
+//}
 
+//void Ship::buy(int id) {//or referenceCode? 
+//	InventoryItem newItem = station.sellItem(id,station.getItemPrice(id));
+//	manifest.insert(newItem);
+//}
 
-vector<InventoryItem> Ship::getStationOffers() {
-	//return station.getOffers();
-	return *(new vector<InventoryItem>);
-}
-
-vector<string> Ship::getStationAds() {
-	
-	return station.getAds();
-}
-void Ship::buy(int id) {//or referenceCode? 
-	InventoryItem newItem = station.sellItem(id,station.getItemPrice(id));
-	manifest.insert(newItem);
-}
-void Ship::sell() {
-	cout << "Selling Supplies" << endl;
-}
+//void Ship::sell() {
+//	cout << "Selling Supplies" << endl;
+//}
 
 void Ship::loadPassengers() {
 	cout << "Loading Passengers" << endl;

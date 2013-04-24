@@ -24,30 +24,37 @@ public:
 
 	~Ship();
 
-	void setName(const std::string& n);
+	
 
-	bool isDocked();
-	void dock();
-	void buySupplies();
-	void sell();
+
+	
+	//transfered to SpaceThing
+//	std::string getName() const;	
+//	void setName(const std::string& n);
+//	void buySupplies();
+//	void sell();
+//	vector<string> getExternalAds();
+//	void buy(int);
+//	void buyItem(int);
+//	bool isDocked();
+//	void dock();
+	
 	void loadPassengers();
 	void unloadPassengers();
 	void hireCrewMember();
 	void fireCrewMember(); //new
 	void travelToStation();
+
+	// views need to deleted
 	void viewMessage();
 	void viewInventory();
 	void viewPassengers(); //new
 	void viewCrew();
-	vector<InventoryItem> getStationOffers();
-	vector<string> getStationAds();
-	void buy(int);
-	void buyItem(int);
-	
+
 	/**
 	 *  Access function to get the name of the ship
 	 */
-	std::string getName() const;
+	
 
 private:
 
@@ -55,9 +62,10 @@ private:
 	 *  Name of Ship
 	 */
 	std::string name;
-	bool docked;
-	Station station; // current station
-	set<InventoryItem> manifest;
+	
+	//transfered to space thing
+//	bool docked;
+//	SpaceThing * station = dockedThing; // current station
 
 };
 

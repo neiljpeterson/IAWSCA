@@ -24,6 +24,7 @@ int choose(int); //make ship static?
 void quit(); //only exit from main? bad form?
 
 void buySupplies();
+void sellSupplies();
 int table(vector< vector<string> >);
 //int menu(vector<string>&);
 int menu(vector<string>&,int spaces=1);
@@ -83,7 +84,7 @@ int choose(int choice) //TODO: Is there a more robust way to do this, possibly w
 	switch (choice) {
 		case 1: buySupplies();
 			break;
-		case 2: ship.sell();
+		case 2: sellSupplies();
 			break;
 		case 3: ship.loadPassengers();
 			break;
@@ -119,7 +120,7 @@ void buySupplies() {
 	vector<string> ads;
 	ads.push_back("This station has the following items for sale");
 	
-	for(string ad:ship.getStationAds()){ // will return a Map<int,string> eventually
+	for(string ad:ship.getExternalAds()){ // will return a Map<int,string> eventually
 		ads.push_back(ad);
 	}
 	
@@ -137,6 +138,11 @@ void buySupplies() {
 	
 }
 
+void sellSupplies(){
+	//send out ad alert
+	//wait
+	cout << "Selling supplies" << endl;
+}
 //might be rolled into seperate class eventually?
 //IO.cpp?
 
