@@ -10,40 +10,53 @@
 //
 #include <iostream>
 #include <string>
+#include <vector>
+#include <set>
+#include "Station.h"
+#include "InventoryItem.h"
+
+using namespace std;
 
 class Ship {
 public:
-    Ship(); //Default Constructor
+	Ship(); //Default Constructor
 
-    ~Ship();
+	~Ship();
 
-    void setName(const std::string& n);
+	void setName(const std::string& n);
 
-    bool isDocked();
-    void dock();
-    void buySupplies();
-    void sellSupplies();
-    void loadPassengers();
-    void unloadPassengers();
-    void hireCrewMember();
-	void fireCrewMember();	//new
-    void travelToStation();
-    void viewMessage();
-    void viewInventory();
-	void viewPassengers();	//new
-	void viewCrew();		//new
-    /**
-     *  Access function to get the name of the ship
-     */
-    std::string getName() const;
+	bool isDocked();
+	void dock();
+	void buySupplies();
+	void sell();
+	void loadPassengers();
+	void unloadPassengers();
+	void hireCrewMember();
+	void fireCrewMember(); //new
+	void travelToStation();
+	void viewMessage();
+	void viewInventory();
+	void viewPassengers(); //new
+	void viewCrew();
+	vector<InventoryItem> getStationOffers();
+	vector<string> getStationAds();
+	void buy(int);
+	void buyItem(int);
+	
+	/**
+	 *  Access function to get the name of the ship
+	 */
+	std::string getName() const;
 
 private:
 
-    /**
-     *  Name of Ship
-     */
-    std::string name;
-    bool docked;
+	/**
+	 *  Name of Ship
+	 */
+	std::string name;
+	bool docked;
+	Station station; // current station
+	set<InventoryItem> manifest;
 
 };
 

@@ -12,12 +12,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-using namespace std;
+#include "InventoryItem.h"
 
-static struct supplies{ //TODO: roll this into the class
-		vector<string> itemNames;
-		vector<int> prices;
-	} supplyItems;
+using namespace std;
 
 class Station {
 
@@ -25,11 +22,18 @@ class Station {
 public:
 
 	Station();
+	Station(vector<InventoryItem>);
 	~Station();
-
-	supplies getOffers();
-
+	
+	bool sellItem(int,int);
+	bool sellItem(int);
+	vector<string> getAds();
+	int getItemPrice(int);
+	
+        vector<int> foo;
+        
 private:
+	vector<InventoryItem> manifest;
 
 };
 

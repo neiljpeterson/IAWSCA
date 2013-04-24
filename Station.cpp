@@ -11,23 +11,36 @@
 
 using namespace std;
 
-Station::Station()
-{
+Station::Station() {
 }
 
-Station::~Station()
-{
+Station::Station(vector<InventoryItem> inventory) {
+	for (InventoryItem item : inventory) {
+		manifest.push_back(item);
+	}
 }
 
-supplies Station::getOffers(){
-	supplyItems.itemNames.push_back("Warp Manifolds");
-	supplyItems.prices.push_back(100);
+Station::~Station() {
+}
 
-	supplyItems.itemNames.push_back("Plasma Relays");
-	supplyItems.prices.push_back(1000);
-	
-	supplyItems.itemNames.push_back("EPS Conduites");
-	supplyItems.prices.push_back(42);
+//a published or agreed upon item and price
+bool Station::sellItem(int itemNumber, int price){
+	cout << "station is selling item#" << itemNumber << endl;
+	//add price to balance 
+	//remove item from manifest
+	return true;
+}
 
-	return supplyItems;
+int getItemPrice(int itemNumber){
+	//lookup item number price and return it
+	return 42;
+}
+
+vector<string> Station::getAds() {
+	vector<string> ads;
+	for (InventoryItem item : manifest) {
+		ads.push_back(item.getAdHeader());
+	}
+
+	return ads;
 }
