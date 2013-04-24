@@ -12,6 +12,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 template <typename T, size_t N>
 T* tBegin(T(&arr)[N]) { return &arr[0]; }
 
@@ -27,12 +28,15 @@ Station::Station()
 	stationID = 7;
 	offer = "";
 	price = stationID%3;
+=======
+Station::Station() {
+>>>>>>> origin/SpaceThing
 }
 
-Station::~Station()
-{
+Station::~Station() {
 }
 
+<<<<<<< HEAD
 //*************************************************************************
 
 string choices[] = { //TODO: map menu options to function pointers??
@@ -177,3 +181,5 @@ int Station::getIntWithinRange(int min, int max, string error)
 }
 
 //*************************************************************************
+=======
+>>>>>>> origin/SpaceThing
