@@ -36,20 +36,20 @@ Ship::Ship() {
 	inventory.push_back(*(new InventoryItem(
 		"Warp Manifolds", 4200,
 		"These warp manifolds are slightly used but will work great after a good theta radiation decon!",
-		1
+		1,3
 		)));
 	inventory.push_back(*(new InventoryItem(
 		"Freeze dried McRibs", 210,
 		"A delicacy of our ancestors. Was part of a regular ritual. Only a few thousand in this sector!!",
-		2
+		2,12
 		)));
 	inventory.push_back(*(new InventoryItem(
 		"CryPax", -1000,
 		"This Cryogenic Passenger with federation passage to A579bg",
-		3
+		3,1
 		)));
 
-	dockedThing = new SpaceThing(inventory);
+	dockedThing = new SpaceThing(inventory);//making the station
 
 	//docking
 	dockedThing->dock(*this);
@@ -66,7 +66,7 @@ Ship::~Ship() {
 }
 
 vector<string> Ship::getInventory() {//could just be a conversion
-	vector<string> inventory; //conversion works, but cant convert with containers. not sure why.
+	vector<string> inventory; //conversion works, but cant convert with containers? not sure why.
 	for (InventoryItem item : manifest) {
 		inventory.push_back(item);
 	}

@@ -35,7 +35,7 @@ bool SpaceThing::depositBacon(int amount){
 	
 	if(bacon == manifest.end()) {
 		pair<set<InventoryItem>::iterator,bool> baconItem 
-		= manifest.insert( *(new InventoryItem("Bacon",1,"",100)) );
+		= manifest.insert( *(new InventoryItem("Bacon",1,"",100,0)) );
 		bacon = baconItem.first;
 		goBaconGo = baconItem.second;
 	}

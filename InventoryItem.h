@@ -9,13 +9,16 @@
 #define	INVENTORYITEM_H
 
 #include <string>
+#include <cstdio>
+#include <iostream>
+#include <sstream>
 using namespace std;
 
 class InventoryItem {
 public:
 
 	InventoryItem() {
-		init();
+		//init();
 	};
 	
 	InventoryItem(int id){
@@ -31,21 +34,24 @@ public:
 		this->setName(copyMe.name);
 		this->setPrice(copyMe.price);
 		this->setAdHeader(copyMe.adHeader);
+		this->quantity = copyMe.quantity;
 	}
 	
-	InventoryItem(string name, int price, string ad, int id = 42) {
+	InventoryItem(string name, int price, string ad, int id, int quantity) {
 		init();
 		this->setId(id);
 		this->setName(name);
 		this->price = price;
 		this->adHeader = ad;
+		this->quantity = quantity;
 	};
 
 	~InventoryItem() {
 	};
 	
 	void init(){ //inits that should happen for all constructors here
-		quantity = 0;
+		//char baconSymbol = '\u3647';
+		//quantity = 0;
 	}
 	
 	//Could be inline, non-member and/or friend functions??
@@ -74,7 +80,16 @@ public:
 	bool const getForSale() {return forSale;};
 	void setForSale(bool value) {forSale = value;};
 	
-	string const getAdHeader() {return adHeader;};
+	string const getAdHeader() {
+		string quantityString = static_cast<ostringstream*>( &(ostringstream() << quantity) )->str();
+		string priceString = static_cast<ostringstream*>( &(ostringstream() << price) )->str();
+		//string priceString = static_cast<ostringstream*>( &(ostringstream() << price) )->str();
+		//char baconSymbol = '\u3647';
+		return name 
+			+ "\t" + quantityString
+			+ "\tBCN " + priceString + "/each" 
+			+ "\n" + adHeader;
+	};
 	void setAdHeader(string value) {adHeader = value;};
 	
 	string  const getAdBody() {return adBody;};
@@ -85,8 +100,11 @@ public:
 	void decreaseQuantity(int value) {quantity -= value;};
 	
 	string toString() const {
-		return name;// + "\t" +  price + "\t" + forSale + "\t";
+		//is there a better way to build strings in c++11??
+		string quantityString = static_cast<ostringstream*>( &(ostringstream() << quantity) )->str();
+		return name + "\t\t\t" + quantityString;
 	}
+	
 private:
 	int id;
 	int quantity;
