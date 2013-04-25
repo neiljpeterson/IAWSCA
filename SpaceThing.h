@@ -49,7 +49,9 @@ public:
 	void setName(const string name){this->name = name;};
 	string getName(){return name;};
 	
-protected:
+	bool depositBacon(int);//increases bacon by passed int amount
+	
+protected://So ship and station can access the following functions and data
 	
 	set<InventoryItem> manifest;
 	SpaceThing* dockedThing;

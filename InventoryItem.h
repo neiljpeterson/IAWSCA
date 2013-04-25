@@ -15,15 +15,18 @@ class InventoryItem {
 public:
 
 	InventoryItem() {
+		init();
 	};
 	
 	InventoryItem(int id){
+		init();
 		this->setId(id);
 	}
 	
 	//Copy Constructor
 	//tried to use getters, got const errors
 	InventoryItem(const InventoryItem &copyMe) {
+		init();
 		this->setId(copyMe.id);
 		this->setName(copyMe.name);
 		this->setPrice(copyMe.price);
@@ -31,6 +34,7 @@ public:
 	}
 	
 	InventoryItem(string name, int price, string ad, int id = 42) {
+		init();
 		this->setId(id);
 		this->setName(name);
 		this->price = price;
@@ -39,6 +43,10 @@ public:
 
 	~InventoryItem() {
 	};
+	
+	void init(){ //inits that should happen for all constructors here
+		quantity = 0;
+	}
 	
 	//Could be inline, non-member and/or friend functions??
 	bool operator==(const InventoryItem& right) const { return this->id == right.id;}
@@ -72,12 +80,16 @@ public:
 	string  const getAdBody() {return adBody;};
 	void setAdBody(string value) {adBody = value;};
 
-
+	int const getQuantity() {return quantity;};
+	void increaseQuantity(int value) {quantity += value;};
+	void decreaseQuantity(int value) {quantity -= value;};
+	
 	string toString() const {
 		return name;// + "\t" +  price + "\t" + forSale + "\t";
 	}
 private:
 	int id;
+	int quantity;
 	string name;
 	string type;
 	int price;
