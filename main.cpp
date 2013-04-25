@@ -29,7 +29,7 @@ void sellSupplies();
 void viewInventory();
 int table(vector< vector<string> >);
 //int menu(vector<string>&);
-int menu(vector<string>&,int spaces=1);
+int menu(vector<string>,string header = "",int spaces = 1,bool exitOption = true);
 int getIntWithinRange(int, int, string);
 void pressAnyKey(string prompt = "\nPlease press the any key...");
 
@@ -55,8 +55,7 @@ int main() {
 	//staton = new Station;
 
 	string choices[] = {//TODO: map menu options to function pointers??
-		"Please choose one (* indicates functions under implementation)",
-		"Buy supplies*", //1
+		"Buy supplies", //1
 		"Sell supplies", //2
 		"Load passengers", //3
 		"Unload passengers", //4
@@ -66,15 +65,14 @@ int main() {
 		"View crew", //8 new
 		"Travel to station", //9
 		"View message", //10
-		"View inventory*", // 11
-		"Quit" //12
+		"View inventory", // 11
 	};
 		
 		vector<string> options(begin(choices), end(choices));
 		int choice = 0;
 	
-		while (choices[choice] != "Quit")
-			choice = choose(menu(options));
+		while (choice != -1)
+			choice = choose(menu(options,"Please choose one"));
 
 
 	return 0;
@@ -120,7 +118,7 @@ void quit() {
 void buySupplies() {
 	vector<string> ads;
 	vector<int> ids;
-	ads.push_back("This station has the following items for sale");
+	//ads.push_back("This station has the following items for sale");
 	
 	for(pair<int,string> ad:ship.getExternalAds()){ // will return a Map<int,string> eventually
 		//ads.push_back(string(ad.first) + ": " + ad.second); //what the hell??
@@ -129,11 +127,11 @@ void buySupplies() {
 		
 	}
 	
-	ads.push_back("<<< Go Back");
 	
-	int choice = menu(ads,2);
+	
+	int choice = menu(ads,"This station has the following items for sale",2,1);
 
-	if(choice+1!=ads.size()){
+	if(choice!=-1){
 		ship.buy(ids[choice]);
 		cout << "You just bought item #" << choice << endl;
 		//Will list item title
@@ -156,11 +154,10 @@ void sellSupplies(){
 void viewInventory(){
 	//get inventory strings
 	vector<string> inventory;
-	inventory.push_back("INVENTORY");
 	for(string item:ship.getInventory()){
 		inventory.push_back(item);
 	}
-	menu(inventory,2);
+	menu(inventory,"SHIP'S INVENTORY",2,1);
 }
 int table(vector< vector<string> > data) {
 	int row = 0;
@@ -175,19 +172,21 @@ int table(vector< vector<string> > data) {
 	}
 }
 
-int menu(vector<string>& options,int spaces) { //build back option in directly
+//returns -1 if exitOption and exit option is chosen
+int menu(vector<string> options,string header,int spaces, bool exitOption) { 
+	//might need multiple prototypes
 
 	system("clear"); //TODO: detect various OSs and pass appropriate commands
 	//system("cls");
 
-
 	
-	for (int choice = 0; choice < options.size(); choice++) {
-		if (choice) cout << choice << ": "; //0th element is menu header, no #:
-		cout << options[choice] << endl;
+	if (exitOption) options.push_back("Exit Menu");
+	if (!header.empty()) cout << header << "\n\n";
+	
+	for (int index = 0; index < options.size(); index++) {
+		cout << index+1 << " - " << options[index] << endl;
 		int newLines = spaces;
 		while(--newLines > 0){
-			//cout << spaces << " spaces";
 			cout << endl;
 		}
 	}
@@ -200,8 +199,10 @@ int menu(vector<string>& options,int spaces) { //build back option in directly
 
 	cout << "> ";
 
-	return getIntWithinRange(1, options.size(), "That is not a valid option. Please try again\n");
-
+	int choice = getIntWithinRange(1, options.size(), "That is not a valid option. Please try again\n");
+	if(choice == options.size()) choice = -1;
+	
+	return choice;
 	//Framework for createing menus and passing them to the choose function
 	// string options[] = {"Please choose one", "Option A","Option B", "Option C"};
 	// vector<string> menu (begin(options), end(options));
