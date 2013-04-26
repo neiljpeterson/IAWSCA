@@ -7,6 +7,12 @@ bin-release/
 .settings/
 .DS_Store
 *.out
+*.gch
+*.h.gch*
+nbproject/*
+.dep.inc
+*.h.orig
+*.cpp.orig
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
