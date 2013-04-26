@@ -28,7 +28,7 @@ public:
 		for (InventoryItem item : inventory) {
 			manifest.insert(item);
 		}
-	}
+	};
 
 	void buy(int);
 	InventoryItem sell(int, int);

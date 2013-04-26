@@ -36,12 +36,12 @@ void pressAnyKey(string prompt = "\nPlease press the any key...");
 //Copied from C++11 array.h Returns ptr to begin and end of an c-style array
 
 template <typename T, size_t N>
-T* begin(T(&arr)[N]) {
+T* beginT(T(&arr)[N]) {
 	return &arr[0];
 }
 
 template <typename T, size_t N>
-T* end(T(&arr)[N]) {
+T* endT(T(&arr)[N]) {
 	return &arr[0] + N;
 }
 //end copy. TODO: understand this.
@@ -68,7 +68,7 @@ int main() {
 		"View inventory", // 11
 	};
 		
-		vector<string> options(begin(choices), end(choices));
+		vector<string> options(beginT(choices), endT(choices));
 		int choice = 0;
 	
 		while (choice != -1)
@@ -170,6 +170,7 @@ int table(vector< vector<string> > data) {
 		}
 		cout << "\n";
 	}
+	return 1;
 }
 
 //returns -1 if exitOption and exit option is chosen
