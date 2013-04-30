@@ -1,0 +1,28 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.out
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+#OS X files
+.DS_Store
+
+#Some IDE files (X Code and NetBeans)
+.settings/
+*.gch
+*.h.gch*
+nbproject/*
+.dep.inc
+*.h.orig
+*.cpp.orig
+*.xcodeproj
+*.1
