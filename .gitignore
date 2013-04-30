@@ -2,6 +2,7 @@
 *.slo
 *.lo
 *.o
+*.out
 
 # Compiled Dynamic libraries
 *.so
@@ -11,3 +12,15 @@
 *.lai
 *.la
 *.a
+
+#OS X files
+.DS_Store
+
+#Some IDE files (X Code and NetBeans)
+.settings/
+*.gch
+*.h.gch*
+nbproject/*
+.dep.inc
+*.h.orig
+*.cpp.orig
