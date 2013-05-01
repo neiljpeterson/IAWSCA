@@ -18,6 +18,9 @@ using namespace std;
 
 class Interface{
 	//All prototypes should be generic enough that we can overload them with a child class if we have time to implement ncurses
+	//I'm playing with Doxygen here. You can get details here: http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
+	//and here http://www.stack.nl/~dimitri/doxygen/manual/commands.html
+	//I'm going to try and document as I go. Feel free to delete this comment once you see it. -N
 public:
 	Interface(){};
 	
@@ -38,11 +41,17 @@ public:
 		
 	}
 	
+	/** \brief Displays the menu maped to the value of name 
+	 *	\param name This is the key value for the menu
+	 *	\param numbers Set to false if you do not want each line enumerated. Default is true;
+	 */
 	void showMenu(string name,bool numbers = true){
 		int i = 0;
-		for(string line:menus[name])
-			cout << i++ << line << endl;
-		
+		for(string line:menus[name]){
+			if(i > 0) cout << i << ") ";
+			cout << line << endl;
+			i++;
+		}
 	}
 	
 	/** \brief Returns the number of options in the menu
