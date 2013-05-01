@@ -9,6 +9,12 @@
 #ifndef __IAWSCA__Ship__
 #define __IAWSCA__Ship__
 
+#include "SpaceThing.h"
+
 #include <iostream>
 
+
+class Ship: public SpaceThing{
+
+};
 #endif /* defined(__IAWSCA__Ship__) */
