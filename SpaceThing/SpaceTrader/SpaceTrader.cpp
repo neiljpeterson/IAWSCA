@@ -8,15 +8,15 @@
 
 #include "./SpaceTrader.h"
 
-bool SpaceTrader::sell(SpaceTrader* trader, int amount, CargoType cargoType, int currency){
-	return trader->buy(this,amount,cargoType,currency);
+bool SpaceTrader::sell(SpaceTrader &trader, int amount, CargoType cargoType, int currency){
+	return trader.buy(*this,amount,cargoType,currency);
 	
 }
 
-bool SpaceTrader::buy(SpaceTrader* trader, int amount, CargoType cargoType, int currency){
+bool SpaceTrader::buy(SpaceTrader &trader, int amount, CargoType cargoType, int currency){
 	
 	if(currency <= getCurrencyCount() //has the money
-	   && trader->sell(amount,cargoType,currency)){ //and seller will make the sale
+	   && trader.sell(amount,cargoType,currency)){ //and seller will make the sale
 		this->currency.remove(currency);
 		assets[cargoType.id].add(amount);
 		return true;
@@ -53,4 +53,11 @@ vector< pair<CargoType,int> > SpaceTrader::getCargoCounts(){
 		counts.push_back(make_pair(asset.second.cargoType,asset.second.getCount()));
 	
 	return counts;
+};
+
+int SpaceTrader::getTotalWeight(){
+	int total = 0;
+	for(pair<int,CargoBin> asset:assets)
+		total+=asset.second.getTotalWeight();
+	return total;
 };

@@ -38,10 +38,12 @@ public:
         return true;
     }
     
-    int getCount() const {return count;}
-	int getCountForSale() const {return countForSale;}
+    int getCount() const {return count; }
+	int getCountForSale() const {return countForSale; }
+	int getTotalWeight(){ return unitWeight * count; }
     
 protected:
+	int unitWeight;
     int countForSale;
     int count;
 };

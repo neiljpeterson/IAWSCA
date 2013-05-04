@@ -14,13 +14,20 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 class SpaceTrader{
 public:
     string name;
-    
+	
+	SpaceTrader(CargoBin currency, CargoBin fuel,string name = ""):
+    currency(currency),
+    name(name){
+		this->assets.insert(make_pair(fuel.cargoType.id,fuel));
+    }
+	
     SpaceTrader(CargoBin currency, vector<CargoBin> assets,string name = ""):
     currency(currency),
     name(name){
@@ -29,14 +36,18 @@ public:
     }
     
     //Trader(int dollars,string name):Trader(dollars,0,name){}
-
-    bool sell(SpaceTrader* trader, int amount, CargoType cargoType, int currency);
+    bool sell(SpaceTrader &trader, int amount, CargoType cargoType, int currency);
 	
-    bool buy(SpaceTrader* trader, int amount, CargoType cargoType, int currency);
+    bool buy(SpaceTrader &trader, int amount, CargoType cargoType, int currency);
     
+	CargoBin* getFuelAddress(){//Used by SpaceTraveler for fuel deduction
+		return &assets[ACR.FUEL.id];
+	}
+	
 	int getCurrencyCount();
     vector< pair<CargoType,int> > getCargoCounts();
 	vector< CargoBin > getForSale();
+	int getTotalWeight();
 	
 private:
     CargoBin currency;
