@@ -23,23 +23,17 @@ struct CargoType{
         name = t.name;
     }
 	
-    CargoType(int i,string n){
-        id = i;
-        name = n;
-    }
+    CargoType(int i,string n,int w = 0):
+	id(i),name(n),unitWeight(w)
+	{}
+	
     int id;
     string name;
+	int unitWeight;
 };
 
 struct AlliedCargoRegistry{
 public:
-
-    const CargoType DOLLARS;
-    const CargoType YEN;
-    const CargoType BTC;
-    const CargoType AAPL;
-    const CargoType MSFT;
-    const CargoType GOOG;
 
 	const CargoType EMPTY;
     const CargoType BACON;
@@ -47,17 +41,11 @@ public:
 	const CargoType PAX;
 	
     AlliedCargoRegistry():
-    DOLLARS(1111,"Dollars"),
-    YEN(1100,"Yen"),
-    BTC(1200,"Bitcoin"),
-    AAPL(2222,"Apple"),
-    MSFT(3333,"Microsoft"),
-    GOOG(4444,"Google"),
 	
 	EMPTY(0,"Empty"),
 	BACON(1000,"Bacon"),
-	FUEL(2000,"Fuel"),
-	PAX(3000,"Passanger")
+	FUEL(2000,"Fuel",1),
+	PAX(3000,"Passanger",1)
     {};
 } static const ACR;
 

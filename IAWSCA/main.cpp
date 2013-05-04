@@ -7,7 +7,10 @@
 //
 
 //#include "Ship.h"
-#include "../SpaceThing/SpaceTrader/SpaceTrader_Tests.h"
+//#include "../SpaceThing/SpaceTrader/SpaceTrader_Tests.h"
+//#include "../SpaceThing/SpaceTraveler/SpaceTraveler_tests.h"
+//#include "../SpaceThing/SpaceTalker/SpaceTalker_Tests.h"
+#include "../SpaceThing/SpaceThing_tests.h"
 
 #include "./Ship.h"
 #include "../Interface/Interface.h"
@@ -32,12 +35,12 @@ T* end_address(T(&arr)[N]) {
 int main(int argc, const char * argv[])
 {
 	//Begin Tests
-	if(false){
-		SpaceTrader_Tests tests;
-		tests.runAll();
+	if(true){
+		SpaceThing_tests::runAll();
 	}
-	//End Tests
 	
+	//End Tests
+
     Interface interface;// OR = new Ncurses_Interface();
 	
 	string c[] = {//TODO: map menu options to function pointers??
@@ -61,7 +64,7 @@ int main(int argc, const char * argv[])
 	interface.showMenu("Main");
 	
 	int choice = interface.getInt(choices.size());
-	
+
     return 0;
 }
 

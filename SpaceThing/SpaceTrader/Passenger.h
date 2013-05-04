@@ -10,6 +10,7 @@
 #define __IAWSCA__Passenger__
 
 #include "./CargoBin.h"
+#include "../SpaceTraveler/Coordinate.h"
 
 #include <iostream>
 #include <utility>
@@ -21,7 +22,10 @@ class Passenger:public CargoBin{
 	 
 	Passenger():CargoBin(ACR.PAX){};
 
-	map<int, string> passangers;
+	map<int, string> name;
+	map<int, double> weight;
+	map<int, Coordinate> destination;
+	
 };
 
 #endif /* defined(__IAWSCA__Passenger__) */
