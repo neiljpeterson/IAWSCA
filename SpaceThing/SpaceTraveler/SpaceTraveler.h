@@ -67,7 +67,7 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	//needs to be defined somewhere else. #define?
 	int thrustCoefficient = 100;
-	int shipEmptyWeight = 1000;
+	int shipEmptyWeight = 100;
 	
 };
 
