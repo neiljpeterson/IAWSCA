@@ -7,9 +7,9 @@
 //
 
 //#include "Ship.h"
-#include "../SpaceThing/SpaceTrader/SpaceTrader_Tests.h"
-#include "../SpaceThing/SpaceTraveler/SpaceTraveler_tests.h"
-#include "../SpaceThing/SpaceTalker/SpaceTalker_Tests.h"
+//#include "../SpaceThing/SpaceTrader/SpaceTrader_Tests.h"
+//#include "../SpaceThing/SpaceTraveler/SpaceTraveler_tests.h"
+//#include "../SpaceThing/SpaceTalker/SpaceTalker_Tests.h"
 #include "../SpaceThing/SpaceThing_tests.h"
 
 #include "./Ship.h"
