@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
 #include <utility>
 #include <sstream>
 #include <cctype>
@@ -39,15 +38,11 @@ public:
 	 *  \param menu These strings will be the menu, in the order they are in the container
 	 *  \return Returns false if the menu is not created because the name was already taken
 	 */
-	bool newMenu(string name,string title,vector<string> menu){
+	bool newMenu(string title,vector<string> menu){
 		//TODO: remove name, newMenu() returns its own key value which the client must store. Easier then dealing with key collisions i think.
-		menu.insert(menu.begin(),title);
-		if (menus.find(name) == menus.end()){
-			menus.insert(make_pair(name,menu));
-			return true;
-		}
-		//else
-		return false;
+		menu.insert(menu.begin(),title); //insert title to begin of menu 
+		menus.push_back(menu);
+		return menus.size()-1; //return the "key" for the menu
 		
 	}
 	
@@ -55,19 +50,19 @@ public:
 	 */
 	void showMenu(string title,vector<string> menu,bool withNumbers = true){
 		// "temp" wont be nessesary in future. see todo in bool newMenu()
-		newMenu("temp",title,menu);
-		showMenu("temp",withNumbers);
-		//deleteMenu("temp"); //TODO: implement this
+		int temp = newMenu(title,menu);
+		showMenu(temp,withNumbers);
+		deleteMenu(temp);
 	}
 	
 	/** \brief Displays the menu maped to the value of name
 	 *	\param name is the key value the menu is stored under
 	 *	\param withNumbers Set to false if you do not want each line enumerated. Default is true.
 	 */
-	void showMenu(string name, bool withNumbers = true){
+	void showMenu(int index, bool withNumbers = true){
 		//display all the lines in menu[name]
 		int i = 0;
-		for(string line:menus[name]){
+		for(string line:menus[index]){
 			if((i > 0) && withNumbers) cout << i << ") ";
 			cout << line << endl;
 			if(i==0) cout << string((int)line.size(),'=') << "\n";
@@ -75,11 +70,15 @@ public:
 		}
 	}
 	
+	bool deleteMenu(int index){
+		return menus.erase(menus.begin() + index) != menus.end();
+	}
+	
 	/** \brief Returns the number of options in the menu
 	 *  \param name The name the menu was given during newMenu()
 	 */
-	int getMenuSize(string name){
-		return (int)menus[name].size();
+	int getMenuSize(int index){
+		return (int)menus[index].size();
 	}
 	
 	/** \brief Returns a string from standar input
@@ -195,7 +194,7 @@ public:
 	}
 	
 private:
-	map<string, vector<string> > menus;
+	vector< vector<string> > menus;
 	string hr;
 };
 #endif /* defined(__IAWSCA__Interface__) */
