@@ -53,6 +53,7 @@ private:
     CargoBin currency;
     map<int,CargoBin> assets;
 	
+	//this is the function that actually deducts inventory and deposits currency
 	bool sell(int amount, int typeID, int currency);
 };
 

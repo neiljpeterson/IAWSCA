@@ -25,9 +25,9 @@ bool SpaceTrader::buy(SpaceTrader &trader, int amount, int typeID, int price){
 	return false;
 };
 
-bool SpaceTrader::sell(int amount, int typeID, int price){
+bool SpaceTrader::sell(int soldAmount, int typeID, int price){
 	
-	if(assets[typeID].remove(amount)){//find cargoType, check count, check price
+	if(assets[typeID].remove(soldAmount)){//find cargoType, check count, check price
 		this->currency.add(price);
 		return true;
 	}

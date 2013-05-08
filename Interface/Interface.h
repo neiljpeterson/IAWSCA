@@ -102,7 +102,7 @@ public:
 			if(getInt(cin,input) && lower <= input && input <= upper )
 				badinput = false;
 			else
-				cout << "That is not a number between " <<
+				cout << "Please only enter a number between " <<
 				lower << " and " << upper << ". Please try again." <<
 				endl;
 		}

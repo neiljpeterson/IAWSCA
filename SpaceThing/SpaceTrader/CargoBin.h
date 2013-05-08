@@ -36,7 +36,7 @@ public:
     }
     
     bool remove(int amountToRemove){
-        if(amountToRemove < countOnHand){
+        if(amountToRemove <= countOnHand){
 			countOnHand-=amountToRemove;
 			return true;
 		}//else

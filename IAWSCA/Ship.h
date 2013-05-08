@@ -49,6 +49,8 @@ public:
 				forSaleStrings.push_back(pushMe.str());
 			}
 			
+			interface->message("Your current balance is " + to_string(getCurrencyCount()));
+			
 			interface->showMenu(
 			seller.getName() + " has the following items for sale", forSaleStrings);
 			
@@ -58,22 +60,21 @@ public:
 			//this is just for brevity's sake
 			CargoBin* item = &forSale[menuChoice-1];
 			
-			int amount = interface->prompt(
+			int soldAmount = interface->prompt(
 			"How many " + item->name + "s would you like to buy?",0,item->getCountForSale());
 			
-			int total = item->getPrice() * amount;
+			int totalPrice = item->getPrice() * soldAmount;
 			
-			bool confirm = interface->prompt("Your total is " + to_string(total) + "BCN for " +
-											 to_string(amount) + " " +
-											 item->name + ((amount==1)?(""):("s")) + "\n" +
+			bool confirm = interface->prompt("Your total is " + to_string(totalPrice) + "BCN for " +
+											 to_string(soldAmount) + " " +
+											 item->name + ((soldAmount==1)?(""):("s")) + "\n" +
 											 "Is this correct?","Yes","No") ;
 			bool saleComplete =
-			SpaceThing::buy(seller, amount, item->typeID, item->getPrice());
+			SpaceThing::buy(seller, soldAmount, item->typeID, totalPrice);
 			
 			if(confirm && saleComplete){
 				//sale went through
 				interface->message("Thank you for your purchase");
-				interface->message("Your remaining balance is " + to_string(getCurrencyCount()));
 			}
 			else if(confirm && !saleComplete){
 				//user confirmed but sale did not go through
