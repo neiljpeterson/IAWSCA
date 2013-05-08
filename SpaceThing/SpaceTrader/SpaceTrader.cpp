@@ -8,16 +8,16 @@
 
 #include "./SpaceTrader.h"
 
-bool SpaceTrader::sell(SpaceTrader &trader, int amount, CargoType cargoType, int currency){
-	return trader.buy(*this,amount,cargoType,currency);
+bool SpaceTrader::sell(SpaceTrader &trader, int amount, CargoType cargoType, int price){
+	return trader.buy(*this,amount,cargoType,price);
 	
 }
 
-bool SpaceTrader::buy(SpaceTrader &trader, int amount, CargoType cargoType, int currency){
+bool SpaceTrader::buy(SpaceTrader &trader, int amount, CargoType cargoType, int price){
 	
-	if(currency <= getCurrencyCount() //has the money
-	   && trader.sell(amount,cargoType,currency)){ //and seller will make the sale
-		this->currency.remove(currency);
+	if(price <= getCurrencyCount() //has the money
+	   && trader.sell(amount,cargoType,price)){ //and seller will make the sale
+		this->currency.remove(price);
 		assets[cargoType.id].add(amount);
 		return true;
 	}
@@ -25,10 +25,10 @@ bool SpaceTrader::buy(SpaceTrader &trader, int amount, CargoType cargoType, int 
 	return false;
 };
 
-bool SpaceTrader::sell(int amount, CargoType cargoType, int currency){
+bool SpaceTrader::sell(int amount, CargoType cargoType, int price){
 	
 	if(assets[cargoType.id].remove(amount)){//find cargoType, check count, check price
-		this->currency.add(currency);
+		this->currency.add(price);
 		return true;
 	}
 	//else
@@ -39,6 +39,7 @@ int SpaceTrader::getCurrencyCount(){
 	return currency.getCount();
 }
 
+//this might need to return pointers
 vector< CargoBin > SpaceTrader::getForSale(){
 	vector< CargoBin > sales;
 	for(pair<int,CargoBin> asset:assets)

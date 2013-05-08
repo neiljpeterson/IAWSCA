@@ -15,42 +15,48 @@ class CargoBin{
 public:
     CargoType cargoType;
 	
+//	CargoBin(const CargoBin& cargoBin):
+//    cargoType(cargoBin.cargoType.id,cargoBin.cargoType.name),
+//    countOnHand(cargoBin.getCount()),
+//	price(1),//If CargoBin could inherit from CargoType. This constructor would be much simpler.
+//    tradeListing("This is a really awesome item!"),
+//	countForSale(-1),
+//	unitWeight(10)
+//	{}
 	
-	CargoBin(const CargoBin& cargoBin):
-    cargoType(cargoBin.cargoType.id,cargoBin.cargoType.name),
-    countOnHand(cargoBin.getCount()),
+    CargoBin(CargoType t = ACR.EMPTY,int c = 0):
+    cargoType(t),
+    countOnHand(c),
 	price(1),//If CargoBin could inherit from CargoType. This constructor would be much simpler.
     tradeListing("This is a really awesome item!"),
 	countForSale(-1),
 	unitWeight(10)
-	{}
-	
-    CargoBin(CargoType t = ACR.EMPTY,int c = 0):
-    cargoType(t),
-    countOnHand(c)
     {}
     
     int add(int amount){
         return countOnHand+=amount;
     }
     
-    bool remove(int amount){
-        if(countOnHand<=amount)
+    bool remove(int amountToRemove){
+        if(amountToRemove < countOnHand){
+			countOnHand-=amountToRemove;
+			return true;
+		}//else
             return false;
-        //else
-        countOnHand-=amount;
-        return true;
     }
     
-    int getCount() const {return countOnHand; }
+    int getCount() const { return countOnHand; }
+	
 	int getCountForSale() {
-		//if countForSale is -1 return countOnHand, easiest way to track the value
-		return (countForSale<0 || countOnHand<countForSale )?(countForSale = countOnHand):(countForSale);
+		//if countForSale is < 0 return countOnHand, easiest way to track the value
+		return ( (countForSale < 0) || (countOnHand < countForSale) )?(countForSale = countOnHand):(countForSale);
 	}
+	
 	int setCountForSale(int newCountForSale) {
 		//set countForSale to lesser of countForSale and countOnHand, return that value
 		return (countForSale = (countForSale<=countOnHand)?(newCountForSale):(countOnHand));
 	}
+	
 	int getTotalWeight(){ return unitWeight * countOnHand; }
 	int getUnitWeight(){ return unitWeight; }
 	string getTradeListing(){ return tradeListing; }

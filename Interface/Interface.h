@@ -13,6 +13,12 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <sstream>
+#include <cctype>
+#include <algorithm>
+#include <functional>
+#include <string>
+#include <locale>
 
 using namespace std;
 
@@ -21,9 +27,10 @@ class Interface{
 	//I'm playing with Doxygen here. You can get details here: http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
 	//and here http://www.stack.nl/~dimitri/doxygen/manual/commands.html
 	//I'm going to try and document as I go. Feel free to delete this comment once you see it. -N
+	//there will be a good bit of hard coding in here. im not too worried about it.
 public:
 	Interface(){
-	hr = "=========================";
+		hr = "=========================";
 	}
 	
 	/** \brief Creates and stores a menu for later use
@@ -53,7 +60,7 @@ public:
 		//deleteMenu("temp"); //TODO: implement this
 	}
 	
-	/** \brief Displays the menu maped to the value of name 
+	/** \brief Displays the menu maped to the value of name
 	 *	\param name is the key value the menu is stored under
 	 *	\param withNumbers Set to false if you do not want each line enumerated. Default is true.
 	 */
@@ -67,7 +74,7 @@ public:
 			i++;
 		}
 	}
-
+	
 	/** \brief Returns the number of options in the menu
 	 *  \param name The name the menu was given during newMenu()
 	 */
@@ -75,19 +82,111 @@ public:
 		return (int)menus[name].size();
 	}
 	
-	int getInt(string prompt = "Please enter a number: " , string error = "Invalid Input"){
-		int input;
-		cout << endl << prompt;
-		cin >> input;
-		// more validation needed here
+	/** \brief Returns a string from standar input
+	 *  \param prompt is the string presented to the user
+	 */
+	string prompt(string prompt){
+		string input;
+		cout << endl << prompt << endl << "> ";
+		getline(cin,input);
 		return input;
 	}
 	
+	/** \brief Returns an int read frmo standard input that is INCLUSIVLY within the range specified
+	 *  \param prompt is the string presented to the user
+	 */
+	int prompt(string prompt,int lower,int upper){
+		int input;
+		bool badinput = true;
+		while(badinput){
+			cout << endl << prompt << endl << "> ";
+			if(getInt(cin,input) && lower <= input && input <= upper )
+				badinput = false;
+			else
+				cout << "That is not a number between " <<
+				lower << " and " << upper << ". Please try again." <<
+				endl;
+		}
+		return input;
+	}
+	
+	/** \brief Returns true or false based on two string choices. if the first letters of the strings differ prompt will also accept those as well.
+	 *  \param prompt is the string presented to the user
+	 *  \param yes is the string the user must choose for true
+	 *  \param no is the string the user must choose for false
+	 */
+	bool prompt(string prompt, string yes, string no){
+		string input;
+		prompt = prompt + "(" + yes + "/" + no + ")";
+		char y,n,i; //first letter values
+		bool badinput = true;
+		
+		//lower them
+		tolower(yes);
+		tolower(no);
+		
+		//are the first letters differnt?
+		if( yes[0] != no[0] ){
+			y = yes[0];
+			n = no[0];
+		}//then we only care about the first chars
+		
+		while(badinput){
+			input = Interface::prompt(prompt);
+			tolower(input);
+			i = input[0];
+			
+			if( (input.compare(yes) == 0) || (strcmp(&i,&y) == 0) ){ //there is a bug here with strcmp
+				cout << "you told me " << input << endl;
+				return true;
+			} else if( (input.compare(no) == 0) || (strcmp(&i,&n) == 0) ){
+				cout << "you told me " << input << endl;
+				return false;
+			} else {
+				cout << "Enter " << yes << " or " << no << " only. " << endl <<
+				"Please try again. " << endl;
+			}
+		}
+		
+		return false;
+	}
+	
+	void message(string message){
+		cout << message << endl;
+	}
+	
+	static string toString(int i){
+		stringstream result;
+		result << i;
+		return result.str();
+	}
+	
+	/** \brief trys to read an int from standard input, returns true if successful
+	 *
+	 */
+	bool getInt(istream&  cin, int& result){
+		string input;
+		getline(cin,input);
+		stringstream stream(input);
+		if(stream >> result)
+			return true;
+		else return false;
+	}
+	
+	bool tolower(string &lower){
+		try{
+			std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+			return true;
+		} catch(int e) { return false; };
+		return false;
+	}
+	
+	//old. delete after usages have been removed.
 	int getInt(int upper,int lower = 0,string prompt = "Please enter a number: " , string error = "Invalid Input"){
 		int input;
 		bool badInput = true;
 		while (badInput) {
-			input = getInt(prompt, error);
+			input = getInt(upper, lower, prompt, error); //uh oh. bad recursion here.
 			cin.ignore();
 			if (input < upper || input > lower) cout << error;
 			else badInput = false;

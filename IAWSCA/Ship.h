@@ -34,25 +34,63 @@ public:
 	 *
 	 */
 	void buyFrom(SpaceThing &seller){
-		vector < CargoBin > forSale = seller.getForSale();
-		vector < string > forSaleStrings;
-		for(CargoBin item:forSale){
+		bool again = true;
+		while(again){
+			vector < CargoBin > forSale = seller.getForSale(); //get the items for sale
+			vector < string > forSaleStrings;
+			for(CargoBin item:forSale){ //build strings from the for sale items
+				
+				ostringstream pushMe;
+				
+				pushMe <<
+				item.cargoType.name << " \t" <<
+				item.getCountForSale() << " in stock\t" <<
+				item.getPrice() << "BCN each\t" <<
+				item.getUnitWeight() << "kg \n\t" <<
+				item.getTradeListing();
+				
+				forSaleStrings.push_back(pushMe.str());
+			}
 			
-			ostringstream pushMe;
+			interface->showMenu(
+			seller.getName() + " has the following items for sale", forSaleStrings);
 			
-			pushMe <<
-			item.cargoType.name << " \t" <<
-			item.getCountForSale() << " in stock\t" <<
-			item.getPrice() << "BCN each\t" << 
-			item.getUnitWeight() << "kg \n" <<
-			item.getTradeListing();
+			int menuChoice = interface->prompt(
+			"Please choose an item to buy",1,(int)forSale.size());
 			
-			forSaleStrings.push_back(pushMe.str());
+			//this is just for brevities sake
+			CargoBin* item = &forSale[menuChoice-1];
+			
+			int amount = interface->prompt(
+			"How many " + item->cargoType.name + "s would you like to buy?",0,item->getCountForSale());
+			
+			int total = item->getPrice() * amount;
+			
+			bool confirm = interface->prompt("Your total is " + to_string(total) + "BCN for " +
+											 to_string(amount) + " " +
+											 item->cargoType.name + ((amount==1)?(""):("s")) + "\n" +
+											 "Is this correct?","Yes","No") ;
+			bool saleComplete =
+			SpaceThing::buy(seller, amount, item->cargoType, item->getPrice());
+			
+			if(confirm && saleComplete){
+				//sale went through
+				interface->message("Thank you for your purchase");
+				interface->message("Your remaining balance is " + to_string(getCurrencyCount()));
+			}
+			else if(confirm && !saleComplete){
+				//user confirmed but sale did not go through
+				interface->message("Your purchase was not able to be made. Please check your balance");
+			}else{
+				//user did not confirm
+				interface->message("Your purchase was canceled.");
+			}
+			
+			again = interface->prompt("Would like to make another purchase","Yes","No");
+			//who is responsible for looping? Ship or main? hmm...
 		}
-		
-		interface->showMenu(
-						   seller.getName() + " has the following items for sale", forSaleStrings);
 	}
+	
 	
 	void dock(SpaceThing &station){
 		others.insert(make_pair(station.getName(),&station));
