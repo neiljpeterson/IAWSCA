@@ -49,43 +49,45 @@ public:
 				forSaleStrings.push_back(pushMe.str());
 			}
 			
-			interface->message("Your current balance is " + to_string(getCurrencyCount()));
+			interface->message("Your current balance is " + to_string(getCurrencyCount()) + "\n");
 			
-			interface->showMenu(
-			seller.getName() + " has the following items for sale", forSaleStrings);
+			int menuChoice = interface->showMenu(
+												 seller.getName() + " has the following items for sale", forSaleStrings,
+												 "Please choose an item to buy");
 			
-			int menuChoice = interface->prompt(
-			"Please choose an item to buy",1,(int)forSale.size());
-			
-			//this is just for brevity's sake
-			CargoBin* item = &forSale[menuChoice-1];
-			
-			int soldAmount = interface->prompt(
-			"How many " + item->name + "s would you like to buy?",0,item->getCountForSale());
-			
-			int totalPrice = item->getPrice() * soldAmount;
-			
-			bool confirm = interface->prompt("Your total is " + to_string(totalPrice) + "BCN for " +
-											 to_string(soldAmount) + " " +
-											 item->name + ((soldAmount==1)?(""):("s")) + "\n" +
-											 "Is this correct?","Yes","No") ;
-			bool saleComplete =
-			SpaceThing::buy(seller, soldAmount, item->typeID, totalPrice);
-			
-			if(confirm && saleComplete){
-				//sale went through
-				interface->message("Thank you for your purchase");
-			}
-			else if(confirm && !saleComplete){
-				//user confirmed but sale did not go through
-				interface->message("Your purchase was not able to be made. Please check your balance");
+			if(menuChoice < forSale.size()){//if user did not choose the close option
+				//this is just for brevity's sake
+				CargoBin* item = &forSale[menuChoice-1];
+				
+				int soldAmount = interface->prompt(
+												   "How many " + item->name + "s would you like to buy?",0,item->getCountForSale());
+				
+				int totalPrice = item->getPrice() * soldAmount;
+				
+				bool confirm = interface->prompt("Your total is " + to_string(totalPrice) + "BCN for " +
+												 to_string(soldAmount) + " " +
+												 item->name + ((soldAmount==1)?(""):("s")) + "\n" +
+												 "Is this correct?","Yes","No") ;
+				bool saleComplete =
+				SpaceThing::buy(seller, soldAmount, item->typeID, totalPrice);
+				
+				if(confirm && saleComplete){
+					//sale went through
+					interface->message("Thank you for your purchase");
+				}
+				else if(confirm && !saleComplete){
+					//user confirmed but sale did not go through
+					interface->message("Your purchase was not able to be made. Please check your balance");
+				}else{
+					//user did not confirm
+					interface->message("Your purchase was canceled.");
+				}
+				
+				again = interface->prompt("Would like to make another purchase","Yes","No");
+				//who is responsible for looping? Ship or main? hmm...
 			}else{
-				//user did not confirm
-				interface->message("Your purchase was canceled.");
+				again = false; //user chose the quit option
 			}
-			
-			again = interface->prompt("Would like to make another purchase","Yes","No");
-			//who is responsible for looping? Ship or main? hmm...
 		}
 	}
 	

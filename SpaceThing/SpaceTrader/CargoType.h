@@ -61,10 +61,6 @@ public:
 	CREW(4000,"Crew Member",100,0)
     {};
 	
-	CargoType getType(int id){
-		
-	}
-	
 } static const ACR;
 
 #endif

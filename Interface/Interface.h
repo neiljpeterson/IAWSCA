@@ -38,37 +38,64 @@ public:
 	 *  \param menu These strings will be the menu, in the order they are in the container
 	 *  \return Returns false if the menu is not created because the name was already taken
 	 */
-	bool newMenu(string title,vector<string> menu){
-		//TODO: remove name, newMenu() returns its own key value which the client must store. Easier then dealing with key collisions i think.
-		menu.insert(menu.begin(),title); //insert title to begin of menu 
+	int newMenu(string title,vector<string> menu, string prmpt = "",bool withCloseOption = true){
+		if (withCloseOption) menu.push_back("Close this menu");
+	
+		if (!prmpt.empty()){
+			menu.push_back("\n");
+			menu.push_back(prmpt);
+		}
+		
+		menu.insert(menu.begin(),title); //insert title to begin of menu
 		menus.push_back(menu);
-		return menus.size()-1; //return the "key" for the menu
+		return (int)menus.size()-1; //return the "key" for the new menu
 		
 	}
 	
-	/** \brief Creates a one-time-use menu
+	/** \brief Creates a one-time-use menu with a prompt
+	 *	\param prompt if provided will also provide the user a close menu option
 	 */
-	void showMenu(string title,vector<string> menu,bool withNumbers = true){
-		// "temp" wont be nessesary in future. see todo in bool newMenu()
-		int temp = newMenu(title,menu);
-		showMenu(temp,withNumbers);
+	int showMenu(string title, vector<string> menu, string prmpt = "", bool withCloseOption = true){
+		int temp = newMenu(title,menu,prmpt,withCloseOption);
+		int menuChoice = showMenu(temp,true);
 		deleteMenu(temp);
+		return menuChoice;
 	}
 	
-	/** \brief Displays the menu maped to the value of name
-	 *	\param name is the key value the menu is stored under
+	/** \brief Displays the a menu maped to the value of index
+	 *	\param index is the key value the menu is stored under
 	 *	\param withNumbers Set to false if you do not want each line enumerated. Default is true.
 	 */
-	void showMenu(int index, bool withNumbers = true){
+	int showMenu(int index, bool withNumbers = true){
 		//display all the lines in menu[name]
 		int i = 0;
+		int menuChoice;
+		bool nextLineIsPrompt = false;
 		for(string line:menus[index]){
-			if((i > 0) && withNumbers) cout << i << ") ";
-			cout << line << endl;
-			if(i==0) cout << string((int)line.size(),'=') << "\n";
+			//if showing with numbers and the next line isnt a prompt then put a line number
+			if( (i == 0 && withNumbers) &&
+			   !nextLineIsPrompt &&
+			   line.compare("\n") != 0
+			   ){
+				cout << line << "\n" << string((int)line.size(),'=') << "\n";
+				
+				//if this line is a newline or the line after the new line
+			} else if(line.compare("\n") == 0){
+				cout << line << endl;
+				nextLineIsPrompt = true;
+			} else if (nextLineIsPrompt){
+				menuChoice = prompt(line,1,i-2); //-2 for two extra prompt lines;
+			}
+			else if(withNumbers)
+				cout << i << ") " << line << endl;
+			else{
+				cout << line << endl;
+			}
 			i++;
 		}
+		return menuChoice;
 	}
+			   
 	
 	bool deleteMenu(int index){
 		return menus.erase(menus.begin() + index) != menus.end();
