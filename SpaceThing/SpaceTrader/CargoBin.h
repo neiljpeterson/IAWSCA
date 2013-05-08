@@ -11,9 +11,9 @@
 
 #include "./CargoType.h"
 
-class CargoBin{
+class CargoBin: public CargoType{
 public:
-    CargoType cargoType;
+    //CargoType cargoType;
 	
 //	CargoBin(const CargoBin& cargoBin):
 //    cargoType(cargoBin.cargoType.id,cargoBin.cargoType.name),
@@ -24,13 +24,11 @@ public:
 //	unitWeight(10)
 //	{}
 	
-    CargoBin(CargoType t = ACR.EMPTY,int c = 0):
-    cargoType(t),
-    countOnHand(c),
-	price(1),//If CargoBin could inherit from CargoType. This constructor would be much simpler.
-    tradeListing("This is a really awesome item!"),
-	countForSale(-1),
-	unitWeight(10)
+    CargoBin(CargoType type = ACR.EMPTY,int c = 0, string listing = "No Description"):
+    CargoType(type),
+    countOnHand(c), 
+    tradeListing(listing),
+	countForSale(-1)
     {}
     
     int add(int amount){
@@ -60,12 +58,10 @@ public:
 	int getTotalWeight(){ return unitWeight * countOnHand; }
 	int getUnitWeight(){ return unitWeight; }
 	string getTradeListing(){ return tradeListing; }
-	int getPrice(){ return price; }
+	int getPrice(){ return unitPrice; }
 
 protected:
-	int price;
 	string tradeListing;
-	int unitWeight;
     int countForSale;
     int countOnHand;
 };

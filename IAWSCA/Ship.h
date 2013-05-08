@@ -23,12 +23,10 @@ public:
 	
 	
 	
-	Ship(Interface &interface):
+	Ship(Interface &interface,string name,Coordinate start,int bacon, int fuel)://map<int,int> otherCargo
 	interface(&interface),
-	SpaceThing("HMS Down-to-the-wire",1001,2001,Coordinate(0,0,0,"Earth"))
-	{
-		
-	}
+	SpaceThing(name,bacon,fuel,start)
+	{}
 	
 	/** \brief Lists all items for sale by a certain SpaceThing if only one SpaceThing lists those
 	 *
@@ -37,13 +35,12 @@ public:
 		bool again = true;
 		while(again){
 			vector < CargoBin > forSale = seller.getForSale(); //get the items for sale
-			vector < string > forSaleStrings;
+			vector < string > forSaleStrings;// = *new vector < string >;
 			for(CargoBin item:forSale){ //build strings from the for sale items
-				
 				ostringstream pushMe;
 				
 				pushMe <<
-				item.cargoType.name << " \t" <<
+				item.name << " \t" <<
 				item.getCountForSale() << " in stock\t" <<
 				item.getPrice() << "BCN each\t" <<
 				item.getUnitWeight() << "kg \n\t" <<
@@ -58,20 +55,20 @@ public:
 			int menuChoice = interface->prompt(
 			"Please choose an item to buy",1,(int)forSale.size());
 			
-			//this is just for brevities sake
+			//this is just for brevity's sake
 			CargoBin* item = &forSale[menuChoice-1];
 			
 			int amount = interface->prompt(
-			"How many " + item->cargoType.name + "s would you like to buy?",0,item->getCountForSale());
+			"How many " + item->name + "s would you like to buy?",0,item->getCountForSale());
 			
 			int total = item->getPrice() * amount;
 			
 			bool confirm = interface->prompt("Your total is " + to_string(total) + "BCN for " +
 											 to_string(amount) + " " +
-											 item->cargoType.name + ((amount==1)?(""):("s")) + "\n" +
+											 item->name + ((amount==1)?(""):("s")) + "\n" +
 											 "Is this correct?","Yes","No") ;
 			bool saleComplete =
-			SpaceThing::buy(seller, amount, item->cargoType, item->getPrice());
+			SpaceThing::buy(seller, amount, item->typeID, item->getPrice());
 			
 			if(confirm && saleComplete){
 				//sale went through

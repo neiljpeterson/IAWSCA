@@ -9,44 +9,62 @@
 #ifndef IAWSCA_AlliedCargoRegistry_h
 #define IAWSCA_AlliedCargoRegistry_h
 
-#include "./CargoBin.h"
+//#include "./CargoBin.h"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 struct CargoType{
 
-    CargoType(const CargoType &t)
-    //:CargoType(t.id,t.name) //Compiler not supporting delegated constructors?
-    {
-        id = t.id; //this instead of intializers, compiler version issue
-        name = t.name;
-    }
+//    CargoType(const CargoType &type):
+//	typeID(type.typeID),
+//	name(type.name),
+//	unitWeight(type.unitWeight),
+//	unitPrice(type.unitPrice)
+//    //:CargoType(t.id,t.name) //Compiler not supporting delegated constructors?
+//    {}
 	
-    CargoType(int i,string n,int w = 0):
-	id(i),name(n),unitWeight(w)
+    CargoType(int i,string nom,int weight = 0,int price = 0):
+	typeID(i),
+	name(nom),
+	unitWeight(weight),
+	unitPrice(price)
 	{}
-	
-    int id;
-    string name;
+
+//protected: //TODO: put getters and setters in CargoBin, protect these members
+    const int typeID;
+    const string name;
 	int unitWeight;
+	int unitPrice;
+	
 };
 
 struct AlliedCargoRegistry{
 public:
 
+	//map<int,String>;
+	
 	const CargoType EMPTY;
     const CargoType BACON;
 	const CargoType FUEL;
 	const CargoType PAX;
+	const CargoType CREW;
+	
+	
 	
     AlliedCargoRegistry():
-	
-	EMPTY(0,"Empty"),
-	BACON(1000,"Bacon"),
-	FUEL(2000,"Fuel",1),
-	PAX(3000,"Passanger",1)
+	EMPTY(0,"Empty",0,0),
+	BACON(1000,"Bacon",0,1),
+	FUEL(2000,"Fuel",1,1),
+	PAX(3000,"Passanger",100,0),
+	CREW(4000,"Crew Member",100,0)
     {};
+	
+	CargoType getType(int id){
+		
+	}
+	
 } static const ACR;
 
 #endif

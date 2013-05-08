@@ -8,26 +8,26 @@
 
 #include "./SpaceTrader.h"
 
-bool SpaceTrader::sell(SpaceTrader &trader, int amount, CargoType cargoType, int price){
-	return trader.buy(*this,amount,cargoType,price);
+bool SpaceTrader::sell(SpaceTrader &trader, int amount, int typeID, int price){
+	return trader.buy(*this,amount,typeID,price);
 	
 }
 
-bool SpaceTrader::buy(SpaceTrader &trader, int amount, CargoType cargoType, int price){
+bool SpaceTrader::buy(SpaceTrader &trader, int amount, int typeID, int price){
 	
 	if(price <= getCurrencyCount() //has the money
-	   && trader.sell(amount,cargoType,price)){ //and seller will make the sale
+	   && trader.sell(amount,typeID,price)){ //and seller will make the sale
 		this->currency.remove(price);
-		assets[cargoType.id].add(amount);
+		assets[typeID].add(amount);
 		return true;
 	}
 	//else
 	return false;
 };
 
-bool SpaceTrader::sell(int amount, CargoType cargoType, int price){
+bool SpaceTrader::sell(int amount, int typeID, int price){
 	
-	if(assets[cargoType.id].remove(amount)){//find cargoType, check count, check price
+	if(assets[typeID].remove(amount)){//find cargoType, check count, check price
 		this->currency.add(price);
 		return true;
 	}
@@ -43,17 +43,17 @@ int SpaceTrader::getCurrencyCount(){
 vector< CargoBin > SpaceTrader::getForSale(){
 	vector< CargoBin > sales;
 	for(pair<int,CargoBin> asset:assets)
-		if(asset.second.getCountForSale() > 0)
+		if(asset.second.getCountForSale() > 0){
 			sales.push_back(asset.second);
+		}
 	return sales;
 }
 
-vector< pair<CargoType,int> > SpaceTrader::getCargoCounts(){
-	vector< pair<CargoType,int> > counts;
+vector< CargoBin >  SpaceTrader::getCargo(){
+	vector< CargoBin > cargo;
 	for(pair<int,CargoBin> asset:assets)
-		counts.push_back(make_pair(asset.second.cargoType,asset.second.getCount()));
-	
-	return counts;
+		cargo.push_back(asset.second);
+	return cargo;
 };
 
 int SpaceTrader::getTotalWeight(){

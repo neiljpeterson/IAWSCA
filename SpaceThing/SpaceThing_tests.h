@@ -22,17 +22,17 @@ using namespace std;
 class SpaceThing_tests{
 public:
 	
-	static void displayBalances(vector<SpaceThing*> traders){
-		for(SpaceThing* t:traders){
-			cout << t->getName() << ": $" << t->getCurrencyCount() << " \t";
-			
-			for(pair<CargoType,int> stock:t->getCargoCounts())
-				cout << stock.first.name << ": " << stock.second << "\t";
-			cout << "\n";
-		}
-		
-		cout << "\n";
-	};
+//	static void displayBalances(vector<SpaceThing*> traders){
+//		for(SpaceThing* t:traders){
+//			cout << t->getName() << ": $" << t->getCurrencyCount() << " \t";
+//			
+//			for(pair<CargoType,int> stock:t->getCargoCounts())
+//				cout << stock.first.name << ": " << stock.second << "\t";
+//			cout << "\n";
+//		}
+//		
+//		cout << "\n";
+//	};
 	
 	static bool runAll(){
 		SpaceThing bob = SpaceThing("Bob",1000,1000);
@@ -72,12 +72,12 @@ public:
 		traders.push_back(&bob);
 
 		
-		displayBalances(traders);
-		bob.buy(alice,10,ACR.FUEL,10);
-		alice.sell(bob,10,ACR.FUEL,10);
-		displayBalances(traders);
-		bob.buy(alice,50,ACR.FUEL,60);
-		displayBalances(traders);
+//		displayBalances(traders);
+//		bob.buy(alice,10,ACR.FUEL,10);
+//		alice.sell(bob,10,ACR.FUEL,10);
+//		displayBalances(traders);
+//		bob.buy(alice,50,ACR.FUEL,60);
+//		displayBalances(traders);
 		
 		return true;
 	}

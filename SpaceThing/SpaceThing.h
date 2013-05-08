@@ -34,21 +34,21 @@ public:
 	}
 	
 	//===============SpaceTrader Public Interface
-	bool sell(SpaceThing &trader, int amount, CargoType cargoType, int currency){
-		return this->trader.sell(trader.trader,amount,cargoType,currency);
+	bool sell(SpaceThing &trader, int amount, int typeID, int currency){
+		return this->trader.sell(trader.trader,amount, typeID,currency);
 	}
 	
-	bool buy(SpaceThing &trader, int amount, CargoType cargoType, int currency){
-		return this->trader.buy(trader.trader, amount, cargoType, currency);
+	bool buy(SpaceThing &trader, int amount, int typeID, int currency){
+		return this->trader.buy(trader.trader, amount, typeID, currency);
 	}
 	
 	int getCurrencyCount(){
 		return this->trader.getCurrencyCount();
 	}
 	
-	vector< pair<CargoType,int> > getCargoCounts(){
-		return this->trader.getCargoCounts();
-	}
+//	vector< pair<CargoType,int> > getCargo(){
+//		return NULL; //this->trader.getCargo();
+//	}
 	
 	vector< CargoBin > getForSale(){
 		return this->trader.getForSale();

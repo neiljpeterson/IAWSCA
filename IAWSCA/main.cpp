@@ -43,7 +43,7 @@ int main(int argc, const char * argv[])
 		//SpaceThing_tests::runAll();
 		cout << "Testing Buy function\n\n";
 		Interface interface;
-		Ship ship(interface);
+		Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1001,2001);
 		SpaceThing station("Station",100,100);
 		ship.dock(station);
 		ship.buy();
