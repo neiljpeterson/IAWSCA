@@ -41,12 +41,18 @@ int main(int argc, const char * argv[])
 	//Begin Tests
 	if(true){
 		//SpaceThing_tests::runAll();
-		cout << "Testing Buy function\n\n";
+
 		Interface interface;
-		Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1001,2001);
+		Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1000,2000);
 		SpaceThing station("Station",100,100);
 		ship.dock(station);
-		ship.buy();
+
+//		cout << "Testing Buy function\n\n";
+//		ship.buy();
+		cout << "Testing Load Passangers\n\n";
+		ship.loadPassengers();
+		
+		
 	}
 	
 	//End Tests
@@ -75,6 +81,7 @@ int main(int argc, const char * argv[])
 //	
 //	int choice = interface.getInt(choices.size());
 
+	cout << "Goodbye!" << endl;
     return 0;
 }
 

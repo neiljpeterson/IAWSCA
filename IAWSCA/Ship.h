@@ -28,6 +28,15 @@ public:
 	SpaceThing(name,bacon,fuel,start)
 	{}
 	
+	void buy(){
+		//TODO: if more than one element in others
+		//prompt which SpaceThing to buy from or from all
+		//for(pair<string,SpaceThing*> thing:others){
+		//	buyFrom(thing);
+		//}
+		buyFrom(*others.begin()->second);//just grab the first SpaceThing for now
+	}
+	
 	/** \brief Lists all items for sale by a certain SpaceThing if only one SpaceThing lists those
 	 *
 	 */
@@ -70,7 +79,7 @@ public:
 												 "Is this correct?","Yes","No") ;
 				bool saleComplete =
 				SpaceThing::buy(seller, soldAmount, item->typeID, totalPrice);
-				
+				//logic error here
 				if(confirm && saleComplete){
 					//sale went through
 					interface->message("Thank you for your purchase");
@@ -91,19 +100,76 @@ public:
 		}
 	}
 	
+	void loadPassengers(){
+		loadPassengersFrom(*others.begin()->second);//just grab the first SpaceThing for now
+	}
+	
+	/** \brief Lists all passengers that are layed over at the stopover (station) 
+	 *	\param &stopOver is the SpaceThing the passengers are at
+	 */
+	void loadPassengersFrom(SpaceThing &stopOver){
+		vector<string> passengers;
+		interface->newMenu("Please choose the passengers you would like to pick up", passengers);
+		
+		bool again = true;
+		while(again){
+			vector < Passenger > layovers = stopOver.getLayovers(); // get passengers waiting for a ride
+			vector < string >  layoverStrings;
+			for(Passenger passenger:layovers){ //build strings for each layover
+				ostringstream pushMe;
+				
+				pushMe <<
+				passenger.destination.name << " \t" << //TODO:add a distance calculation
+				passenger.fare << "BCN \t" <<
+				passenger.weight << "\n" <<
+				passenger.personalMessage;
+
+				
+				layoverStrings.push_back(pushMe.str());
+			}
+			
+			interface->message("Your current weight is " + to_string(getTotalWeight()) );
+			interface->message("Your current burn rate is " + to_string(getBurnRate()) );
+			
+			int menuChoice = interface->showMenu(
+												 stopOver.getName() + " has the following layovers", layoverStrings,
+												 "Please choose a fare to accept");
+			
+			if(menuChoice < layovers.size()){//if user did not choose the close option
+				
+				//this is just for brevity's sake
+				Passenger* passenger = &layovers[menuChoice-1];
+				
+				bool confirm = interface->prompt("You are going to fly " + passenger->name + " to " +
+												 passenger->destination.name + " (a distance of " +
+												 to_string(distanceTo(passenger->destination)) + ")" +
+												 "for " + to_string(passenger->fare) + "BCN \n" +
+												 "Is this correct?","Yes","No");
+				bool loadSuccessful = false;
+				if(confirm && (loadSuccessful = loadPassenger(*passenger))){
+					interface->message(passenger->name + " is loaded");
+				}
+				else if(confirm && !loadSuccessful){
+					//user confirmed but sale did not go through
+					interface->message("That passenger was able to be loaded. Please check your weight limit");
+				}else{
+					//user did not confirm
+					interface->message("That passenger was not loaded.");
+				}
+				
+				again = interface->prompt("Would like to load more passengers?","Yes","No");
+				//who is responsible for looping? Ship or main? hmm...
+			}else{
+				again = false; //user chose the quit option
+			}
+		}
+	}
 	
 	void dock(SpaceThing &station){
 		others.insert(make_pair(station.getName(),&station));
 	}
 	
-	void buy(){
-		//TODO: if more than one element in others
-		//prompt which SpaceThing to buy from or from all
-		//for(pair<string,SpaceThing*> thing:others){
-		//	buyFrom(thing);
-		//}
-		buyFrom(*others.begin()->second);//quick hack
-	}
+
 	
 	
 	

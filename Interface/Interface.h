@@ -77,7 +77,7 @@ public:
 			   !nextLineIsPrompt &&
 			   line.compare("\n") != 0
 			   ){
-				cout << line << "\n" << string((int)line.size(),'=') << "\n";
+				cout << line << "\n" << string((int)line.size(),'=') << "\n";//prints a line
 				
 				//if this line is a newline or the line after the new line
 			} else if(line.compare("\n") == 0){

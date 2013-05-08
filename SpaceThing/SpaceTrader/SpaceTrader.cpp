@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Neil Peterson. All rights reserved.
 //
 
-#include "./SpaceTrader.h"
+#include "SpaceTrader.h"
 
 bool SpaceTrader::sell(SpaceTrader &trader, int amount, int typeID, int price){
 	return trader.buy(*this,amount,typeID,price);

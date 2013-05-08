@@ -48,7 +48,6 @@ public:
 	const CargoType EMPTY;
     const CargoType BACON;
 	const CargoType FUEL;
-	const CargoType PAX;
 	const CargoType CREW;
 	
 	
@@ -57,7 +56,6 @@ public:
 	EMPTY(0,"Empty",0,0),
 	BACON(1000,"Bacon",0,1),
 	FUEL(2000,"Fuel",1,1),
-	PAX(3000,"Passanger",100,0),
 	CREW(4000,"Crew Member",100,0)
     {};
 	

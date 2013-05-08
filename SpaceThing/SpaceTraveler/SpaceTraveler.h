@@ -10,9 +10,10 @@
 #define __IAWSCA__SpaceTraveler__
 
 
-#include "../SpaceTrader/CargoBin.h"
+#include "../SpaceTrader/CargoBin.h"//this should be refactored out
+#include "../SpaceTrader/SpaceTrader.h"//this should be refactored out
 #include "../SpaceTraveler/Coordinate.h"
-#include "../SpaceTrader/SpaceTrader.h"
+#include "../SpaceTraveler/Passenger.h"
 
 #include <iostream>
 #include <cmath>
@@ -37,12 +38,17 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	//This should be done with function pointers to burnFuel() and getTotalWeight()
 	//Trying to avoid pointers to sibling objects. See commented out constructor above
-	SpaceTraveler(SpaceTrader &trader,CargoBin &fuel,string n = "", Coordinate location = Coordinate(0,0,0,"Earth")):
+	SpaceTraveler(SpaceTrader &trader,CargoBin &fuel,string n = "",
+				  Coordinate location = Coordinate(0,0,0,"Earth"), vector< Passenger > passangers = *new vector<Passenger> ):
 	fuel(&fuel),
 	name(n),
 	current(location),
 	burnRate((double)(shipEmptyWeight + trader.getTotalWeight())/thrustCoefficient)
-	{};
+	{
+		//needs to be defined somewhere else. #define?
+		thrustCoefficient = 100;
+		shipEmptyWeight = 100;
+	};
 	
 	/* \brief returns the fuel needed to reach the next destination
 	 * \param destination A Coordinate object with the destination coordinates
@@ -59,16 +65,24 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	double distanceTo(Coordinate destination);
 	
-	Coordinate current = Coordinate();
+	vector< Passenger > getLayovers();
+	
+	int getTotalWeight();
+	Coordinate current;
 	Coordinate next;
 	double burnRate;
 	string name;
 	CargoBin* fuel;
 	
 	//needs to be defined somewhere else. #define?
-	int thrustCoefficient = 100;
-	int shipEmptyWeight = 100;
+	int thrustCoefficient;
+	int shipEmptyWeight;
+//private:
+	vector< Passenger > passengers;
 	
+	bool loadPassenger(Passenger passenger);
+	
+	bool unloadPassenger(int passengerID);
 };
 
 #endif /* defined(__IAWSCA__SpaceTraveler__) */

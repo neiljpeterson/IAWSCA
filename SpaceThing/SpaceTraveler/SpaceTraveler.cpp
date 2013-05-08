@@ -41,6 +41,29 @@ Coordinate SpaceTraveler::getCurrent(){
 Coordinate SpaceTraveler::getNext(){
 	return next;
 }
+int SpaceTraveler::getTotalWeight(){
+	int result = 0;
+	for(Passenger p:passengers){ //TODO: make an update funtion, a private variable and a getter. Trigger update in load
+		result += p.weight;
+	}
+	return result;
+}
+
+vector< Passenger > SpaceTraveler::getLayovers(){
+	return passengers; //TODO: set flags for passangers who want to leave or not
+}
+
+bool SpaceTraveler::loadPassenger(Passenger passenger){
+	passengers.push_back(passenger);
+	return true; //TODO: check weigh limit
+}
+
+bool SpaceTraveler::unloadPassenger(int passengerID){
+	//look up the passenger
+	//if it is at its destination, collect fare
+	//else no fare is collected
+	return true;
+}
 
 double SpaceTraveler::distanceTo(Coordinate destination){
 	return sqrt(pow(current.x-destination.x,2) +

@@ -80,6 +80,18 @@ public:
 		return this->traveler.distanceTo(destination);
 	}
 	
+	vector< Passenger > getLayovers(){
+		return this->traveler.getLayovers();
+	}
+	
+	bool loadPassenger(Passenger passenger){
+		return this->traveler.loadPassenger(passenger);
+	}
+	
+	int getTotalWeight(){
+		return this->traveler.getTotalWeight() + this->trader.getTotalWeight();
+	}
+	
 	//===============SpaceTalker Public Interface
 	void send(SpaceThing &recipient,SpaceTalker::Message message){
 		return this->talker.send(recipient.talker, message);
