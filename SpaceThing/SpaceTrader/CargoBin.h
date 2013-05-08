@@ -18,34 +18,50 @@ public:
 	
 	CargoBin(const CargoBin& cargoBin):
     cargoType(cargoBin.cargoType.id,cargoBin.cargoType.name),
-    count(cargoBin.getCount())
-    {}
+    countOnHand(cargoBin.getCount()),
+	price(1),//If CargoBin could inherit from CargoType. This constructor would be much simpler.
+    tradeListing("This is a really awesome item!"),
+	countForSale(-1),
+	unitWeight(10)
+	{}
 	
     CargoBin(CargoType t = ACR.EMPTY,int c = 0):
     cargoType(t),
-    count(c)
+    countOnHand(c)
     {}
     
     int add(int amount){
-        return count+=amount;
+        return countOnHand+=amount;
     }
     
     bool remove(int amount){
-        if(count<=amount)
+        if(countOnHand<=amount)
             return false;
         //else
-        count-=amount;
+        countOnHand-=amount;
         return true;
     }
     
-    int getCount() const {return count; }
-	int getCountForSale() const {return countForSale; }
-	int getTotalWeight(){ return unitWeight * count; }
-    
+    int getCount() const {return countOnHand; }
+	int getCountForSale() {
+		//if countForSale is -1 return countOnHand, easiest way to track the value
+		return (countForSale<0 || countOnHand<countForSale )?(countForSale = countOnHand):(countForSale);
+	}
+	int setCountForSale(int newCountForSale) {
+		//set countForSale to lesser of countForSale and countOnHand, return that value
+		return (countForSale = (countForSale<=countOnHand)?(newCountForSale):(countOnHand));
+	}
+	int getTotalWeight(){ return unitWeight * countOnHand; }
+	int getUnitWeight(){ return unitWeight; }
+	string getTradeListing(){ return tradeListing; }
+	int getPrice(){ return price; }
+
 protected:
+	int price;
+	string tradeListing;
 	int unitWeight;
     int countForSale;
-    int count;
+    int countOnHand;
 };
 
 #endif

@@ -17,11 +17,13 @@
 using namespace std;
 
 class SpaceThing{
+//protected: //?
 public:
 	
-	SpaceThing(string name,int b = 0,int f = 0,Coordinate location = Coordinate(0,0,0,"Earth")):
+    //considering removing these defaults...
+	SpaceThing(string name,int bacon = 0,int fuel = 0,Coordinate location = Coordinate(0,0,0,"Earth")):
 	name(name),
-	trader(CargoBin(ACR.BACON,b),CargoBin(ACR.FUEL,f),name),
+	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),name),
 	traveler(trader,*trader.getFuelAddress(),name),
 	talker(name)
 	{}
@@ -49,7 +51,7 @@ public:
 	}
 	
 	vector< CargoBin > getForSale(){
-		return this->getForSale();
+		return this->trader.getForSale();
 	}
 	
 	
