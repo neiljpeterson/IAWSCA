@@ -55,14 +55,20 @@ int main(int argc, const char * argv[])
 	passengersB.push_back(Passenger("Tracey Smith ",200,50
 									,Coordinate(20,15,12,"Delphi System"),"Just a guy"));
 	
-	passengersB.push_back(Passenger("Magistrate Higgins ",600,120
+	passengersA.push_back(Passenger("Magistrate Higgins ",600,120
 									,Coordinate(2,2,2,"Europa Colony"),"I am very important person"));
 	
-	passengersB.push_back(Passenger("Stitch Hessian",100,100
+	passengersA.push_back(Passenger("Stitch Hessian",100,100
 									,Coordinate(100,72,32,"3rd moon of Persephone"),"Just get me there"));
 	
-	SpaceThing station("Station",100,100,Coordinate(0,0,0,"Earth"),passengersB);
 	
+	
+	Coordinate earth(0,0,0,"Earth");
+	Coordinate europa(2,2,2,"Europa Colony");
+	
+	vector< CargoBin > dummyCargo;
+	dummyCargo.push_back(*new CargoBin(ACR.WARP,10));
+	dummyCargo.push_back(*new CargoBin(ACR.ISOLC,10));
 	
 	
 	//		cout << "Testing Buy function\n\n";
@@ -74,7 +80,10 @@ int main(int argc, const char * argv[])
 	
 //==============================================everything above line is trash
 	
-	Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1000,2000);
+	SpaceThing station("Station",100,100,dummyCargo,europa,passengersB);
+	
+	Ship ship(interface,"HMS Down-to-the-wire",1000,2000,dummyCargo,earth,passengersA);
+	
 	ship.dock(station);//trash
 	bool close;
 	
@@ -83,7 +92,7 @@ int main(int argc, const char * argv[])
 		"LOAD PASSENGERS", //2
 		"DISEMBARK", //3
 		"DOCK", //4
-		"VIEW INVENTORY", //5
+		"MANAGE CARGO", //5
 		"VIEW PASSENGERS", //6
 	};
 	
@@ -104,7 +113,7 @@ int main(int argc, const char * argv[])
 				break;
 			case 4: ship.dock( makeNewStations() );
 				break;
-			case 5: ship.viewInventory();
+			case 5: ship.manageInventory();
 				break;
 			case 6:	ship.viewPassengers();
 				break;

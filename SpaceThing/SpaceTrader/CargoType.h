@@ -49,14 +49,17 @@ public:
     const CargoType BACON;
 	const CargoType FUEL;
 	const CargoType CREW;
-	
+	const CargoType WARP;
+	const CargoType ISOLC;
 	
 	
     AlliedCargoRegistry():
 	EMPTY(0,"Empty",0,0),
 	BACON(1000,"Bacon",0,1),
 	FUEL(2000,"Fuel Cell",1,1),
-	CREW(4000,"Crew Member",100,0)
+	CREW(4000,"Crew Member",100,0),
+	WARP(5000,"Warp Manifolds",50,300),
+	ISOLC(6000,"ISO Linear Processor",1,400)
     {};
 	
 } static const ACR;

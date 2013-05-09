@@ -30,14 +30,14 @@ public:
 	string name,
 	
 	//SpaceTrader values
-	int bacon = 0,int fuel = 0,//vector< CargoBin > otherCargo = *new vector < CargoBin >,
+	int bacon = 0,int fuel = 0,vector< CargoBin > otherCargo = *new vector < CargoBin >,
 	
 	//SpaceTraveler values
 	Coordinate location = Coordinate(0,0,0,"Earth"),vector< Passenger > passengers = *new vector < Passenger >
 	):
 	
 	name(name),
-	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),name),
+	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),otherCargo),
 	traveler(trader,*trader.getBaconAddress(),*trader.getFuelAddress(),location,passengers),
 	talker(name)
 	{
@@ -67,12 +67,19 @@ public:
 		return this->trader.getCurrencyCount();
 	}
 	
-//	vector< pair<CargoType,int> > getCargo(){
-//		return NULL; //this->trader.getCargo();
-//	}
+	vector< CargoBin > getCargo(){
+		return this->trader.getCargo();
+	}
 	
 	vector< CargoBin > getForSale(){
 		return this->trader.getForSale();
+	}
+	
+	void setPrice(int typeID,int price){
+		return this->trader.setPrice(typeID,price);
+	}
+	void setCountForSale(int typeID,int count){
+		return this->trader.setCountForSale(typeID,count);
 	}
 	
 	

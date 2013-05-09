@@ -13,6 +13,7 @@
 #include "../Interface/Interface.h"
 
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <utility>
 
@@ -23,12 +24,14 @@ public:
 	
 	
 	
-	Ship(Interface &interface,string name,Coordinate start,int bacon, int fuel,
-	vector<Passenger> passengers = *new vector<Passenger>
-	)://map<int,int> otherCargo
-	interface(&interface),
-	SpaceThing(name,bacon,fuel,start,passengers)
-	{}
+	Ship(Interface &interface,string name,int bacon, int fuel,
+		 vector< CargoBin > cargo = *new vector<CargoBin>,
+		 Coordinate start = *new Coordinate(0,0,0,"Unknown"),
+		 vector< Passenger > passengers = *new vector<Passenger>
+		 ):
+		interface(&interface),
+		SpaceThing(name,bacon,fuel,cargo,start,passengers)
+		{}
 	
 	void buy(){
 		//if(docked)
@@ -105,10 +108,10 @@ public:
 		//else
 	}
 	
-	/** \brief Lists all passengers that are layed over at the stopover (station) 
+	/** \brief Lists all passengers that are layed over at the stopover (station)
 	 *	\param &stopOver is the SpaceThing the passengers are at
 	 */
-	void loadPassengersFrom(SpaceThing &stopOver){		
+	void loadPassengersFrom(SpaceThing &stopOver){
 		bool again = true;
 		while(again){
 			vector < Passenger > layovers = stopOver.getLayovers(); // get passengers waiting for a ride
@@ -121,7 +124,7 @@ public:
 				passenger.fare << "BCN \t" <<
 				passenger.weight << "\n\t" <<
 				passenger.personalMessage;
-
+				
 				
 				layoverStrings.push_back(pushMe.str());
 			}
@@ -189,14 +192,14 @@ public:
 				
 				destinationStrings.push_back(pushMe.str());
 			}
-
+			
 			interface->message("You currently have " + to_string(getFuelCount()) + " fuel cells on hand\n");
 			interface->message("Your current burn rate is " + to_string(getBurnRate()) + " cells/au \n\n");
 			
 			int menuChoice = interface->showMenu("Please choose the next destination",
 												 destinationStrings,
 												 "Please choose your next destination");
-
+			
 			if(menuChoice <= destinations.size()){//if user did not choose the close option
 				
 				//this is just for brevity's sake
@@ -225,7 +228,7 @@ public:
 				}
 				
 				again  = true;
-			}else{
+			} else{
 				again = false; //user chose the quit option
 			}
 		}
@@ -262,8 +265,60 @@ public:
 		SpaceThing::dock(station);
 	}
 	
-	void viewInventory(){
+	void manageInventory(){
 		
+		bool again = true;
+		ostringstream headings;
+		headings << setw(24) << left <<
+		"NAME" << setw(10) << left <<
+		"TOTAL" << setw(10) << left <<
+		"FOR SALE" << setw(10) << left <<
+		"PRICE" << setw(10) << left <<
+		"WEIGHT";
+		
+		while(again) {
+			vector< CargoBin > allCargo = this->getCargo();
+			vector< string > cargoStrings;
+			for(CargoBin cargo:allCargo){ //build strings for each CargoBin
+				ostringstream pushMe;
+				pushMe.clear();
+				pushMe << setw(24) << left <<
+				cargo.name << setw(10) << left <<
+				cargo.getCount() << setw(10) << left <<
+				cargo.getCountForSale() << setw(10) << left <<
+				cargo.getPrice() << setw(10) << left <<
+				cargo.getUnitWeight();
+				
+				cargoStrings.push_back(pushMe.str());
+			}
+			
+			int choice = interface->showMenu(headings.str(),cargoStrings,
+											"Please select the Cargo item you would like to edit");
+			if(choice <= allCargo.size()){
+				CargoBin* editMe = &allCargo[choice-1]; //convience pointer
+				
+				//edit countForSale
+				ostringstream countString;
+				countString <<
+				editMe->getCountForSale() << " " <<
+				editMe->getName() << ((editMe->getCountForSale()==1)?(""):("s")) <<
+				" are currently listed for sale. Please enter the new value or press return to leave unchanged.";
+				int countForSale = interface->prompt(countString.str(),0,editMe->getCount(),true);
+				if(countForSale > 0) setCountForSale(editMe->typeID,countForSale);
+				
+				//edit Price
+				ostringstream priceString;
+				priceString <<
+				"The current price for " <<
+				editMe->getName() << "s is " <<
+				editMe->getPrice() << " BCN " <<
+				"Please enter the new value or press return to leave unchanged.";
+				int price = interface->prompt(priceString.str(),0,100000,true);
+				if(price > 0 ) setPrice(editMe->typeID, price);
+				
+				again = interface->prompt("Would you like view or edit any more Cargo?", "Yes", "No");
+			} else again = false; //user selected close menu
+		}
 	}
 	
 	void viewPassengers(){

@@ -52,14 +52,15 @@ public:
 	
 	int setCountForSale(int newCountForSale) {
 		//set countForSale to lesser of countForSale and countOnHand, return that value
-		return (countForSale = (countForSale<=countOnHand)?(newCountForSale):(countOnHand));
+		return (countForSale = ((newCountForSale<=countOnHand)?(newCountForSale):(countOnHand)));
 	}
 	
 	int getTotalWeight(){ return unitWeight * countOnHand; }
 	int getUnitWeight(){ return unitWeight; }
 	string getTradeListing(){ return tradeListing; }
 	int getPrice(){ return unitPrice; }
-
+	int setPrice(int newPrice){ return (unitPrice = ((newPrice>=0)?(newPrice):(getPrice()))); }
+	string getName(){ return name; }
 protected:
 	string tradeListing;
     int countForSale;

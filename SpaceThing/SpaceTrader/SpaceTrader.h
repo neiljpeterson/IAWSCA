@@ -51,11 +51,15 @@ public:
 	}
 	
 	int getCurrencyCount();
-	
 	int getFuelCount();
+	
     vector< CargoBin > getCargo();
 	vector< CargoBin > getForSale();
+	
 	int getTotalWeight();
+	
+	void setPrice(int typeID,int price);
+	void setCountForSale(int typeID,int count);
 	
 private:
     CargoBin currency;

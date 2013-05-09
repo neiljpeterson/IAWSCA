@@ -41,7 +41,7 @@ public:
 	 */
 	int newMenu(string title,vector<string> menu, string prmpt = "",bool withCloseOption = true){
 		if (withCloseOption) menu.push_back("Close this menu");
-	
+		
 		if (!prmpt.empty()){
 			menu.push_back("\n");
 			menu.push_back(prmpt);
@@ -96,7 +96,7 @@ public:
 		}
 		return menuChoice;
 	}
-			   
+	
 	
 	bool deleteMenu(int index){
 		return menus.erase(menus.begin() + index) != menus.end();
@@ -122,20 +122,27 @@ public:
 	/** \brief Returns an int read frmo standard input that is INCLUSIVLY within the range specified
 	 *  \param prompt is the string presented to the user
 	 */
-	int prompt(string prompt,int lower,int upper){
+	int prompt(string prompt,int lower,int upper,bool acceptEmpty = false ){
 		int input;
 		bool badinput = true;
 		while(badinput){
 			cout << endl << prompt << endl << "> ";
-			if(getInt(cin,input) && lower <= input && input <= upper )
+			bool goodInt = getInt(cin,input);
+			if(acceptEmpty && !goodInt){
+				input = lower - 1;
 				badinput = false;
-			else
+			}else if( goodInt && lower <= input && input <= upper ){
+				badinput = false;
+			}
+			else if (!acceptEmpty){
 				cout << "Please only enter a number between " <<
 				lower << " and " << upper << ". Please try again." <<
 				endl;
+			}
 		}
 		return input;
 	}
+	
 	
 	/** \brief Returns true or false based on two string choices. if the first letters of the strings differ prompt will also accept those as well.
 	 *  \param prompt is the string presented to the user

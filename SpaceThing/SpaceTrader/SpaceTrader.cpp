@@ -43,6 +43,14 @@ int SpaceTrader::getFuelCount(){
 	return fuel.getCount();
 }
 
+void SpaceTrader::setPrice(int typeID,int price){
+	cargo[typeID].setPrice(price);
+}
+
+void SpaceTrader::setCountForSale(int typeID,int count){
+	cargo[typeID].setCountForSale(count);
+}
+
 //this might need to return pointers
 vector< CargoBin > SpaceTrader::getForSale(){
 	vector< CargoBin > sales;
@@ -56,7 +64,8 @@ vector< CargoBin > SpaceTrader::getForSale(){
 vector< CargoBin >  SpaceTrader::getCargo(){
 	vector< CargoBin > result;
 	for(pair<int,CargoBin> asset:cargo)
-		result.push_back(asset.second);
+		if(asset.second.getCount() != 0)
+			result.push_back(asset.second);
 	return result;
 };
 
