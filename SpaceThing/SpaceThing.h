@@ -20,11 +20,23 @@ class SpaceThing{
 //protected: //?
 public:
 	
+	//TODO: make one giant constructor, and smaller ones that call that as needed
     //considering removing these defaults...
-	SpaceThing(string name,int bacon = 0,int fuel = 0,Coordinate location = Coordinate(0,0,0,"Earth")):
+	SpaceThing(
+	
+	//SpaceThing values
+	string name,
+	
+	//SpaceTrader values
+	int bacon = 0,int fuel = 0,//vector< CargoBin > otherCargo = *new vector < CargoBin >,
+	
+	//SpaceTraveler values
+	Coordinate location = Coordinate(0,0,0,"Earth"),vector< Passenger > passengers = *new vector < Passenger >
+	):
+	
 	name(name),
 	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),name),
-	traveler(trader,*trader.getFuelAddress(),name),
+	traveler(trader,*trader.getFuelAddress(),location,passengers),
 	talker(name)
 	{}
 		
@@ -34,12 +46,12 @@ public:
 	}
 	
 	//===============SpaceTrader Public Interface
-	bool sell(SpaceThing &trader, int amount, int typeID, int currency){
-		return this->trader.sell(trader.trader,amount, typeID,currency);
+	bool sell(SpaceThing &other, int amount, int typeID, int currency){
+		return this->trader.sell(other.trader,amount, typeID,currency);
 	}
 	
-	bool buy(SpaceThing &trader, int amount, int typeID, int currency){
-		return this->trader.buy(trader.trader, amount, typeID, currency);
+	bool buy(SpaceThing &other, int amount, int typeID, int currency){
+		return this->trader.buy(other.trader, amount, typeID, currency);
 	}
 	
 	int getCurrencyCount(){
@@ -84,8 +96,12 @@ public:
 		return this->traveler.getLayovers();
 	}
 	
-	bool loadPassenger(Passenger passenger){
-		return this->traveler.loadPassenger(passenger);
+	bool loadPassenger(SpaceThing& other, Passenger passenger){
+		return this->traveler.loadPassenger(other.traveler, passenger.id);
+	}
+	
+	bool unloadPassenger(SpaceThing& other, Passenger passenger){
+		return this->traveler.unloadPassenger(other.traveler, passenger.id);
 	}
 	
 	int getTotalWeight(){

@@ -34,7 +34,7 @@ public:
 		//for(pair<string,SpaceThing*> thing:others){
 		//	buyFrom(thing);
 		//}
-		buyFrom(*others.begin()->second);//just grab the first SpaceThing for now
+		buyFrom(*others.begin()->second);//just grab the first SpaceThing for now		
 	}
 	
 	/** \brief Lists all items for sale by a certain SpaceThing if only one SpaceThing lists those
@@ -64,7 +64,7 @@ public:
 												 seller.getName() + " has the following items for sale", forSaleStrings,
 												 "Please choose an item to buy");
 			
-			if(menuChoice < forSale.size()){//if user did not choose the close option
+			if(menuChoice <= forSale.size()){//if user did not choose the close option
 				//this is just for brevity's sake
 				CargoBin* item = &forSale[menuChoice-1];
 				
@@ -121,7 +121,7 @@ public:
 				pushMe <<
 				passenger.destination.name << " \t" << //TODO:add a distance calculation
 				passenger.fare << "BCN \t" <<
-				passenger.weight << "\n" <<
+				passenger.weight << "\n\t" <<
 				passenger.personalMessage;
 
 				
@@ -135,7 +135,7 @@ public:
 												 stopOver.getName() + " has the following layovers", layoverStrings,
 												 "Please choose a fare to accept");
 			
-			if(menuChoice < layovers.size()){//if user did not choose the close option
+			if(menuChoice <= layovers.size()){//if user did not choose the close option
 				
 				//this is just for brevity's sake
 				Passenger* passenger = &layovers[menuChoice-1];
@@ -146,7 +146,7 @@ public:
 												 "for " + to_string(passenger->fare) + "BCN \n" +
 												 "Is this correct?","Yes","No");
 				bool loadSuccessful = false;
-				if(confirm && (loadSuccessful = loadPassenger(*passenger))){
+				if(confirm && (loadSuccessful = loadPassenger(stopOver,*passenger))){
 					interface->message(passenger->name + " is loaded");
 				}
 				else if(confirm && !loadSuccessful){

@@ -43,8 +43,21 @@ int main(int argc, const char * argv[])
 		//SpaceThing_tests::runAll();
 
 		Interface interface;
+		vector < Passenger > passengers;
+		
+		passengers.push_back(Passenger("Saffron",200,50
+		,Coordinate(20,15,12,"Delphi System"),"I travel very light"));
+		
+		passengers.push_back(Passenger("Mrs. Reynolds",150,120
+		,Coordinate(2,2,2,"Europa Colony"),"Just trying to get back my husband"));
+		
+		passengers.push_back(Passenger("Yolanda",500,100
+		,Coordinate(20,15,12,"Delphi System"),"I am a courier of sensitive items"));
+		
 		Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1000,2000);
-		SpaceThing station("Station",100,100);
+		
+		SpaceThing station("Station",100,100,Coordinate(0,0,0,"Earth"),passengers);
+		
 		ship.dock(station);
 
 //		cout << "Testing Buy function\n\n";

@@ -162,11 +162,10 @@ public:
 			tolower(input);
 			i = input[0];
 			
-			if( (input.compare(yes) == 0) || (strcmp(&i,&y) == 0) ){ //there is a bug here with strcmp
-				cout << "you told me " << input << endl;
+			if( (input.compare(yes) == 0) || (strcmp(&i,&y) == 0) ){
+				//there is a bug here with strcmp. first letters are not reconized
 				return true;
 			} else if( (input.compare(no) == 0) || (strcmp(&i,&n) == 0) ){
-				cout << "you told me " << input << endl;
 				return false;
 			} else {
 				cout << "Enter " << yes << " or " << no << " only. " << endl <<

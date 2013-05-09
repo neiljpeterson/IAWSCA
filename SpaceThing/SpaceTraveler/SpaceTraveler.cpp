@@ -53,16 +53,22 @@ vector< Passenger > SpaceTraveler::getLayovers(){
 	return passengers; //TODO: set flags for passangers who want to leave or not
 }
 
-bool SpaceTraveler::loadPassenger(Passenger passenger){
-	passengers.push_back(passenger);
-	return true; //TODO: check weigh limit
+bool SpaceTraveler::unloadPassenger(SpaceTraveler& other, int passengerID){
+	return other.loadPassenger(*this,passengerID);
 }
 
-bool SpaceTraveler::unloadPassenger(int passengerID){
-	//look up the passenger
-	//if it is at its destination, collect fare
-	//else no fare is collected
-	return true;
+bool SpaceTraveler::loadPassenger(SpaceTraveler& other, int passengerID){
+	//TODO: check weight limit
+	Passenger passenger = other.unloadPassenger(passengerID);
+	passengers.push_back(passenger);
+	return true; 
+}
+
+Passenger SpaceTraveler::unloadPassenger(int passengerID){
+	vector<Passenger>::iterator unloadMe = find(passengers.begin(), passengers.end(), *new Passenger(passengerID));
+	Passenger unloadedPassenger = *unloadMe;
+	passengers.erase(unloadMe);
+	return unloadedPassenger;
 }
 
 double SpaceTraveler::distanceTo(Coordinate destination){

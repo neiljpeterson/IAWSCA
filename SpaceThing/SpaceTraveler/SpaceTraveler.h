@@ -38,13 +38,16 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	//This should be done with function pointers to burnFuel() and getTotalWeight()
 	//Trying to avoid pointers to sibling objects. See commented out constructor above
-	SpaceTraveler(SpaceTrader &trader,CargoBin &fuel,string n = "",
-				  Coordinate location = Coordinate(0,0,0,"Earth"), vector< Passenger > passangers = *new vector<Passenger> ):
+	SpaceTraveler(SpaceTrader &trader,CargoBin &fuel,
+				  Coordinate location = Coordinate(0,0,0,"Earth"), vector< Passenger > pssngrs = *new vector<Passenger> ):
 	fuel(&fuel),
-	name(n),
 	current(location),
 	burnRate((double)(shipEmptyWeight + trader.getTotalWeight())/thrustCoefficient)
 	{
+		for(Passenger passenger:pssngrs){
+			passenger.id = (int)passengers.size();
+			passengers.push_back(passenger);
+		}
 		//needs to be defined somewhere else. #define?
 		thrustCoefficient = 100;
 		shipEmptyWeight = 100;
@@ -68,6 +71,19 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	vector< Passenger > getLayovers();
 	
 	int getTotalWeight();
+	
+	//calls other.load(this,item)
+	//this is a "push"
+	bool unloadPassenger(SpaceTraveler& other, int passengerID);
+	
+	//calls other.unload(item)
+	//this is a "pull"
+	bool loadPassenger(SpaceTraveler& other, int passengerID);
+	
+	//actually removes the passenger
+	//this is a "release"
+	Passenger unloadPassenger(int passengerID);
+	
 	Coordinate current;
 	Coordinate next;
 	double burnRate;
@@ -79,10 +95,6 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	int shipEmptyWeight;
 //private:
 	vector< Passenger > passengers;
-	
-	bool loadPassenger(Passenger passenger);
-	
-	bool unloadPassenger(int passengerID);
 };
 
 #endif /* defined(__IAWSCA__SpaceTraveler__) */
