@@ -24,19 +24,16 @@ public:
 	
 	
 	Ship(Interface &interface,string name,Coordinate start,int bacon, int fuel,
-	vector<Passenger> passengers
+	vector<Passenger> passengers = *new vector<Passenger>
 	)://map<int,int> otherCargo
 	interface(&interface),
 	SpaceThing(name,bacon,fuel,start,passengers)
 	{}
 	
 	void buy(){
-		//TODO: if more than one element in others
-		//prompt which SpaceThing to buy from or from all
-		//for(pair<string,SpaceThing*> thing:others){
-		//	buyFrom(thing);
-		//}
-		buyFrom(*others.begin()->second);//just grab the first SpaceThing for now		
+		//if(docked)
+		buyFrom(*docked);
+		//else
 	}
 	
 	/** \brief Lists all items for sale by a certain SpaceThing if only one SpaceThing lists those
@@ -103,7 +100,9 @@ public:
 	}
 	
 	void loadPassengers(){
-		loadPassengersFrom(*others.begin()->second);//just grab the first SpaceThing for now
+		//if(docked)
+		loadPassengersFrom(*docked);
+		//else
 	}
 	
 	/** \brief Lists all passengers that are layed over at the stopover (station) 
@@ -252,18 +251,30 @@ public:
 	}
 	
 	void dock(SpaceThing &station){
-		others.insert(make_pair(station.getName(),&station));
+		docked = &station;
 		SpaceThing::dock(station);
 	}
 	
+	void dock(vector<SpaceThing> stations){
+		SpaceThing station = stations.front();
+		//TODO: present a menu of availible SpaceThings
+		docked = &station;
+		SpaceThing::dock(station);
+	}
 	
+	void viewInventory(){
+		
+	}
 	
+	void viewPassengers(){
+		
+	}
 	
 	static Coordinate next;//gives a linker error?
 	
 	//private:
 	Interface *interface;
-	map<string,SpaceThing*> others;
+	SpaceThing *docked;
 	
 	
 };
