@@ -29,8 +29,8 @@ class Interface{
 	//I'm going to try and document as I go. Feel free to delete this comment once you see it. -N
 	//there will be a good bit of hard coding in here. im not too worried about it.
 public:
+	
 	Interface(){
-		hr = "=========================";
 	}
 	
 	/** \brief Creates and stores a menu for later use
@@ -248,6 +248,5 @@ public:
 	
 private:
 	vector< vector<string> > menus;
-	string hr;
 };
 #endif /* defined(__IAWSCA__Interface__) */

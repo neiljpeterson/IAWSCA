@@ -86,6 +86,10 @@ vector< Passenger > SpaceTraveler::getPassengers(){
 	return passengers;
 }
 
+int SpaceTraveler::getPassangerTotal(){
+	return (int)passengers.size();
+}
+
 map< Coordinate,int > SpaceTraveler::getDestinations(){
 	//TODO: make an update funtion, a private variable and a getter. Trigger update in load
 	//this could obvious be done better with a database

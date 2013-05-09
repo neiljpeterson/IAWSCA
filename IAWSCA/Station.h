@@ -16,5 +16,9 @@
 
 class Ship: public SpaceThing{
 
+	
+
 };
 #endif /* defined(__IAWSCA__Station__) */
+
+

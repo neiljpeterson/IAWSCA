@@ -43,6 +43,16 @@ int SpaceTrader::getFuelCount(){
 	return fuel.getCount();
 }
 
+int SpaceTrader::getCargoTotal(){
+	int count = 0;
+	for(pair<int,CargoBin> c:cargo){
+		count += c.second.getCount();
+	
+		return count;
+	}
+	
+}
+
 void SpaceTrader::setPrice(int typeID,int price){
 	cargo[typeID].setPrice(price);
 }

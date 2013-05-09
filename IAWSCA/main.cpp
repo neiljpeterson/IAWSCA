@@ -29,9 +29,11 @@ T* end_address(T(&arr)[N]) {
 
 vector<SpaceThing> makeNewStations();
 
-bool exit();
+void quit();
 
 static Interface interface;
+
+void displayHUD();
 
 int main(int argc, const char * argv[])
 {
@@ -70,13 +72,11 @@ int main(int argc, const char * argv[])
 	dummyCargo.push_back(*new CargoBin(ACR.WARP,10));
 	dummyCargo.push_back(*new CargoBin(ACR.ISOLC,10));
 	
+	vector< SpaceThing > stations;
+	stations.push_back( *new SpaceThing("Far Point Station",100,100,dummyCargo,europa,passengersB) );
+	stations.push_back( *new SpaceThing("Mars Research Station",100,100,dummyCargo,europa,passengersB) );
+	stations.push_back( *new SpaceThing("Earth Space Command Station",100,100,dummyCargo,europa,passengersB) );
 	
-	//		cout << "Testing Buy function\n\n";
-	//		ship.buy();
-	//		cout << "Testing Load Passangers\n\n";
-	//		ship.loadPassengers();
-	//		cout << "Testing New Course\n\n";
-	//		ship.setNewCourse();
 	
 //==============================================everything above line is trash
 	
@@ -84,7 +84,6 @@ int main(int argc, const char * argv[])
 	
 	Ship ship(interface,"HMS Down-to-the-wire",1000,2000,dummyCargo,earth,passengersA);
 	
-	ship.dock(station);//trash
 	bool close;
 	
 	string choices[] = {//TODO: map menu options to function pointers??
@@ -97,10 +96,11 @@ int main(int argc, const char * argv[])
 	};
 	
 	interface.message("Welcome to your space ship",true);
+	vector < string >  mainMenu(begin_address(choices),end_address(choices));
 	
 	while (!close) {
 		
-		vector < string >  mainMenu(begin_address(choices),end_address(choices));
+		ship.displayHUD();
 		
 		int choice = interface.showMenu("\n\nMAIN MENU", mainMenu,"Please choose an action");
 		
@@ -111,7 +111,7 @@ int main(int argc, const char * argv[])
 				break;
 			case 3: ship.setNewCourse();
 				break;
-			case 4: ship.dock( makeNewStations() );
+			case 4: ship.dock(stations);
 				break;
 			case 5: ship.manageInventory();
 				break;
@@ -121,15 +121,11 @@ int main(int argc, const char * argv[])
 				break;
 		}
 	}
-	exit();
+	quit();
     return 0;
 }
 
-vector<SpaceThing> makeNewStations(){
-	
-}
-
-bool exit(){
+void quit(){
 	cout << "Goodbye" << endl;
 }
 

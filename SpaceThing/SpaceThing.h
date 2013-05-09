@@ -37,21 +37,20 @@ public:
 	):
 	
 	name(name),
+	docked(NULL),
 	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),otherCargo),
 	traveler(trader,*trader.getBaconAddress(),*trader.getFuelAddress(),location,passengers),
 	talker(name)
-	{
-
-		//linker errors
-//		next = *new Coordinate;
-//		underway = false;
-//		distanceRemaining = 0;
-	}
+	{}
 		
 	//===============SpaceThing Functions
 
 	string getName(){
 		return name;
+	}
+	
+	int getDockingFee(){
+		return dockingFee;
 	}
 	
 	//===============SpaceTrader Public Interface
@@ -65,6 +64,10 @@ public:
 	
 	int getCurrencyCount(){
 		return this->trader.getCurrencyCount();
+	}
+	
+	int getCargoTotal(){
+		return this->trader.getCargoTotal();
 	}
 	
 	vector< CargoBin > getCargo(){
@@ -141,19 +144,27 @@ public:
 		this->traveler.arrive();
 	}
 	
-	void dock(SpaceThing &other){
+	bool dock(SpaceThing &other){
 		docked = &other;
 		this->traveler.dock(other.traveler);
+		return true;
 	}
 	
 	SpaceThing* getDocked(){
 		return docked;
 	}
 	
+	bool isDocked(){
+		return docked != NULL;
+	}
+	
 	int getFuelCount(){
 		return this->trader.getFuelCount();
 	}
 	
+	int getLayoverTotal(){
+		return this->traveler.getPassangerTotal();
+	}
 	//===============SpaceTalker Public Interface
 	void send(SpaceThing &recipient,SpaceTalker::Message message){
 		return this->talker.send(recipient.talker, message);
@@ -168,7 +179,9 @@ public:
 	}
 	
 protected:
-	//these statics are for multithreading
+SpaceThing* docked;
+	
+//these statics are for multithreading, but its not working
 //	static Coordinate next;
 //	static bool underway;
 //	static int distanceRemaining;
@@ -177,7 +190,8 @@ protected:
 private: //must be public for tests to run
 	
 	string name;
-	SpaceThing* docked;
+	int dockingFee;
+	
 	SpaceTrader trader;
 	SpaceTraveler traveler;
 	SpaceTalker talker;

@@ -76,6 +76,8 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	vector< Passenger > getLayovers();
 	
+	int getPassangerTotal();
+	
 	int getTotalWeight();
 	
 	vector< Passenger > getPassengers();

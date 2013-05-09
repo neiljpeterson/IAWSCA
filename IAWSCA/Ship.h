@@ -33,10 +33,30 @@ public:
 		SpaceThing(name,bacon,fuel,cargo,start,passengers)
 		{}
 	
+	void displayHUD(){
+		int w = 10;
+		char c = '=';
+		cout << endl << string(w*5,c) << endl
+		<< setw(w) << internal << "FUEL"
+		<< setw(w) << internal << "BACON"
+		<< setw(w) << internal << "ENGINE"
+		<< setw(w) << internal << "WEIGHT";
+		
+		cout << endl
+		<< setw(w) << internal << getFuelCount()
+		<< setw(w) << internal << getCurrencyCount()
+		<< setw(w) << internal << getBurnRate()
+		<< setw(w) << internal << getTotalWeight()
+		<< endl << string(w*5,c) << endl;
+		
+		cout << "Current Location: " << getCurrent().name;
+	}
+	
 	void buy(){
-		//if(docked)
+	if(isDocked())
 		buyFrom(*docked);
-		//else
+	else
+		interface->message("You must be docked with another ship or station before you can trade cargo.\nPlease consult your Space Ship Manual for docking procedures and protocols",true);
 	}
 	
 	/** \brief Lists all items for sale by a certain SpaceThing if only one SpaceThing lists those
@@ -103,9 +123,10 @@ public:
 	}
 	
 	void loadPassengers(){
-		//if(docked)
-		loadPassengersFrom(*docked);
-		//else
+		if(isDocked())
+			loadPassengersFrom(*docked);
+		else
+			interface->message("You must be docked with another ship or station before you can load passengers.\nPlease consult your Space Ship Manual for passenger on-boarding procedures and protocols",true);
 	}
 	
 	/** \brief Lists all passengers that are layed over at the stopover (station)
@@ -226,8 +247,6 @@ public:
 					interface->message("Course was canceled");
 					again = interface->prompt("Would like choose a different course?","Yes","No");
 				}
-				
-				again  = true;
 			} else{
 				again = false; //user chose the quit option
 			}
@@ -250,21 +269,55 @@ public:
 			//cout << ".";
 		}
 		
-		cout << "\n\nYou have arrived. Welcome.\n";// << n.name << "!\n\n";
+		cout << "Welcome! You have arrived at your destination. Please dock with a station.\n";
+		cout << "Please press any key to continue";
+		getline(cin,*new string);
 	}
 	
-	void dock(SpaceThing &station){
+	bool dock(SpaceThing &station){
 		docked = &station;
-		SpaceThing::dock(station);
+		return SpaceThing::dock(station);
 	}
 	
-	void dock(vector<SpaceThing> stations){
-		SpaceThing station = stations.front();
-		//TODO: present a menu of availible SpaceThings
-		docked = &station;
-		SpaceThing::dock(station);
+	void dock(vector<SpaceThing> &newStations){
+		bool goodDock = false;
+		bool again = true;
+		ostringstream headings;
+		headings << setw(32) << left <<
+		"NAME";// << setw(16) << left <<
+		//"DOCKING FEE" << setw(18) << left <<
+		//"INVENTORY SIZE" << setw(10) << left <<
+		//"LAYOVERS";
+		
+		while(again){
+			vector< string > stationStrings;
+			for(SpaceThing station:newStations){ //build strings for each station
+				ostringstream pushMe;
+				pushMe << setw(24) << left <<
+				station.getName();
+				
+				stationStrings.push_back(pushMe.str());
+			}
+			
+			
+			int choice = interface->showMenu(headings.str(), stationStrings,"Please select a station to dock with");
+			if(choice < newStations.size()){//if menu not closed
+				goodDock = dock(newStations[choice-1]);
+				
+				if(goodDock){
+					interface->message("You are now docked with " + docked->getName() + "\n",true);
+					again = false;
+				}
+				else{
+					
+					interface->message("We were not able to dock with that station.");
+					again = interface->prompt("Would you like tor try again?","Yes","No");
+				}
+			}else again = false; //the user chose close option
+		}
 	}
 	
+				
 	void manageInventory(){
 		
 		bool again = true;
@@ -333,7 +386,7 @@ public:
 		
 			vector< Passenger > allPassengers = this->getPassengers();
 			vector< string > passengerStrings;
-			for(Passenger passenger:allPassengers){ //build strings for each CargoBin
+			for(Passenger passenger:allPassengers){ //build strings for each passenger
 				ostringstream pushMe;
 				pushMe << setw(24) << left <<
 				passenger.name << setw(32) << left <<
@@ -351,13 +404,11 @@ public:
 		
 	}
 	
-	static Coordinate next;//gives a linker error?
+	static Coordinate next;
 	
-	//private:
+private:
 	Interface *interface;
-	SpaceThing *docked;
-	
-	
+
 };
 
 #endif /* defined(__IAWSCA__Ship__) */

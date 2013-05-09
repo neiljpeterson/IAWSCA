@@ -50,6 +50,7 @@ public:
 		return &cargo[ACR.BACON.typeID];
 	}
 	
+	int getCargoTotal();
 	int getCurrencyCount();
 	int getFuelCount();
 	
