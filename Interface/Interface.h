@@ -18,6 +18,7 @@
 #include <functional>
 #include <string>
 #include <locale>
+#include <thread>
 
 using namespace std;
 
@@ -176,8 +177,27 @@ public:
 		return false;
 	}
 	
-	void message(string message){
+	void message(string message,bool withConfirm = false){
+		string line;
 		cout << message << endl;
+		if(withConfirm){
+			cout << "Please press any key to continue";
+			getline(cin,line);
+		}
+	}
+	
+	void wait(string message,double seconds){
+		double interval = 0.25;
+		cout << message << endl;
+		while(0<(seconds-=interval)){
+			cout << ".";
+			sleep(interval);
+		}
+	}
+	
+	void sleep(double seconds){
+		int ms = (int)1000*seconds;
+		this_thread::sleep_for(chrono::milliseconds(ms));
 	}
 	
 	static string toString(int i){

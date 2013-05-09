@@ -209,7 +209,7 @@ public:
 												 "Is this correct?","Yes","No");
 				bool setCourseSuccessful = false;
 				if(confirm && (setCourseSuccessful = setCourse(destination->first))){
-					interface->message("Course laid in successfully");
+					interface->message("Course laid in successfully",true);
 					engage();
 					
 					again = false;

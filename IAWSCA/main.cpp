@@ -31,6 +31,8 @@ vector<SpaceThing> makeNewStations();
 
 bool exit();
 
+static Interface interface;
+
 int main(int argc, const char * argv[])
 {
 	//Begin Tests
@@ -72,8 +74,6 @@ int main(int argc, const char * argv[])
 	
 //==============================================everything above line is trash
 	
-	Interface interface;
-	
 	Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1000,2000);
 	ship.dock(station);//trash
 	bool close;
@@ -87,11 +87,13 @@ int main(int argc, const char * argv[])
 		"VIEW PASSENGERS", //6
 	};
 	
+	interface.message("Welcome to your space ship",true);
+	
 	while (!close) {
 		
 		vector < string >  mainMenu(begin_address(choices),end_address(choices));
 		
-		int choice = interface.showMenu("MAIN MENU", mainMenu,"Please choose an action");
+		int choice = interface.showMenu("\n\nMAIN MENU", mainMenu,"Please choose an action");
 		
 		switch (choice){
 			case 1: ship.buy();
@@ -106,11 +108,11 @@ int main(int argc, const char * argv[])
 				break;
 			case 6:	ship.viewPassengers();
 				break;
-			case 7: close = exit();
+			case 7: close = interface.prompt("Are you sure you want to quit","Yes","No");
 				break;
 		}
 	}
-	
+	exit();
     return 0;
 }
 
@@ -119,6 +121,6 @@ vector<SpaceThing> makeNewStations(){
 }
 
 bool exit(){
-	cout << "Goodbye!" << endl;
+	cout << "Goodbye" << endl;
 }
 
