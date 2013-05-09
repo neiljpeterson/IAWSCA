@@ -30,7 +30,6 @@ bool SpaceTraveler::engage(){
 };
 
 double SpaceTraveler::getBurnRate(){
-	cout << "Ship is burning fuel at " << burnRate << endl;//testing, remove later
 	return burnRate;
 };
 
@@ -51,6 +50,26 @@ int SpaceTraveler::getTotalWeight(){
 
 vector< Passenger > SpaceTraveler::getLayovers(){
 	return passengers; //TODO: set flags for passangers who want to leave or not
+}
+
+vector< Passenger > SpaceTraveler::getPassengers(){
+	return passengers;
+}
+
+map< Coordinate,int > SpaceTraveler::getDestinations(){
+	//TODO: make an update funtion, a private variable and a getter. Trigger update in load
+	//this could obvious be done better with a database
+	map< Coordinate,int > destinations;
+	for(Passenger passenger:passengers){
+		pair< Coordinate,int > destination = make_pair(passenger.destination,passenger.fare);
+		pair< map< Coordinate,int >::iterator, bool > result;
+		result = destinations.insert( make_pair(passenger.destination,passenger.fare) );
+		if (result.second == false){ //element found
+			destinations[destination.first] += destination.second;
+			//result.first->second += destination.second;
+		}
+	}
+	return destinations;
 }
 
 bool SpaceTraveler::unloadPassenger(SpaceTraveler& other, int passengerID){

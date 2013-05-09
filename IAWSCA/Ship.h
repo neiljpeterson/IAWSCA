@@ -23,9 +23,11 @@ public:
 	
 	
 	
-	Ship(Interface &interface,string name,Coordinate start,int bacon, int fuel)://map<int,int> otherCargo
+	Ship(Interface &interface,string name,Coordinate start,int bacon, int fuel,
+	vector<Passenger> passengers
+	)://map<int,int> otherCargo
 	interface(&interface),
-	SpaceThing(name,bacon,fuel,start)
+	SpaceThing(name,bacon,fuel,start,passengers)
 	{}
 	
 	void buy(){
@@ -156,6 +158,65 @@ public:
 				
 				again = interface->prompt("Would like to load more passengers?","Yes","No");
 				//who is responsible for looping? Ship or main? hmm...
+			}else{
+				again = false; //user chose the quit option
+			}
+		}
+	}
+	
+	void setNewCourse(){
+		bool again = true;
+		while(again){
+			vector< pair< Coordinate,int > > destinations = getDestinations();
+			vector < string >  destinationStrings;
+			for(pair< Coordinate,int > d:destinations){ //build strings for each layover
+				//variables for readability
+				Coordinate destination = d.first;
+				int totalFare = d.second;
+				int totalDistance = distanceTo(destination);
+				int totalFuel = totalDistance * getBurnRate();
+				
+				ostringstream pushMe;
+				
+				pushMe <<
+				destination.name << " \t" << //TODO:add a distance calculation
+				totalFare << "BCN of fares \t" <<
+				totalFuel << "kg of fuel \t" <<
+				totalDistance << "au away \n\t" <<
+				"No Location Info Availble";
+				
+				destinationStrings.push_back(pushMe.str());
+			}
+
+			int menuChoice = interface->showMenu("Please choose the next destination",
+												 destinationStrings,
+												 "Please choose your next destination");
+
+			if(menuChoice <= destinations.size()){//if user did not choose the close option
+				
+				//this is just for brevity's sake
+				pair< Coordinate,int > *destination = &destinations[menuChoice-1];
+				
+				bool confirm = interface->prompt("You are going to fly to " +
+												 destination->first.name + " (a distance of " +
+												 to_string(distanceTo(destination->first)) + "au) " +
+												 "for " + to_string(destination->second) + "BCN \n" +
+												 "Is this correct?","Yes","No");
+				bool setCourseSuccessful = false;
+				if(confirm && (setCourseSuccessful = setCourse(destination->first))){
+					interface->message("Course laid in successfully");
+					again = false;
+				}
+				else if(confirm && !setCourseSuccessful){
+					//user confirmed but course did not take
+					interface->message("That course could not be set. Please check your fuel levels.");
+					again = interface->prompt("Would like choose a different course?","Yes","No");
+				}else{
+					//user did not confirm
+					interface->message("Course was canceled");
+					again = interface->prompt("Would like choose a different course?","Yes","No");
+				}
+
 			}else{
 				again = false; //user chose the quit option
 			}

@@ -43,27 +43,39 @@ int main(int argc, const char * argv[])
 		//SpaceThing_tests::runAll();
 
 		Interface interface;
-		vector < Passenger > passengers;
+		vector < Passenger > passengersA;
+		vector < Passenger > passengersB;
 		
-		passengers.push_back(Passenger("Saffron",200,50
+		passengersB.push_back(Passenger("Saffron",200,50
 		,Coordinate(20,15,12,"Delphi System"),"I travel very light"));
 		
-		passengers.push_back(Passenger("Mrs. Reynolds",150,120
-		,Coordinate(2,2,2,"Europa Colony"),"Just trying to get back my husband"));
+		passengersB.push_back(Passenger("Mrs. Reynolds",150,120
+		,Coordinate(2,2,2,"Europa Colony"),"Just trying to get back my husband!"));
 		
-		passengers.push_back(Passenger("Yolanda",500,100
+		passengersB.push_back(Passenger("Yolanda",500,100
 		,Coordinate(20,15,12,"Delphi System"),"I am a courier of sensitive items"));
 		
-		Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1000,2000);
+		passengersB.push_back(Passenger("Tracey Smith ",200,50
+		,Coordinate(20,15,12,"Delphi System"),"Just a guy"));
 		
-		SpaceThing station("Station",100,100,Coordinate(0,0,0,"Earth"),passengers);
+		passengersB.push_back(Passenger("Magistrate Higgins ",600,120
+		,Coordinate(2,2,2,"Europa Colony"),"I am very important person"));
+		
+		passengersB.push_back(Passenger("Stitch Hessian",100,100
+		,Coordinate(100,72,32,"3rd moon of Persephone"),"Just get me there"));
+		
+		Ship ship(interface,"HMS Down-to-the-wire",Coordinate(0,0,0,"Earth"),1000,2000,passengersB);
+		
+		SpaceThing station("Station",100,100,Coordinate(0,0,0,"Earth"),passengersA);
 		
 		ship.dock(station);
 
 //		cout << "Testing Buy function\n\n";
 //		ship.buy();
-		cout << "Testing Load Passangers\n\n";
-		ship.loadPassengers();
+//		cout << "Testing Load Passangers\n\n";
+//		ship.loadPassengers();
+		cout << "Testing New Course\n\n";
+		ship.setNewCourse();
 		
 		
 	}

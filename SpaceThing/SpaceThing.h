@@ -108,6 +108,26 @@ public:
 		return this->traveler.getTotalWeight() + this->trader.getTotalWeight();
 	}
 	
+	vector< Passenger > getPassengers(){
+		return this->traveler.getPassengers();
+	}
+	
+	map< Coordinate,int > getDestinationsMap(){
+		return this->traveler.getDestinations();
+	}
+	
+	vector< pair< Coordinate,int > > getDestinations(){
+		vector< pair< Coordinate,int > > destinations;
+		//repack destinations into a vector for easier usage and referance by child object
+		for(pair< Coordinate,int > d:this->traveler.getDestinations())
+			destinations.push_back(d);
+		return destinations;
+	}
+	
+	bool setCourse(Coordinate destination){
+		return this->traveler.set_course(destination);
+	}
+	
 	//===============SpaceTalker Public Interface
 	void send(SpaceThing &recipient,SpaceTalker::Message message){
 		return this->talker.send(recipient.talker, message);

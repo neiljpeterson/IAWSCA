@@ -19,6 +19,8 @@
 #include <cmath>
 #include <cstdio>
 #include <sstream>
+#include <map>
+#include <utility>
 
 using namespace std;
 
@@ -71,6 +73,10 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	vector< Passenger > getLayovers();
 	
 	int getTotalWeight();
+	
+	vector< Passenger > getPassengers();
+	
+	map< Coordinate,int > getDestinations();
 	
 	//calls other.load(this,item)
 	//this is a "push"
