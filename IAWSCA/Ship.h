@@ -107,10 +107,7 @@ public:
 	/** \brief Lists all passengers that are layed over at the stopover (station) 
 	 *	\param &stopOver is the SpaceThing the passengers are at
 	 */
-	void loadPassengersFrom(SpaceThing &stopOver){
-		vector<string> passengers;
-		interface->newMenu("Please choose the passengers you would like to pick up", passengers);
-		
+	void loadPassengersFrom(SpaceThing &stopOver){		
 		bool again = true;
 		while(again){
 			vector < Passenger > layovers = stopOver.getLayovers(); // get passengers waiting for a ride
