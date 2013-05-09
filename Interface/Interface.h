@@ -56,9 +56,9 @@ public:
 	/** \brief Creates a one-time-use menu with a prompt
 	 *	\param prompt if provided will also provide the user a close menu option
 	 */
-	int showMenu(string title, vector<string> menu, string prmpt = "", bool withCloseOption = true){
+	int showMenu(string title, vector<string> menu, string prmpt = "", bool withCloseOption = true, bool withNumbers = true){
 		int temp = newMenu(title,menu,prmpt,withCloseOption);
-		int menuChoice = showMenu(temp,true);
+		int menuChoice = showMenu(temp,withNumbers);
 		deleteMenu(temp);
 		return menuChoice;
 	}
@@ -72,12 +72,12 @@ public:
 		int i = 0;
 		int menuChoice;
 		bool nextLineIsPrompt = false;
+		cout << endl;
 		for(string line:menus[index]){
 			//if showing with numbers and the next line isnt a prompt then put a line number
 			if( (i == 0 && withNumbers) &&
 			   !nextLineIsPrompt &&
-			   line.compare("\n") != 0
-			   ){
+			   line.compare("\n") != 0){
 				cout << line << "\n" << string((int)line.size(),'=') << "\n";//prints a line
 				
 				//if this line is a newline or the line after the new line

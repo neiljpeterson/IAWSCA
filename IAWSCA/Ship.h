@@ -322,6 +322,32 @@ public:
 	}
 	
 	void viewPassengers(){
+		ostringstream headings;
+		headings << setw(24) << left <<
+		"NAME" << setw(32) << left <<
+		"DESTINATION" << setw(16) << left <<
+		"DISTANCE" << setw(10) << left <<
+		"FARE" << setw(10) << left <<
+		"WEIGHT";
+		
+		
+			vector< Passenger > allPassengers = this->getPassengers();
+			vector< string > passengerStrings;
+			for(Passenger passenger:allPassengers){ //build strings for each CargoBin
+				ostringstream pushMe;
+				pushMe << setw(24) << left <<
+				passenger.name << setw(32) << left <<
+				passenger.destination.name << setw(16) << left <<
+				distanceTo(passenger.destination) << setw(10) << left <<
+				passenger.fare << setw(10) << left <<
+				passenger.weight;
+				
+				passengerStrings.push_back(pushMe.str());
+			}
+			
+			interface->showMenu(headings.str(), passengerStrings,"",false,false);
+			
+			interface->message(" ",true);
 		
 	}
 	
