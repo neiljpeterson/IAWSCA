@@ -9,7 +9,7 @@
 #ifndef __IAWSCA__Station__
 #define __IAWSCA__Station__
 
-#include "SpaceThing.h"
+#include "../SpaceThing/SpaceThing.h"
 
 #include <iostream>
 
