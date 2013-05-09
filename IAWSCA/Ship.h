@@ -165,8 +165,11 @@ public:
 	}
 	
 	void setNewCourse(){
+		
+		
 		bool again = true;
 		while(again){
+			
 			vector< pair< Coordinate,int > > destinations = getDestinations();
 			vector < string >  destinationStrings;
 			for(pair< Coordinate,int > d:destinations){ //build strings for each layover
@@ -180,14 +183,17 @@ public:
 				
 				pushMe <<
 				destination.name << " \t" << //TODO:add a distance calculation
-				totalFare << "BCN of fares \t" <<
-				totalFuel << "kg of fuel \t" <<
+				totalFare << " BCN of fares \t" <<
+				totalFuel << " fuel cells \t" <<
 				totalDistance << "au away \n\t" <<
 				"No Location Info Availble";
 				
 				destinationStrings.push_back(pushMe.str());
 			}
 
+			interface->message("You currently have " + to_string(getFuelCount()) + " fuel cells on hand\n");
+			interface->message("Your current burn rate is " + to_string(getBurnRate()) + " cells/au \n\n");
+			
 			int menuChoice = interface->showMenu("Please choose the next destination",
 												 destinationStrings,
 												 "Please choose your next destination");
@@ -205,6 +211,8 @@ public:
 				bool setCourseSuccessful = false;
 				if(confirm && (setCourseSuccessful = setCourse(destination->first))){
 					interface->message("Course laid in successfully");
+					engage();
+					
 					again = false;
 				}
 				else if(confirm && !setCourseSuccessful){
@@ -216,20 +224,42 @@ public:
 					interface->message("Course was canceled");
 					again = interface->prompt("Would like choose a different course?","Yes","No");
 				}
-
+				
+				again  = true;
 			}else{
 				again = false; //user chose the quit option
 			}
 		}
 	}
 	
-	void dock(SpaceThing &station){
-		others.insert(make_pair(station.getName(),&station));
+	void engage(){
+		int distance = distanceTo(getNext());
+		thread underway(travel,distance);
+		underway.detach();//to allow the user to continue using the application
+		//underway.join();
+		arrive();
 	}
 	
-
+	static void travel(int distance){
+		
+		while(distance--){
+			this_thread::sleep_for(chrono::milliseconds(500));
+			//distanceRemaining = distance;
+			//cout << ".";
+		}
+		
+		cout << "\n\nYou have arrived. Welcome.\n";// << n.name << "!\n\n";
+	}
+	
+	void dock(SpaceThing &station){
+		others.insert(make_pair(station.getName(),&station));
+		SpaceThing::dock(station);
+	}
 	
 	
+	
+	
+	static Coordinate next;//gives a linker error?
 	
 	//private:
 	Interface *interface;
@@ -237,4 +267,5 @@ public:
 	
 	
 };
+
 #endif /* defined(__IAWSCA__Ship__) */

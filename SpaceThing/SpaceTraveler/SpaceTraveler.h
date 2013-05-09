@@ -9,6 +9,7 @@
 #ifndef __IAWSCA__SpaceTraveler__
 #define __IAWSCA__SpaceTraveler__
 
+#define SHIP_EMPTY_WEIGHT 10000
 
 #include "../SpaceTrader/CargoBin.h"//this should be refactored out
 #include "../SpaceTrader/SpaceTrader.h"//this should be refactored out
@@ -21,6 +22,7 @@
 #include <sstream>
 #include <map>
 #include <utility>
+#include <thread>
 
 using namespace std;
 
@@ -40,20 +42,14 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	//This should be done with function pointers to burnFuel() and getTotalWeight()
 	//Trying to avoid pointers to sibling objects. See commented out constructor above
-	SpaceTraveler(SpaceTrader &trader,CargoBin &fuel,
+	SpaceTraveler(SpaceTrader &trader,CargoBin &bacon,CargoBin &fuel,
 				  Coordinate location = Coordinate(0,0,0,"Earth"), vector< Passenger > pssngrs = *new vector<Passenger> ):
+	trader(&trader),
 	fuel(&fuel),
+	bacon(&bacon),
 	current(location),
-	burnRate((double)(shipEmptyWeight + trader.getTotalWeight())/thrustCoefficient)
-	{
-		for(Passenger passenger:pssngrs){
-			passenger.id = (int)passengers.size();
-			passengers.push_back(passenger);
-		}
-		//needs to be defined somewhere else. #define?
-		thrustCoefficient = 100;
-		shipEmptyWeight = 100;
-	};
+	passengers(pssngrs)
+	{}
 	
 	/* \brief returns the fuel needed to reach the next destination
 	 * \param destination A Coordinate object with the destination coordinates
@@ -62,8 +58,16 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	
 	bool engage();
 	
+	void arrive();
+	
+	bool dock(SpaceTraveler& other);
+	
+	SpaceTraveler* getDocked();
+		
 	double getBurnRate();
 	
+	double getEngineEfficiency();
+		
 	Coordinate getCurrent();
 	
 	Coordinate getNext();
@@ -90,17 +94,19 @@ struct SpaceTraveler{//this might need to be part of spacething i think
 	//this is a "release"
 	Passenger unloadPassenger(int passengerID);
 	
-	Coordinate current;
-	Coordinate next;
-	double burnRate;
-	string name;
-	CargoBin* fuel;
-	
-	//needs to be defined somewhere else. #define?
-	int thrustCoefficient;
-	int shipEmptyWeight;
+
 //private:
 	vector< Passenger > passengers;
+	
+	Coordinate current;
+	Coordinate next;
+	
+	SpaceTraveler* docked;
+	
+	CargoBin* fuel;
+	CargoBin* bacon;
+	SpaceTrader* trader;
+	
 };
 
 #endif /* defined(__IAWSCA__SpaceTraveler__) */

@@ -14,6 +14,8 @@
 #include "./SpaceTalker/SpaceTalker.h"
 #include "./SpaceTrader/CargoType.h"
 
+#include <thread>
+
 using namespace std;
 
 class SpaceThing{
@@ -36,11 +38,18 @@ public:
 	
 	name(name),
 	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),name),
-	traveler(trader,*trader.getFuelAddress(),location,passengers),
+	traveler(trader,*trader.getBaconAddress(),*trader.getFuelAddress(),location,passengers),
 	talker(name)
-	{}
+	{
+
+		//linker errors
+//		next = *new Coordinate;
+//		underway = false;
+//		distanceRemaining = 0;
+	}
 		
 	//===============SpaceThing Functions
+
 	string getName(){
 		return name;
 	}
@@ -68,13 +77,6 @@ public:
 	
 	
 	//===============SpaceTravler Public Interface
-	bool set_course(Coordinate destination){
-		return this->traveler.set_course(destination);
-	}
-	
-	bool engage(){
-		return this->traveler.engage();
-	}
 	
 	double getBurnRate(){
 		return this->traveler.getBurnRate();
@@ -128,6 +130,23 @@ public:
 		return this->traveler.set_course(destination);
 	}
 	
+	void arrive(){
+		this->traveler.arrive();
+	}
+	
+	void dock(SpaceThing &other){
+		docked = &other;
+		this->traveler.dock(other.traveler);
+	}
+	
+	SpaceThing* getDocked(){
+		return docked;
+	}
+	
+	int getFuelCount(){
+		return this->trader.getFuelCount();
+	}
+	
 	//===============SpaceTalker Public Interface
 	void send(SpaceThing &recipient,SpaceTalker::Message message){
 		return this->talker.send(recipient.talker, message);
@@ -141,9 +160,17 @@ public:
 		return this->talker.getUnread();
 	}
 	
-private: //must be public for tests to run
-	string name;
+protected:
+	//these statics are for multithreading
+//	static Coordinate next;
+//	static bool underway;
+//	static int distanceRemaining;
 	
+	
+private: //must be public for tests to run
+	
+	string name;
+	SpaceThing* docked;
 	SpaceTrader trader;
 	SpaceTraveler traveler;
 	SpaceTalker talker;

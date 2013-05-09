@@ -24,15 +24,17 @@ public:
 	
 	SpaceTrader(CargoBin currency, CargoBin fuel,string name = ""):
     currency(currency),
+	fuel(fuel),
     name(name){
-		this->assets.insert(make_pair(fuel.typeID,fuel));
+		//this->assets.insert(make_pair(fuel.typeID,fuel));
     }
 	
-    SpaceTrader(CargoBin currency, vector< CargoBin > assets,string name = ""):
+    SpaceTrader(CargoBin currency, CargoBin fuel, vector< CargoBin > cargo,string name = ""):
     currency(currency),
+	fuel(fuel),
     name(name){
-        for(CargoBin bin:assets)
-            this->assets.insert(make_pair(bin.typeID,bin));
+        for(CargoBin bin:cargo)
+            this->cargo.insert(make_pair(bin.typeID,bin));
     }
     
     //Trader(int dollars,string name):Trader(dollars,0,name){}
@@ -41,17 +43,24 @@ public:
     bool buy(SpaceTrader &trader, int amount, int typeID, int currency);
     
 	CargoBin* getFuelAddress(){//Used by SpaceTraveler for fuel deduction
-		return &assets[ACR.FUEL.typeID];
+		return &cargo[ACR.FUEL.typeID];
+	}
+	
+	CargoBin* getBaconAddress(){//Used by SpaceTraveler to add fares
+		return &cargo[ACR.BACON.typeID];
 	}
 	
 	int getCurrencyCount();
+	
+	int getFuelCount();
     vector< CargoBin > getCargo();
 	vector< CargoBin > getForSale();
 	int getTotalWeight();
 	
 private:
     CargoBin currency;
-    map<int,CargoBin> assets;
+	CargoBin fuel;
+    map<int,CargoBin> cargo;
 	
 	//this is the function that actually deducts inventory and deposits currency
 	bool sell(int amount, int typeID, int currency);

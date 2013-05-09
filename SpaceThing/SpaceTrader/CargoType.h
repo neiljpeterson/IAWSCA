@@ -55,7 +55,7 @@ public:
     AlliedCargoRegistry():
 	EMPTY(0,"Empty",0,0),
 	BACON(1000,"Bacon",0,1),
-	FUEL(2000,"Fuel",1,1),
+	FUEL(2000,"Fuel Cell",1,1),
 	CREW(4000,"Crew Member",100,0)
     {};
 	
