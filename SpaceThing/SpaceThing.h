@@ -14,53 +14,69 @@
 #include "./SpaceTalker/SpaceTalker.h"
 #include "./SpaceTrader/CargoType.h"
 
+#include <thread>
+
 using namespace std;
 
 class SpaceThing{
+//protected: //?
 public:
 	
-	SpaceThing(string name,int b = 0,int f = 0,Coordinate location = Coordinate(0,0,0,"Earth")):
+	//TODO: make one giant constructor, and smaller ones that call that as needed
+    //considering removing these defaults...
+	SpaceThing(
+	
+	//SpaceThing values
+	string name,
+	
+	//SpaceTrader values
+	int bacon = 0,int fuel = 0,//vector< CargoBin > otherCargo = *new vector < CargoBin >,
+	
+	//SpaceTraveler values
+	Coordinate location = Coordinate(0,0,0,"Earth"),vector< Passenger > passengers = *new vector < Passenger >
+	):
+	
 	name(name),
-	trader(CargoBin(ACR.BACON,b),CargoBin(ACR.FUEL,f),name),
-	traveler(trader,*trader.getFuelAddress(),name),
+	trader(CargoBin(ACR.BACON,bacon),CargoBin(ACR.FUEL,fuel),name),
+	traveler(trader,*trader.getBaconAddress(),*trader.getFuelAddress(),location,passengers),
 	talker(name)
-	{}
+	{
+
+		//linker errors
+//		next = *new Coordinate;
+//		underway = false;
+//		distanceRemaining = 0;
+	}
 		
 	//===============SpaceThing Functions
+
 	string getName(){
 		return name;
 	}
 	
 	//===============SpaceTrader Public Interface
-	bool sell(SpaceThing &trader, int amount, CargoType cargoType, int currency){
-		return this->trader.sell(trader.trader,amount,cargoType,currency);
+	bool sell(SpaceThing &other, int amount, int typeID, int currency){
+		return this->trader.sell(other.trader,amount, typeID,currency);
 	}
 	
-	bool buy(SpaceThing &trader, int amount, CargoType cargoType, int currency){
-		return this->trader.buy(trader.trader, amount, cargoType, currency);
+	bool buy(SpaceThing &other, int amount, int typeID, int currency){
+		return this->trader.buy(other.trader, amount, typeID, currency);
 	}
 	
 	int getCurrencyCount(){
 		return this->trader.getCurrencyCount();
 	}
 	
-	vector< pair<CargoType,int> > getCargoCounts(){
-		return this->trader.getCargoCounts();
-	}
+//	vector< pair<CargoType,int> > getCargo(){
+//		return NULL; //this->trader.getCargo();
+//	}
 	
 	vector< CargoBin > getForSale(){
-		return this->getForSale();
+		return this->trader.getForSale();
 	}
 	
 	
 	//===============SpaceTravler Public Interface
-	bool set_course(Coordinate destination){
-		return this->traveler.set_course(destination);
-	}
-	
-	bool engage(){
-		return this->traveler.engage();
-	}
 	
 	double getBurnRate(){
 		return this->traveler.getBurnRate();
@@ -78,6 +94,59 @@ public:
 		return this->traveler.distanceTo(destination);
 	}
 	
+	vector< Passenger > getLayovers(){
+		return this->traveler.getLayovers();
+	}
+	
+	bool loadPassenger(SpaceThing& other, Passenger passenger){
+		return this->traveler.loadPassenger(other.traveler, passenger.id);
+	}
+	
+	bool unloadPassenger(SpaceThing& other, Passenger passenger){
+		return this->traveler.unloadPassenger(other.traveler, passenger.id);
+	}
+	
+	int getTotalWeight(){
+		return this->traveler.getTotalWeight() + this->trader.getTotalWeight();
+	}
+	
+	vector< Passenger > getPassengers(){
+		return this->traveler.getPassengers();
+	}
+	
+	map< Coordinate,int > getDestinationsMap(){
+		return this->traveler.getDestinations();
+	}
+	
+	vector< pair< Coordinate,int > > getDestinations(){
+		vector< pair< Coordinate,int > > destinations;
+		//repack destinations into a vector for easier usage and referance by child object
+		for(pair< Coordinate,int > d:this->traveler.getDestinations())
+			destinations.push_back(d);
+		return destinations;
+	}
+	
+	bool setCourse(Coordinate destination){
+		return this->traveler.set_course(destination);
+	}
+	
+	void arrive(){
+		this->traveler.arrive();
+	}
+	
+	void dock(SpaceThing &other){
+		docked = &other;
+		this->traveler.dock(other.traveler);
+	}
+	
+	SpaceThing* getDocked(){
+		return docked;
+	}
+	
+	int getFuelCount(){
+		return this->trader.getFuelCount();
+	}
+	
 	//===============SpaceTalker Public Interface
 	void send(SpaceThing &recipient,SpaceTalker::Message message){
 		return this->talker.send(recipient.talker, message);
@@ -91,9 +160,17 @@ public:
 		return this->talker.getUnread();
 	}
 	
-private: //must be public for tests to run
-	string name;
+protected:
+	//these statics are for multithreading
+//	static Coordinate next;
+//	static bool underway;
+//	static int distanceRemaining;
 	
+	
+private: //must be public for tests to run
+	
+	string name;
+	SpaceThing* docked;
 	SpaceTrader trader;
 	SpaceTraveler traveler;
 	SpaceTalker talker;

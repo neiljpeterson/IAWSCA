@@ -24,36 +24,46 @@ public:
 	
 	SpaceTrader(CargoBin currency, CargoBin fuel,string name = ""):
     currency(currency),
+	fuel(fuel),
     name(name){
-		this->assets.insert(make_pair(fuel.cargoType.id,fuel));
+		//this->assets.insert(make_pair(fuel.typeID,fuel));
     }
 	
-    SpaceTrader(CargoBin currency, vector<CargoBin> assets,string name = ""):
+    SpaceTrader(CargoBin currency, CargoBin fuel, vector< CargoBin > cargo,string name = ""):
     currency(currency),
+	fuel(fuel),
     name(name){
-        for(CargoBin bin:assets)
-            this->assets.insert(make_pair(bin.cargoType.id,bin));
+        for(CargoBin bin:cargo)
+            this->cargo.insert(make_pair(bin.typeID,bin));
     }
     
     //Trader(int dollars,string name):Trader(dollars,0,name){}
-    bool sell(SpaceTrader &trader, int amount, CargoType cargoType, int currency);
+    bool sell(SpaceTrader &trader, int amount, int typeID, int currency);
 	
-    bool buy(SpaceTrader &trader, int amount, CargoType cargoType, int currency);
+    bool buy(SpaceTrader &trader, int amount, int typeID, int currency);
     
 	CargoBin* getFuelAddress(){//Used by SpaceTraveler for fuel deduction
-		return &assets[ACR.FUEL.id];
+		return &cargo[ACR.FUEL.typeID];
+	}
+	
+	CargoBin* getBaconAddress(){//Used by SpaceTraveler to add fares
+		return &cargo[ACR.BACON.typeID];
 	}
 	
 	int getCurrencyCount();
-    vector< pair<CargoType,int> > getCargoCounts();
+	
+	int getFuelCount();
+    vector< CargoBin > getCargo();
 	vector< CargoBin > getForSale();
 	int getTotalWeight();
 	
 private:
     CargoBin currency;
-    map<int,CargoBin> assets;
+	CargoBin fuel;
+    map<int,CargoBin> cargo;
 	
-	bool sell(int amount, CargoType cargoType, int currency);
+	//this is the function that actually deducts inventory and deposits currency
+	bool sell(int amount, int typeID, int currency);
 };
 
 //Note: Is there a way to build a comparison operator for an object such that only the fields provided are compared?

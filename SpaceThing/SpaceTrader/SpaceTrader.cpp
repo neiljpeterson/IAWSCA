@@ -6,29 +6,29 @@
 //  Copyright (c) 2013 Neil Peterson. All rights reserved.
 //
 
-#include "./SpaceTrader.h"
+#include "SpaceTrader.h"
 
-bool SpaceTrader::sell(SpaceTrader &trader, int amount, CargoType cargoType, int currency){
-	return trader.buy(*this,amount,cargoType,currency);
+bool SpaceTrader::sell(SpaceTrader &trader, int amount, int typeID, int price){
+	return trader.buy(*this,amount,typeID,price);
 	
 }
 
-bool SpaceTrader::buy(SpaceTrader &trader, int amount, CargoType cargoType, int currency){
+bool SpaceTrader::buy(SpaceTrader &trader, int amount, int typeID, int price){
 	
-	if(currency <= getCurrencyCount() //has the money
-	   && trader.sell(amount,cargoType,currency)){ //and seller will make the sale
-		this->currency.remove(currency);
-		assets[cargoType.id].add(amount);
+	if(price <= getCurrencyCount() //has the money
+	   && trader.sell(amount,typeID,price)){ //and seller will make the sale
+		this->currency.remove(price);
+		cargo[typeID].add(amount);
 		return true;
 	}
 	//else
 	return false;
 };
 
-bool SpaceTrader::sell(int amount, CargoType cargoType, int currency){
+bool SpaceTrader::sell(int soldAmount, int typeID, int price){
 	
-	if(assets[cargoType.id].remove(amount)){//find cargoType, check count, check price
-		this->currency.add(currency);
+	if(cargo[typeID].remove(soldAmount)){//find cargoType, check count, check price
+		this->currency.add(price);
 		return true;
 	}
 	//else
@@ -39,25 +39,30 @@ int SpaceTrader::getCurrencyCount(){
 	return currency.getCount();
 }
 
+int SpaceTrader::getFuelCount(){
+	return fuel.getCount();
+}
+
+//this might need to return pointers
 vector< CargoBin > SpaceTrader::getForSale(){
 	vector< CargoBin > sales;
-	for(pair<int,CargoBin> asset:assets)
-		if(asset.second.getCountForSale() > 0)
+	for(pair<int,CargoBin> asset:cargo)
+		if(asset.second.getCountForSale() > 0){
 			sales.push_back(asset.second);
+		}
 	return sales;
 }
 
-vector< pair<CargoType,int> > SpaceTrader::getCargoCounts(){
-	vector< pair<CargoType,int> > counts;
-	for(pair<int,CargoBin> asset:assets)
-		counts.push_back(make_pair(asset.second.cargoType,asset.second.getCount()));
-	
-	return counts;
+vector< CargoBin >  SpaceTrader::getCargo(){
+	vector< CargoBin > result;
+	for(pair<int,CargoBin> asset:cargo)
+		result.push_back(asset.second);
+	return result;
 };
 
 int SpaceTrader::getTotalWeight(){
 	int total = 0;
-	for(pair<int,CargoBin> asset:assets)
+	for(pair<int,CargoBin> asset:cargo)
 		total+=asset.second.getTotalWeight();
 	return total;
 };
