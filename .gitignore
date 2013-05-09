@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled Object files
 *.slo
 *.lo
@@ -18,11 +19,30 @@
 
 #Some IDE files (X Code and NetBeans)
 .settings/
+=======
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
+
+# Other files and folders
+.settings/
+.DS_Store
+*.out
+>>>>>>> 359d0cc52793422cd4b14c16d9b1f943c3b370c1
 *.gch
 *.h.gch*
 nbproject/*
 .dep.inc
 *.h.orig
 *.cpp.orig
+<<<<<<< HEAD
 *.xcodeproj
 *.1
+=======
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+/build/
+>>>>>>> 359d0cc52793422cd4b14c16d9b1f943c3b370c1
