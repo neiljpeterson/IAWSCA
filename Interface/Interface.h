@@ -19,6 +19,7 @@
 #include <string>
 #include <locale>
 #include <thread>
+#include <iomanip>
 
 using namespace std;
 
@@ -52,8 +53,72 @@ public:
 		return (int)menus.size()-1; //return the "key" for the new menu
 		
 	}
+
+	/** \brief Creates a one-time-use menu with tabulated each fields deliminated by \t
+	 *	\param headings provides column headers and column widths
+	 *	\param lines are the menu optons to be printed
+	 *	\param title is the string that will be used to title the menu, optional
+	 *	\param prmt is the prompt presented to the user at the end of the menu, optional
+	 *  \param withCloseOption appends an option to close this menu, if selected returns the menu choice like any other
+	 *	\param withNumbers 
+	 */
+	int showMenu(string headings, vector<int> widths, vector<string> lines, string title = "", string prmpt = "",
+		//TODO: detect field widths, detect delim chars then combine showMenu methods
+				 
+		bool withCloseOption = true, bool withNumbers = true){
+		
+		if (withCloseOption)
+			lines.push_back("Close this menu\t");
+		
+		int totalWidth = 0;
+		for(int t:widths)
+			totalWidth+=t;
+		
+		
+		int menuChoice = -1;
+		int i = -1;
+		
+		cout << endl;
+		while(i<=(int)lines.size()){
+			string line;
+ 			if( i == -1){//this line is the title
+				line = title;
+			} else if( i == 0){//this line is the column headers
+				cout << string(totalWidth,'=') << endl; //put a line of ===
+				line = headings;
+			} else if( i > 0){
+				//every other line
+				line = lines[i - 1];
+				if(withNumbers) line.insert(0, to_string(i) + ") ");
+			}
+				
+			vector<string> fields = splitString(line,'\t');
+			int w = 0;
+			for (string field:fields){
+				cout << setw(widths[w++]) << left << field;
+			}
+			
+			cout << endl;
+			i++;
+		}
+		
+		if(!prmpt.empty())
+			menuChoice = prompt(prmpt,1,(int)lines.size());
+			
+		return menuChoice;
+	}
 	
-	/** \brief Creates a one-time-use menu with a prompt
+	vector<string> splitString(string splitMe, char delim){
+		vector<string> results;
+		stringstream splits(splitMe);
+		string field;
+		while( getline(splits,field,delim) ){
+			results.push_back(field);
+		}
+		return results;
+	}
+	
+	/** \brief Creates a one-time-use menu with an optional prompt
 	 *	\param prompt if provided will also provide the user a close menu option
 	 */
 	int showMenu(string title, vector<string> menu, string prmpt = "", bool withCloseOption = true, bool withNumbers = true){

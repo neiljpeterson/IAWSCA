@@ -77,8 +77,7 @@ int main(int argc, const char * argv[])
 	stations.push_back( *new SpaceThing("Mars Research Station",100,100,dummyCargo,europa,passengersB) );
 	stations.push_back( *new SpaceThing("Earth Space Command Station",100,100,dummyCargo,europa,passengersB) );
 	
-	
-//==============================================everything above line is trash
+//==============================================everything above line is dummy data
 	
 	SpaceThing station("Station",100,100,dummyCargo,europa,passengersB);
 	

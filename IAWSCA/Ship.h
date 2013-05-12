@@ -64,27 +64,37 @@ public:
 	 */
 	void buyFrom(SpaceThing &seller){
 		bool again = true;
+		
+		vector<int> widths {32,10,10,10};
+		
+		ostringstream headings;
+		headings <<
+		"NAME" << '\t' <<
+		"FOR SALE" << '\t' <<
+		"PRICE" << '\t' <<
+		"UNIT WEIGHT" << '\t';
+		
 		while(again){
 			vector < CargoBin > forSale = seller.getForSale(); //get the items for sale
-			vector < string > forSaleStrings;// = *new vector < string >;
+			
+			vector < string > forSaleStrings;
 			for(CargoBin item:forSale){ //build strings from the for sale items
 				ostringstream pushMe;
 				
 				pushMe <<
-				item.name << " \t" <<
-				item.getCountForSale() << " in stock\t" <<
-				item.getPrice() << "BCN each\t" <<
-				item.getUnitWeight() << "kg \n\t" <<
-				item.getTradeListing();
+				item.name << '\t' <<
+				item.getCountForSale() << '\t' <<
+				item.getPrice() << '\t' <<
+				item.getUnitWeight() << '\t';
 				
 				forSaleStrings.push_back(pushMe.str());
 			}
 			
 			interface->message("Your current balance is " + to_string(getCurrencyCount()) + "\n");
 			
-			int menuChoice = interface->showMenu(
-												 seller.getName() + " has the following items for sale", forSaleStrings,
-												 "Please choose an item to buy");
+			int menuChoice = interface->showMenu(headings.str(),widths,forSaleStrings,
+							seller.getName() + " has the following items for sale",
+							"Please choose an item to buy");
 			
 			if(menuChoice <= forSale.size()){//if user did not choose the close option
 				//this is just for brevity's sake
@@ -134,18 +144,32 @@ public:
 	 */
 	void loadPassengersFrom(SpaceThing &stopOver){
 		bool again = true;
+		
+		vector<int> widths {32,32,10,10,16,16};
+		
+		ostringstream headings;
+		headings <<
+		"NAME" << '\t' <<
+		"DESTINATION" << '\t' <<
+		"FARE" << '\t' <<
+		"WEIGHT" << '\t' <<
+		"DISTANCE"<< '\t'<<
+		"FUEL NEEDED" << '\t';
+		
 		while(again){
-			vector < Passenger > layovers = stopOver.getLayovers(); // get passengers waiting for a ride
+			vector < Passenger > layovers = stopOver.getLayovers(); // get passengers
+			
 			vector < string >  layoverStrings;
 			for(Passenger passenger:layovers){ //build strings for each layover
 				ostringstream pushMe;
 				
 				pushMe <<
-				passenger.destination.name << " \t" << //TODO:add a distance calculation
-				passenger.fare << "BCN \t" <<
-				passenger.weight << "\n\t" <<
-				passenger.personalMessage;
-				
+				passenger.name << '\t' <<
+				passenger.destination.name << '\t' <<
+				passenger.fare << '\t' <<
+				passenger.weight << '\t' <<
+				distanceTo(passenger.destination) << '\t' <<
+				(distanceTo(passenger.destination) * getBurnRate()) << '\t';
 				
 				layoverStrings.push_back(pushMe.str());
 			}
@@ -153,8 +177,8 @@ public:
 			interface->message("Your current weight is " + to_string(getTotalWeight()) );
 			interface->message("Your current burn rate is " + to_string(getBurnRate()) );
 			
-			int menuChoice = interface->showMenu(
-												 stopOver.getName() + " has the following layovers", layoverStrings,
+			int menuChoice = interface->showMenu(headings.str(),widths,layoverStrings,
+												 stopOver.getName() + " has the following layovers",
 												 "Please choose a fare to accept");
 			
 			if(menuChoice <= layovers.size()){//if user did not choose the close option
@@ -189,13 +213,24 @@ public:
 	
 	void setNewCourse(){
 		
-		
 		bool again = true;
+		
+		vector<int> widths {32,16,12,16};
+		
+		ostringstream headings;
+		headings <<
+		"NAME" << '\t' <<
+		"TOTAL FARES" << '\t' <<
+		"DISTANCE" << '\t' <<
+		"FUEL NEEDED"<< '\t';
+		
+		
 		while(again){
 			
 			vector< pair< Coordinate,int > > destinations = getDestinations();
 			vector < string >  destinationStrings;
 			for(pair< Coordinate,int > d:destinations){ //build strings for each layover
+				
 				//variables for readability
 				Coordinate destination = d.first;
 				int totalFare = d.second;
@@ -205,11 +240,10 @@ public:
 				ostringstream pushMe;
 				
 				pushMe <<
-				destination.name << " \t" << //TODO:add a distance calculation
-				totalFare << " BCN of fares \t" <<
-				totalFuel << " fuel cells \t" <<
-				totalDistance << "au away \n\t" <<
-				"No Location Info Availble";
+				destination.name << '\t' <<
+				totalFare << '\t' <<
+				totalFuel << '\t' <<
+				totalDistance << '\t';
 				
 				destinationStrings.push_back(pushMe.str());
 			}
@@ -217,8 +251,8 @@ public:
 			interface->message("You currently have " + to_string(getFuelCount()) + " fuel cells on hand\n");
 			interface->message("Your current burn rate is " + to_string(getBurnRate()) + " cells/au \n\n");
 			
-			int menuChoice = interface->showMenu("Please choose the next destination",
-												 destinationStrings,
+			int menuChoice = interface->showMenu(headings.str(),widths,destinationStrings,
+												 "CURRENT PASSENGER DESTINATIONS",
 												 "Please choose your next destination");
 			
 			if(menuChoice <= destinations.size()){//if user did not choose the close option
@@ -321,12 +355,15 @@ public:
 	void manageInventory(){
 		
 		bool again = true;
+		
+		vector<int> widths {24,10,10,10,10,10};
+		
 		ostringstream headings;
-		headings << setw(24) << left <<
-		"NAME" << setw(10) << left <<
-		"TOTAL" << setw(10) << left <<
-		"FOR SALE" << setw(10) << left <<
-		"PRICE" << setw(10) << left <<
+		headings <<
+		"NAME" << '\t' <<
+		"TOTAL" << '\t' <<
+		"FOR SALE" << '\t' <<
+		"PRICE" << '\t' <<
 		"WEIGHT";
 		
 		while(again) {
@@ -335,18 +372,20 @@ public:
 			for(CargoBin cargo:allCargo){ //build strings for each CargoBin
 				ostringstream pushMe;
 				pushMe.clear();
-				pushMe << setw(24) << left <<
-				cargo.name << setw(10) << left <<
-				cargo.getCount() << setw(10) << left <<
-				cargo.getCountForSale() << setw(10) << left <<
-				cargo.getPrice() << setw(10) << left <<
-				cargo.getUnitWeight();
+				pushMe <<
+				cargo.name << '\t' <<
+				cargo.getCount() << '\t' <<
+				cargo.getCountForSale() << '\t' <<
+				cargo.getPrice() << '\t' <<
+				cargo.getUnitWeight() << '\t';
 				
 				cargoStrings.push_back(pushMe.str());
 			}
 			
-			int choice = interface->showMenu(headings.str(),cargoStrings,
-											"Please select the Cargo item you would like to edit");
+			int choice = interface->showMenu(headings.str(),widths,cargoStrings,
+						"CURRENT INVENTORY",
+						"Please select the Cargo item you would like to edit");
+			
 			if(choice <= allCargo.size()){
 				CargoBin* editMe = &allCargo[choice-1]; //convience pointer
 				
@@ -375,30 +414,34 @@ public:
 	}
 	
 	void viewPassengers(){
+		
+		vector<int> widths {24,32,16,10,10};
+		
 		ostringstream headings;
-		headings << setw(24) << left <<
-		"NAME" << setw(32) << left <<
-		"DESTINATION" << setw(16) << left <<
-		"DISTANCE" << setw(10) << left <<
-		"FARE" << setw(10) << left <<
-		"WEIGHT";
+		headings <<
+		"NAME" << '\t' <<
+		"DESTINATION" << '\t' <<
+		"DISTANCE" << '\t' <<
+		"FARE" << '\t' <<
+		"WEIGHT" << '\t';
 		
 		
 			vector< Passenger > allPassengers = this->getPassengers();
 			vector< string > passengerStrings;
 			for(Passenger passenger:allPassengers){ //build strings for each passenger
 				ostringstream pushMe;
-				pushMe << setw(24) << left <<
-				passenger.name << setw(32) << left <<
-				passenger.destination.name << setw(16) << left <<
-				distanceTo(passenger.destination) << setw(10) << left <<
-				passenger.fare << setw(10) << left <<
+				pushMe <<
+				passenger.name << '\t' <<
+				passenger.destination.name << '\t' <<
+				distanceTo(passenger.destination) << '\t' <<
+				passenger.fare << '\t' <<
 				passenger.weight;
 				
 				passengerStrings.push_back(pushMe.str());
 			}
 			
-			interface->showMenu(headings.str(), passengerStrings,"",false,false);
+			interface->showMenu(headings.str(), widths, passengerStrings,
+								"CURRENT PASSENGERS","",false,false);
 			
 			interface->message(" ",true);
 		
