@@ -50,7 +50,7 @@ int SpaceTrader::getCargoTotal(){
 	
 		return count;
 	}
-	
+	return count;
 }
 
 void SpaceTrader::setPrice(int typeID,int price){

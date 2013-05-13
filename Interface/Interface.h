@@ -24,11 +24,6 @@
 using namespace std;
 
 class Interface{
-	//All prototypes should be generic enough that we can overload them with a child class if we have time to implement ncurses
-	//I'm playing with Doxygen here. You can get details here: http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html
-	//and here http://www.stack.nl/~dimitri/doxygen/manual/commands.html
-	//I'm going to try and document as I go. Feel free to delete this comment once you see it. -N
-	//there will be a good bit of hard coding in here. im not too worried about it.
 public:
 	
 	Interface(){
@@ -296,19 +291,6 @@ public:
 			return true;
 		} catch(int e) { return false; };
 		return false;
-	}
-	
-	//old. delete after usages have been removed.
-	int getInt(int upper,int lower = 0,string prompt = "Please enter a number: " , string error = "Invalid Input"){
-		int input;
-		bool badInput = true;
-		while (badInput) {
-			input = getInt(upper, lower, prompt, error); //uh oh. bad recursion here.
-			cin.ignore();
-			if (input < upper || input > lower) cout << error;
-			else badInput = false;
-		}
-		return input;
 	}
 	
 private:

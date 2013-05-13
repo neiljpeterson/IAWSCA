@@ -199,5 +199,4 @@ private: //must be public for tests to run
 	
 };
 
-
 #endif
