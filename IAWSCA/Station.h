@@ -10,13 +10,21 @@
 #define __IAWSCA__Station__
 
 #include "../SpaceThing/SpaceThing.h"
+//#include "../SpaceFactory/SpaceFactory.h"
 
 #include <iostream>
 
+using namespace std;
 
-class Ship: public SpaceThing{
-
+class Station: public SpaceThing{
+public:
 	
+	//SpaceThing(String name,int bacon, int fuel,
+	//vector<CargoBin> otherCargo,Coordinate location,vector<Passenger> passengers)\
+	
+	Station(SpaceThing &thing):
+	SpaceThing(thing)
+	{};
 
 };
 #endif /* defined(__IAWSCA__Station__) */

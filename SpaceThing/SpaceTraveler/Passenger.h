@@ -37,7 +37,7 @@ struct Passenger{
 		int h = 0;
 		int r = 0;
 		while (*str){
-			r = rand() % 10000 + 1;//this line is randomness the adaptation. It has a collision likelyhood for the same string on the order of 0.01%
+			r = rand() % 10000 + 1;//this line is the randomness adaptation. It has a collision likelyhood for the same string on the order of 0.01%
 			h = abs((h << 1 ^ *str++) * r);//also the abs was added to not have to worry about signs, but it does double the collison likelyhood
 		}
 		return h;
@@ -50,5 +50,10 @@ struct Passenger{
 	Coordinate destination;
 	int weight;
 };
+
+inline ostream & operator<<(std::ostream & output, Passenger const & passenger) {
+	output << passenger.name << " " << &passenger.destination;
+	return output;
+}
 
 #endif /* defined(__IAWSCA__Passengerr__) */

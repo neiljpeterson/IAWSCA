@@ -7,6 +7,8 @@
 //
 
 #include "./Ship.h"
+#include "../IAWSCA/Station.h"
+#include "../SpaceFactory/SpaceFactory.h"
 #include "../Interface/Interface.h"
 
 #include <iostream>
@@ -79,9 +81,13 @@ int main(int argc, const char * argv[])
 	
 //==============================================everything above line is dummy data
 	
-	SpaceThing station("Station",100,100,dummyCargo,europa,passengersB);
+	SpaceFactory factory = *new SpaceFactory("/Users/Neil/Dropbox/webster/COSC4260/IAWSCA/SpaceFactory/");
+	
+	Station station(factory.randomStation());
 	
 	Ship ship(interface,"HMS Down-to-the-wire",1000,2000,dummyCargo,earth,passengersA);
+	
+	ship.dock(station);
 	
 	bool close;
 	

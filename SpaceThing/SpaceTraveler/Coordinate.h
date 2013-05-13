@@ -56,5 +56,9 @@ inline bool operator< (const Coordinate& lhs, const Coordinate& rhs){return lhs.
 inline bool operator> (const Coordinate& lhs, const Coordinate& rhs){return  operator< (rhs,lhs);}
 inline bool operator<=(const Coordinate& lhs, const Coordinate& rhs){return !operator> (lhs,rhs);}
 inline bool operator>=(const Coordinate& lhs, const Coordinate& rhs){return !operator< (lhs,rhs);}
+inline ostream & operator<<(std::ostream& output, const Coordinate& coordinate) {
+	output << "[" << &coordinate.x << ", " << &coordinate.y << ", " << coordinate.z << "]";
+	return output;
+}
 
 #endif
