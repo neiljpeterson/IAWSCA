@@ -38,6 +38,7 @@ public:
 	vector<string> locationNames;
 	
 	SpaceFactory(string DIR){
+	//This is a disater. These need to be delgated to lots of individual functions.
 		string line;
 		ifstream file;
 		RND_COUNTER = 0;
@@ -124,8 +125,16 @@ public:
 		} else cout << "Unable to open 'StationNames' file";
 	};
 	
-	Station randomStation(){
+	SpaceThing randomStation(){
 		return stations[RND((int)stations.size()-1)];
+	}
+	
+	vector<SpaceThing> randomStations(int i){
+		vector<SpaceThing> things;
+		while (i--) {
+			things.push_back(randomStation());
+		}
+		return things;
 	}
 	
 	vector<string> splitString(string splitMe, char delim){

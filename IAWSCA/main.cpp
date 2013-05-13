@@ -39,11 +39,6 @@ void displayHUD();
 
 int main(int argc, const char * argv[])
 {
-	//Begin Tests
-	
-	//SpaceThing_tests::runAll();
-	
-	
 	vector < Passenger > passengersA;
 	vector < Passenger > passengersB;
 	
@@ -70,31 +65,29 @@ int main(int argc, const char * argv[])
 	Coordinate earth(0,0,0,"Earth");
 	Coordinate europa(2,2,2,"Europa Colony");
 	
-	vector< CargoBin > dummyCargo;
-	dummyCargo.push_back(*new CargoBin(ACR.WARP,10));
-	dummyCargo.push_back(*new CargoBin(ACR.ISOLC,10));
+	vector< CargoBin > cargo;
+	cargo.push_back(*new CargoBin(ACR.WARP,10));
+	cargo.push_back(*new CargoBin(ACR.ISOLC,10));
 	
 	vector< SpaceThing > stations;
-	stations.push_back( *new SpaceThing("Far Point Station",100,100,dummyCargo,europa,passengersB) );
-	stations.push_back( *new SpaceThing("Mars Research Station",100,100,dummyCargo,europa,passengersB) );
-	stations.push_back( *new SpaceThing("Earth Space Command Station",100,100,dummyCargo,europa,passengersB) );
+	stations.push_back( *new SpaceThing("Far Point Station",100,100,cargo,europa,passengersB) );
+	stations.push_back( *new SpaceThing("Mars Research Station",100,100,cargo,europa,passengersB) );
+	stations.push_back( *new SpaceThing("Earth Space Command Station",100,100,cargo,europa,passengersB) );
 	
-//==============================================everything above line is dummy data
+//=====================================everything above line is dummy data, replace with an object factory
 	
-	SpaceFactory factory = *new SpaceFactory("/Users/Neil/Dropbox/webster/COSC4260/IAWSCA/SpaceFactory/");
+	//SpaceFactory factory = SpaceFactory("/Users/Neil/Dropbox/webster/COSC4260/IAWSCA/SpaceFactory/");
+	//vector< SpaceThing > stations(randomStations(5));
+	//Dosn't work. Don't know why. Memory error in buy. Can't hunt it down. Brain is fried, out of time.
 	
-	Station station(factory.randomStation());
-	
-	Ship ship(interface,"HMS Down-to-the-wire",1000,2000,dummyCargo,earth,passengersA);
-	
-	ship.dock(station);
+	Ship ship(interface,"HMS Out Of Time",1000,2000,cargo,earth,passengersA);
 	
 	bool close;
 	
 	string choices[] = {//TODO: map menu options to function pointers??
 		"TRADE CARGO", //1
 		"LOAD PASSENGERS", //2
-		"DISEMBARK", //3
+		"SET COURSE", //3
 		"DOCK", //4
 		"MANAGE CARGO", //5
 		"VIEW PASSENGERS", //6
@@ -117,6 +110,7 @@ int main(int argc, const char * argv[])
 			case 3: ship.setNewCourse();
 				break;
 			case 4: ship.dock(stations);
+				//stations = randomStations(5);
 				break;
 			case 5: ship.manageInventory();
 				break;
